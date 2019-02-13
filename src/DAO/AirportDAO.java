@@ -11,6 +11,7 @@ public interface AirportDAO {
      */
     List<Airport> getAirports();
 
+
     /**
      * @param airport
      * @return id of the new airport
@@ -24,6 +25,10 @@ public interface AirportDAO {
     Airport getAirport(int id);
 
 
+    /**
+     * Update an airport
+     * @param airport
+     */
     void update(Airport airport);
 
     /**
@@ -32,4 +37,6 @@ public interface AirportDAO {
      * @param airport
      */
     void delete(Airport airport);
+
+
 }

@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public class CrewMembers {
+public class Crew {
     private List<CrewMember> crewMembers;
 
     public List<CrewMember> getCrewMembers() {

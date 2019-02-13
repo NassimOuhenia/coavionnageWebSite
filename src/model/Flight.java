@@ -11,17 +11,17 @@ public class Flight {
     private Airport arrivalAirport;
     private LocalDateTime arrivalTime;
     private Plane plane;
-    private CrewMembers crewMembers;
+    private Crew crew;
     private String notamURL;
     private String ofpURL;
     private String weatherMapURL;
 
-    public CrewMembers getCrewMembers() {
-        return crewMembers;
+    public Crew getCrew() {
+        return crew;
     }
 
-    public void setCrewMembers(CrewMembers crewMembers) {
-        this.crewMembers = crewMembers;
+    public void setCrew(Crew crew) {
+        this.crew = crew;
     }
 
     public int getIdFlight() {
