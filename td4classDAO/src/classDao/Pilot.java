@@ -4,10 +4,12 @@ public class Pilot {
 
 	private String mail;
 	private double experiences;
+	private String certificate;
 
-	public Pilot(String m) {
+	public Pilot(String m,double exp,String cert) {
 		mail = m;
-		experiences = 0;
+		experiences = exp;
+		certificate=cert;
 	}
 
 	public String getMail() {

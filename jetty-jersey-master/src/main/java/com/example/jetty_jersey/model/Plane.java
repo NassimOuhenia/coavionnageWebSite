@@ -1,25 +1,27 @@
-package classDao;
+package com.example.jetty_jersey.model;
 
 public class Plane {
+	
 	private int idplane;
 	private String modele;
 	private String name;
 	private int numberplace;
 	
-
-	public Plane(int nbP, String md, String nm) {
-		numberplane = nbP;
+	public Plane(int nbP, String md, String nm,int nbplace) {
+		idplane = nbP;
 		modele = md;
 		name = nm;
-
+		numberplace=nbplace;
 	}
 	
-	public int getNumberplane() {
-		return numberplane;
+	public Plane() {}
+
+	public int getIdplane() {
+		return idplane;
 	}
 
-	public void setNumberplane(int numberplane) {
-		this.numberplane = numberplane;
+	public void setIdplane(int idplane) {
+		this.idplane = idplane;
 	}
 
 	public String getModele() {
