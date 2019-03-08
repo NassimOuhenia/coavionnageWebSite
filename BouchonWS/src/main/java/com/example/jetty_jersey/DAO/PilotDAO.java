@@ -1,22 +1,23 @@
 package com.example.jetty_jersey.DAO;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import com.example.jetty_jersey.model.Pilot;
 
 public class PilotDAO extends DAO<Pilot> {
-	
-	private DAOFactory daofactory;
+	private static List<Pilot> list=new ArrayList<Pilot>();
+	//un fois la bdd est en place
+	//private DAOFactory daofactory;
 
 	public PilotDAO(DAOFactory f) {
 
-		daofactory = f;
+	//	daofactory = f;
 	}
 
 	@Override
-	public boolean create(Pilot obj) {
+	public boolean put(Pilot obj) {
 		// TODO Auto-generated method stub
-		return false;
+		return list.add(obj);
 	}
 
 	@Override
@@ -32,9 +33,8 @@ public class PilotDAO extends DAO<Pilot> {
 	}
 
 	@Override
-	public List<Pilot> get(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Pilot> get() {
+		return list;
 	}
 
 }

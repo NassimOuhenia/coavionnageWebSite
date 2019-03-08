@@ -1,21 +1,24 @@
 package com.example.jetty_jersey.DAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.jetty_jersey.model.Flight;
 
 public class FlightDAO extends DAO<Flight> {
-	private DAOFactory daofactory;
+	private static List<Flight> list=new ArrayList<Flight>();
+	//un fois la bdd est en place
+	//private DAOFactory daofactory;
 
 	public FlightDAO(DAOFactory f) {
 
-		daofactory = f;
+		//daofactory = f;
 	}
 
 	@Override
-	public boolean create(Flight obj) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean put(Flight obj) {
+		
+		return list.add(obj);
 	}
 
 	@Override
@@ -31,9 +34,9 @@ public class FlightDAO extends DAO<Flight> {
 	}
 
 	@Override
-	public List<Flight> get(int id) {
+	public List<Flight> get() {
 		
-		return null;
+		return list;
 	}
 
 	

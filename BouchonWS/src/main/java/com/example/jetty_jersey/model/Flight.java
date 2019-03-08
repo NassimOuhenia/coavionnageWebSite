@@ -1,7 +1,7 @@
 package com.example.jetty_jersey.model;
 
-import java.awt.List;
 import java.util.Arrays;
+import java.util.List;
 
 public class Flight {
 	private String idFlight;
@@ -14,11 +14,10 @@ public class Flight {
 	private Plane plane;
 	private Pilot pilot;
 
-	java.util.List<Passenger> listPassenger;
+	List<Passenger> listPassenger;
 
 	public Flight(String dt, String departAer, String arrivelAer, double p, double tratime, String tf, Plane pl,
 			Pilot plt) {
-		// TODO Auto-generated constructor stub
 
 		date = dt;
 		Departure_airport = departAer;
@@ -31,8 +30,9 @@ public class Flight {
 		pilot = plt;
 
 	}
-	
-	public Flight() {}
+
+	public Flight() {
+	}
 
 	public String getidFlight() {
 		return idFlight;
@@ -106,11 +106,11 @@ public class Flight {
 		pilot = m;
 	}
 
-	public java.util.List<Passenger> getlistPassenger() {
+	public List<Passenger> getlistPassenger() {
 		return listPassenger;
 	}
 
-	public void setlistPassenger(java.util.List<Passenger> lp) {
+	public void setlistPassenger(List<Passenger> lp) {
 		listPassenger = lp;
 	}
 

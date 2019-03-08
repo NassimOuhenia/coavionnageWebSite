@@ -1,6 +1,5 @@
 package com.example.jetty_jersey.model;
 
-import java.util.List;
 
 public class Pilot {
 

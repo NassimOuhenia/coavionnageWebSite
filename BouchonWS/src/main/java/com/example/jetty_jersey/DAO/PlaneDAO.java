@@ -7,18 +7,18 @@ import com.example.jetty_jersey.model.Plane;
 
 public class PlaneDAO extends DAO<Plane>{
 	
-	List<Plane> listPlane=new ArrayList<Plane>();
-	private DAOFactory daofactory;
+	private static List<Plane> listPlane=new ArrayList<Plane>();
+	// pour l'instant base de donnée pas mise en place
+	//private DAOFactory daofactory;
 
 	public PlaneDAO(DAOFactory f) {
-
-		daofactory = f;
+		//daofactory = f;
 	}
-
+	
 	@Override
-	public boolean create(Plane obj) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean put(Plane obj) {
+		
+		return listPlane.add(obj);
 	}
 
 	@Override
@@ -34,9 +34,9 @@ public class PlaneDAO extends DAO<Plane>{
 	}
 
 	@Override
-	public List<Plane> get(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Plane> get() {
+		
+		return listPlane;
 	}
 
 	

@@ -1,29 +1,22 @@
 package com.example.jetty_jersey.DAO;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Properties;
+import com.example.jetty_jersey.model.Flight;
+import com.example.jetty_jersey.model.Passenger;
+import com.example.jetty_jersey.model.Pilot;
+import com.example.jetty_jersey.model.Plane;
 //classe d'instanciation de toute les dao et connection a la bdd
 public class DAOFactory {
 
-	private static final String FILE_PROPERTIES = "/interfaceDao/dao.properties";
-
-	private static final String PROPERTY_URL = "url";
-
-	private static final String PROPERTY_DRIVER = "driver";
-
-	private static final String PROPERTY_NAME_user = "nameuser";
-
-	private static final String PROPERTY_Password = "pass";
 
 	private String url;
 
 	private String username;
 
 	private String password;
+	
+	public DAOFactory() {
+		// TODO Auto-generated constructor stub
+	}
 
 	DAOFactory(String url, String username, String password) {
 
@@ -43,57 +36,11 @@ public class DAOFactory {
 	 * 
 	 */
 
-	public static DAOFactory getInstance() throws Exception {
+	public static DAOFactory getInstance() {
 
-		Properties properties = new Properties();
+		
 
-		String url;
-
-		String driver;
-
-		String nomUtilisateur;
-
-		String motDePasse;
-
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
-		InputStream fileProperties = classLoader.getResourceAsStream(FILE_PROPERTIES);
-
-		if (fileProperties == null) {
-
-			throw new Exception("Le fichier properties " + FILE_PROPERTIES + " est introuvable.");
-
-		}
-
-		try {
-
-			properties.load(fileProperties);
-
-			url = properties.getProperty(PROPERTY_URL);
-
-			driver = properties.getProperty(PROPERTY_DRIVER);
-
-			nomUtilisateur = properties.getProperty(PROPERTY_NAME_user);
-
-			motDePasse = properties.getProperty(PROPERTY_Password);
-
-		} catch (IOException e) {
-
-			throw new Exception("Impossible de charger le fichier properties " + FILE_PROPERTIES);
-
-		}
-
-		try {
-
-			Class.forName(driver);
-
-		} catch (ClassNotFoundException e) {
-
-			throw new Exception("Le driver est introuvable dans le classpath.");
-
-		}
-
-		DAOFactory instance = new DAOFactory(url, nomUtilisateur, motDePasse);
+		DAOFactory instance = new DAOFactory("ff", "ff", "ff");
 
 		return instance;
 
@@ -101,11 +48,6 @@ public class DAOFactory {
 
 	/* M�thode charg�e de fournir une connexion � la base de donn�es */
 
-	Connection getConnection() throws SQLException {
-
-		return DriverManager.getConnection(url, username, password);
-
-	}
 
 	/*
 	 * 
@@ -113,23 +55,19 @@ public class DAOFactory {
 	 * 
 	 */
 
-	public DAO getPiloteDAO() {
-
+	public DAO<Pilot> getPiloteDAO() {
 		return new PilotDAO(this);
-
 	}
 	
-	public DAO getPlaneDAO() {
-
+	public DAO<Plane> getPlaneDAO() {
 		return new PlaneDAO(this);
-
 	}
 	
-	public DAO getPassengerDAO() {
+	public DAO<Passenger> getPassengerDAO() {
 		return new PassengerDAO(this);
 	}
 	
-	public DAO getFlightDAO() {
+	public DAO<Flight> getFlightDAO() {
 		return new FlightDAO(this);
 	}
 
