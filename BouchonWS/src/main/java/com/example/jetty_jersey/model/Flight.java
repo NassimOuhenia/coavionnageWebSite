@@ -1,131 +1,113 @@
 package com.example.jetty_jersey.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Flight {
+	
 	private String idFlight;
 	private String date;
-	private String Departure_airport;
-	private String Arrival_airport;
+	private String departure_airport;
+	private String arrival_airport;
 	private double travelTime;
 	private double price;
-	private String Typeflight;
+	private String typeflight;
 	private Plane plane;
 	private Pilot pilot;
-
-	List<Passenger> listPassenger;
-
-	public Flight(String dt, String departAer, String arrivelAer, double p, double tratime, String tf, Plane pl,
-			Pilot plt) {
-
-		date = dt;
-		Departure_airport = departAer;
-		Arrival_airport = arrivelAer;
-		travelTime = tratime;
-		price = p;
-		Typeflight = tf;
-		listPassenger = Arrays.asList(new Passenger[plane.getNumberplace()]);
-		plane = pl;
-		pilot = plt;
-
+	private List<Passenger> passagers;
+	
+	public Flight(String idFlight, String date, String departure_airport, String arrival_airport, double travelTime,
+			double price, String typeflight, Plane plane, Pilot pilot) {
+		super();
+		this.idFlight = idFlight;
+		this.date = date;
+		this.departure_airport = departure_airport;
+		this.arrival_airport = arrival_airport;
+		this.travelTime = travelTime;
+		this.price = price;
+		this.typeflight = typeflight;
+		this.plane = plane;
+		this.pilot = pilot;
+		passagers = new ArrayList<Passenger>();
 	}
 
-	public Flight() {
-	}
-
-	public String getidFlight() {
-		return idFlight;
-	}
-
-	public void setidFlight(String m) {
-		idFlight = m;
-	}
-
-	public String getdate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setdate(String m) {
-		date = m;
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public String getDeparture_airport() {
-		return Departure_airport;
+		return departure_airport;
 	}
 
-	public void setDeparture_airport(String m) {
-		Departure_airport = m;
+	public void setDeparture_airport(String departure_airport) {
+		this.departure_airport = departure_airport;
 	}
 
 	public String getArrival_airport() {
-		return Arrival_airport;
+		return arrival_airport;
 	}
 
-	public void setArrival_airport(String m) {
-		Arrival_airport = m;
+	public void setArrival_airport(String arrival_airport) {
+		this.arrival_airport = arrival_airport;
 	}
 
-	public double gettravelTime() {
+	public double getTravelTime() {
 		return travelTime;
 	}
 
-	public void settravelTime(double m) {
-		travelTime = m;
+	public void setTravelTime(double travelTime) {
+		this.travelTime = travelTime;
 	}
 
-	public double getprice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setprice(double m) {
-		price = m;
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	public String getTypeflight() {
-		return Typeflight;
+		return typeflight;
 	}
 
-	public void setTypeflight(String m) {
-		Typeflight = m;
+	public void setTypeflight(String typeflight) {
+		this.typeflight = typeflight;
 	}
 
-	public Plane getplane() {
+	public Plane getPlane() {
 		return plane;
 	}
 
-	public void setplane(Plane m) {
-		plane = m;
+	public void setPlane(Plane plane) {
+		this.plane = plane;
 	}
 
-	public String getpilot() {
-		return Typeflight;
+	public Pilot getPilot() {
+		return pilot;
 	}
 
-	public void setpilot(Pilot m) {
-		pilot = m;
+	public void setPilot(Pilot pilot) {
+		this.pilot = pilot;
 	}
 
-	public List<Passenger> getlistPassenger() {
-		return listPassenger;
+	public List<Passenger> getPassagers() {
+		return passagers;
 	}
 
-	public void setlistPassenger(List<Passenger> lp) {
-		listPassenger = lp;
+	public void setPassagers(List<Passenger> passagers) {
+		this.passagers = passagers;
 	}
 
-	public void addPassenger(Passenger p) {
-
-		if (!listPassenger.contains(p))
-
-			listPassenger.add(p);
-
+	public String getIdFlight() {
+		return idFlight;
 	}
 
-	public void removePassenger(Passenger p) {
-
-		this.listPassenger.remove(p);
-
-	}
+	
 
 }

@@ -11,5 +11,6 @@ public abstract class DAO<T>{
 	  public abstract boolean update(T obj);
 	  
 	  public abstract List<T> get();
+	 
 
 }

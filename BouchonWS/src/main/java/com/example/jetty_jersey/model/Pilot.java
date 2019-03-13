@@ -1,34 +1,28 @@
 package com.example.jetty_jersey.model;
 
+public class Pilot extends Passenger{
 
-public class Pilot {
-
-	private String mail;
 	private double experience;
 	private String certificate;
 
-	public Pilot(String m,double exp,String cert) {
-		mail = m;
-		experience = exp;
-		certificate=cert;
-	}
-	
-	public Pilot() {}
-
-	public String getMail() {
-		return mail;
+	public Pilot() {
+		super();
 	}
 
-	public void setMail(String m) {
-		mail = m;
+	public Pilot(String firstName, String lastName, String mail, String password, double experience, String certificate) {
+
+		super(firstName,lastName,mail,password);
+		this.experience = experience;
+		this.certificate = certificate;
 	}
 
-	public double getExperiences() {
+
+	public double getExperience() {
 		return experience;
 	}
 
-	public void setExperiences(double exp) {
-		experience = exp;
+	public void setExperience(double experience) {
+		this.experience = experience;
 	}
 
 	public String getCertificate() {

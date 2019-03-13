@@ -1,6 +1,6 @@
 package com.example.jetty_jersey.ws;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -10,26 +10,29 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.example.jetty_jersey.DAO.DAO;
+import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.model.Passenger;
 
-@Path("/search")
+@Path("/user")
 public class PassengerRessource {
 
-	List<Passenger> listPassenger=new ArrayList<Passenger>();
+	private DAO<Passenger> daoPassenger = DAOFactory.getInstance().getPassengerDAO();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/passenger")
 	public List<Passenger> getExample() {
-		return listPassenger;
+		return daoPassenger.get();
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/passenger")
-	public void retrieveExample(Passenger p) {
-		System.out.println("ajouté : "+p.getMail());
-		listPassenger.add(p);
+	public String retrieveExample() {
+		System.out.println("ajouté : ");
+		return "ok";
 	}
 	
 }

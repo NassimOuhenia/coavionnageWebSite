@@ -2,8 +2,7 @@ package com.example.jetty_jersey.DAO;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.jetty_jersey.model.Flight;
+import com.example.jetty_jersey.model.*;
 
 public class FlightDAO extends DAO<Flight> {
 	private static List<Flight> list=new ArrayList<Flight>();
@@ -11,13 +10,16 @@ public class FlightDAO extends DAO<Flight> {
 	//private DAOFactory daofactory;
 
 	public FlightDAO(DAOFactory f) {
-
+		list.add(new Flight("1","13/07/2019", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
+		list.add(new Flight("2","13/07/2019", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
+		list.add(new Flight("3","13/07/2019", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
+		
 		//daofactory = f;
 	}
 
 	@Override
 	public boolean put(Flight obj) {
-		
+
 		return list.add(obj);
 	}
 
@@ -37,6 +39,17 @@ public class FlightDAO extends DAO<Flight> {
 	public List<Flight> get() {
 		
 		return list;
+	}
+	
+	public List<Flight> search(String date, String departure, String arrival,String local, String travel) { 
+	
+		ArrayList<Flight> l = new ArrayList <Flight>();
+		for(Flight f : list) {
+			if(f.getArrival_airport().equals(arrival)
+				&& f.getDeparture_airport().equals(departure))
+				l.add(f);
+		}
+		return l;
 	}
 
 	

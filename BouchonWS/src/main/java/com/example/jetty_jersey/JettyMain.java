@@ -42,7 +42,7 @@ public class JettyMain {
 		ResourceHandler handlerPortal = new ResourceHandler();
 		handlerPortal.setResourceBase("src/main/webapp");
 		handlerPortal.setDirectoriesListed(false);
-		handlerPortal.setWelcomeFiles(new String[] { "home.html" });
+		handlerPortal.setWelcomeFiles(new String[] { "homePage.html" });
 		ContextHandler handlerPortalCtx = new ContextHandler();
 		handlerPortalCtx.setContextPath("/");
 		handlerPortalCtx.setHandler(handlerPortal);
@@ -53,8 +53,7 @@ public class JettyMain {
 		server.setHandler(contexts);
 
 		/*
-		 * web service
-		 // /blablaplane/search/
+		 * web service // /blablaplane/search/
 		 */
 		// Start server
 		server.start();

@@ -55,19 +55,19 @@ public class DAOFactory {
 	 * 
 	 */
 
-	public DAO<Pilot> getPiloteDAO() {
+	public PilotDAO getPiloteDAO() {
 		return new PilotDAO(this);
 	}
 	
-	public DAO<Plane> getPlaneDAO() {
+	public PlaneDAO getPlaneDAO() {
 		return new PlaneDAO(this);
 	}
 	
-	public DAO<Passenger> getPassengerDAO() {
+	public PassengerDAO getPassengerDAO() {
 		return new PassengerDAO(this);
 	}
 	
-	public DAO<Flight> getFlightDAO() {
+	public FlightDAO getFlightDAO() {
 		return new FlightDAO(this);
 	}
 

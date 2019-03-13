@@ -1,20 +1,21 @@
 package com.example.jetty_jersey.model;
 
 public class Plane {
-	
+
 	private int idplane;
 	private String modele;
 	private String name;
 	private int numberplace;
-	
-	public Plane(int nbP, String md, String nm,int nbplace) {
+
+	public Plane(int nbP, String md, String nm, int nbplace) {
 		idplane = nbP;
 		modele = md;
 		name = nm;
-		numberplace=nbplace;
+		numberplace = nbplace;
 	}
-	
-	public Plane() {}
+
+	public Plane() {
+	}
 
 	public int getIdplane() {
 		return idplane;
