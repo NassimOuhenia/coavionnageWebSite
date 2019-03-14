@@ -12,7 +12,7 @@ public class FlightDAO extends DAO<Flight> {
 	public FlightDAO(DAOFactory f) {
 		list.add(new Flight("1","13/07/2019", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
 		list.add(new Flight("2","13/07/2019", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
-		list.add(new Flight("3","13/07/2019", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
+		list.add(new Flight("3","13/07/2019", "paris", "paris", 35, 2, "travel", new Plane(), new Pilot()));
 		
 		//daofactory = f;
 	}
