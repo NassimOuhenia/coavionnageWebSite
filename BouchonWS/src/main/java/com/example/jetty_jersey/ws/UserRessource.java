@@ -15,7 +15,7 @@ import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.model.Passenger;
 
 @Path("/user")
-public class PassengerRessource {
+public class UserRessource {
 
 	private DAO<Passenger> daoPassenger = DAOFactory.getInstance().getPassengerDAO();
 
