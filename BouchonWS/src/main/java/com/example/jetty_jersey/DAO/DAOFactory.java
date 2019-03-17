@@ -56,7 +56,7 @@ public class DAOFactory {
 
 	/* M�thode charg�e de fournir une connexion � la base de donn�es */
 
-	public static TransportClient getConnextion() {
+	synchronized public static TransportClient getConnextion() {
 		if(connexion == null) {
 			try {
 				connexion = new PreBuiltTransportClient(Settings.EMPTY)
