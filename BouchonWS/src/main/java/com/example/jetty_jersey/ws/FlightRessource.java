@@ -20,25 +20,57 @@ import com.example.jetty_jersey.model.Plane;
 @Path("/flights")
 public class FlightRessource {
 
+	public static class Recherche {
+		String type_local;
+		String type_travel;
+		String date;
+		String departure;
+		String arrival;
+	}
+	
+	public static class Reservation{
+		String idPassenger;
+		String idFlight;
+		int numberPlace;
+	}
+	
 	private FlightDAO daoFlight = DAOFactory.getInstance().getFlightDAO();
 
-	@GET
+	/*@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/flight")
 	public List<Flight> getExample(@QueryParam("departure") String departure, @QueryParam("arrival") String arrival,
 			@QueryParam("date") String date, @QueryParam("travel") String travel, @QueryParam("local") String local) {
-
-		// just test
 		return daoFlight.search(date, departure, arrival, local, travel);
 
-	}
-
+	}*/
+	
+	//recherche d'un vol
 	@POST
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/flight")
-	public List<Flight> retrieveExample() {
-		return null;
+	@Path("/search")
+	public List<Flight> searchFlight(Recherche r) {
+		return daoFlight.search(r.type_local,r.type_travel,r.date,r.departure,r.arrival);
+	}
+	
+	//planifié un vol
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)
+	@Path("/add")
+	public void postFlight(Flight f) {
+		System.out.println(f.getDate()+" "+f.getDeparture_airport());
+		daoFlight.put(f);
+	}
+	
+	//reserver un vol
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)
+	@Path("/book")
+	public void bookFlight(Reservation r) {
+		//daoFlight.put();
 	}
 
 }
