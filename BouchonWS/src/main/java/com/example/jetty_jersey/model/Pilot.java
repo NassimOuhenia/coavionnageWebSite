@@ -2,14 +2,14 @@ package com.example.jetty_jersey.model;
 
 public class Pilot extends Passenger{
 
-	private double experience;
+	private int experience;
 	private String certificate;
 
 	public Pilot() {
 		super();
 	}
 
-	public Pilot(String firstName, String lastName, String mail, String password, double experience, String certificate) {
+	public Pilot(String firstName, String lastName, String mail, String password, int experience, String certificate) {
 
 		super(firstName,lastName,mail,password);
 		this.experience = experience;
@@ -17,11 +17,11 @@ public class Pilot extends Passenger{
 	}
 
 
-	public double getExperience() {
+	public int getExperience() {
 		return experience;
 	}
 
-	public void setExperience(double experience) {
+	public void setExperience(int experience) {
 		this.experience = experience;
 	}
 

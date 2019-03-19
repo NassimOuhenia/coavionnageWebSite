@@ -4,10 +4,13 @@ package com.example.jetty_jersey.ws;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.example.jetty_jersey.DAO.DAO;
@@ -33,6 +36,14 @@ public class PilotRessource {
 	public void retrieveExample() {
 		
 		daoPilot.put(new Pilot(" "," ","m","**",12,"a"));
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/signup")
+	public String signUp(Pilot p) {
+	    System.out.println(p.getLastName());
+	    return daoPilot.put(p) ? "Bien creer" : "Pas creer	";
 	}
 	
 }
