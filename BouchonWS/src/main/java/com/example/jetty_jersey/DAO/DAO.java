@@ -2,9 +2,11 @@ package com.example.jetty_jersey.DAO;
 
 import java.util.List;
 
+import org.elasticsearch.action.index.IndexResponse;
+
 public abstract class DAO<T>{
 	  
-	  public abstract boolean put(T obj);
+	  public abstract IndexResponse put(T obj);
 
 	  public abstract boolean delete(T obj);
 

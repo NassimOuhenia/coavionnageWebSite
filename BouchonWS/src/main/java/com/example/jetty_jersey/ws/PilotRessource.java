@@ -13,6 +13,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.elasticsearch.action.index.IndexResponse;
+
 import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.model.Pilot;
@@ -40,10 +42,11 @@ public class PilotRessource {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signup")
 	public String signUp(Pilot p) {
-	    System.out.println(p.getLastName());
-	    return daoPilot.put(p) ? "Bien creer" : "Pas creer	";
+	    IndexResponse response = daoPilot.put(p);
+	    if (response )
 	}
 	
 }

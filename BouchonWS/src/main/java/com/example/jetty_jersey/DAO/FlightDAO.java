@@ -2,6 +2,9 @@ package com.example.jetty_jersey.DAO;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.elasticsearch.action.index.IndexResponse;
+
 import com.example.jetty_jersey.model.*;
 
 public class FlightDAO extends DAO<Flight> {
@@ -18,9 +21,9 @@ public class FlightDAO extends DAO<Flight> {
 	}
 
 	@Override
-	public boolean put(Flight obj) {
+	public IndexResponse put(Flight obj) {
 
-		return list.add(obj);
+		return null;
 	}
 
 	@Override

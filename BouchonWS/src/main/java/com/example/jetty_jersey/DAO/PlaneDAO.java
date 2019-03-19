@@ -21,7 +21,7 @@ public class PlaneDAO extends DAO<Plane>{
 	}
 	
 	@Override
-	public boolean put(Plane obj) {
+	public IndexResponse put(Plane obj) {
 	    	TransportClient client = daofactory.getConnextion();
 	    	IndexResponse response;
 	    	
@@ -34,11 +34,11 @@ public class PlaneDAO extends DAO<Plane>{
 	    				.field("numberplace", obj.getNumberplace())
 	    			.endObject())
 	    		.get();
-	    	    return response.getResult().toString().equals("CREATED");
+	    	    return response;
 	    	} catch (IOException e) {
 	    	    e.printStackTrace();
 	    	}
-	    	return false;
+	    	return null;
 	}
 
 	@Override

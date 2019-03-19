@@ -23,7 +23,7 @@ public class PilotDAO extends DAO<Pilot> {
 	}
 
 	@Override
-	public boolean put(Pilot obj) {
+	public IndexResponse put(Pilot obj) {
 		TransportClient client = daofactory.getConnextion();
 		try {
 		    IndexResponse response = client.prepareIndex("pilot", "_doc").setSource(
@@ -37,14 +37,11 @@ public class PilotDAO extends DAO<Pilot> {
 			    		.field("qualification", obj.getCertificate())
 			    	.endObject()
 			    ).get();
-
-		    for (RestStatus c : response.status().values())
-			    System.out.println(c);
-		    return response.status().getStatus() == RestStatus.CREATED.getStatus();
+		    return response;
 		} catch(IOException e) {
 		    e.printStackTrace();
 		}
-		return list.add(obj);
+		return null;
 	}
 
 	@Override

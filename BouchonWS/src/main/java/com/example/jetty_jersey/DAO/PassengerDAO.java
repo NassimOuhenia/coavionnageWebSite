@@ -3,6 +3,8 @@ package com.example.jetty_jersey.DAO;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.elasticsearch.action.index.IndexResponse;
+
 import com.example.jetty_jersey.model.Passenger;
 
 
@@ -17,8 +19,8 @@ public class PassengerDAO extends DAO<Passenger>{
 	}
 
 	@Override
-	public boolean put(Passenger obj) {
-		return list.add(obj);
+	public IndexResponse put(Passenger obj) {
+		return null;
 	}
 
 	@Override
