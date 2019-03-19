@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.rest.RestStatus;
 
 import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
@@ -46,7 +47,18 @@ public class PilotRessource {
 	@Path("/signup")
 	public String signUp(Pilot p) {
 	    IndexResponse response = daoPilot.put(p);
-	    if (response )
+	    if (response != null) {
+		if (response.status() == RestStatus.CREATED) {
+		    return "{" +
+			    "\"status\":\"201\"," +
+			    "\"id\":\"" + response.getId() + "\"" +
+			    "}";
+		}
+	    }
+	    return "{" +
+	    "\"status\":\"500\"," +
+	    "\"error\":\"User couldnt be created \"" +
+	    "}";
 	}
 	
 }

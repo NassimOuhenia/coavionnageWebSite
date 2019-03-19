@@ -8,6 +8,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.rest.RestStatus;
+
 import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.model.Plane;
@@ -30,13 +33,22 @@ public class PlaneRessource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/plane")
-	public String retrieveExample() {
-		//just test
-		daoPlane.put(new Plane(1,"nouveau","nouveau",1));
-		System.out.println("ok");
-		return "ok";
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/add")
+	public String put(Plane p) {
+		IndexResponse response = daoPlane.put(p);
+		if (response != null) {
+			if (response.status() == RestStatus.CREATED) {
+			    return "{" +
+				    "\"status\":\"201\"," +
+				    "\"id\":\"" + response.getId() + "\"" +
+				    "}";
+			}
+		}
+		return "{" +
+		    "\"status\":\"500\"," +
+		    "\"error\":\"Plane couldnt be created \"" +
+		    "}";
 	}
 	
 }

@@ -11,6 +11,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.rest.RestStatus;
+
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.FlightDAO;
 import com.example.jetty_jersey.model.Flight;
@@ -57,11 +61,22 @@ public class FlightRessource {
 	//planifié un vol
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	//@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/add")
-	public void postFlight(Flight f) {
-		System.out.println(f.getDate()+" "+f.getDeparture_airport());
-		daoFlight.put(f);
+	public String postFlight(Flight f) {
+		IndexResponse response = daoFlight.put(f);
+		if (response != null) {
+		    if (response .status() == RestStatus.CREATED) {
+			return "{" +
+				"\"status\":\"201\"," +
+				"\"id\":\"" + response.getId() + "\"" +
+				"}";
+		    }
+		}
+		return "{" +
+		    "\"status\":\"500\"," +
+		    "\"error\":\"Flight couldnt be created \"" +
+		    "}";
 	}
 	
 	//reserver un vol
