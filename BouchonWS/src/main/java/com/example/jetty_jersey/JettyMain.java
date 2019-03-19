@@ -15,6 +15,8 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 import com.example.jetty_jersey.ws.TestResource;
 
+import static sun.net.www.protocol.http.AuthCacheValue.Type.Server;
+
 public class JettyMain {
 
 	public static void main(String[] args) throws Exception {
