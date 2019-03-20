@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.jetty_jersey.model.*;
 
 public class FlightDAO extends DAO<Flight> {
+	
 	private static List<Flight> list=new ArrayList<Flight>();
 	//un fois la bdd est en place
 	//private DAOFactory daofactory;
@@ -19,7 +20,6 @@ public class FlightDAO extends DAO<Flight> {
 
 	@Override
 	public boolean put(Flight obj) {
-
 		return list.add(obj);
 	}
 
@@ -37,11 +37,10 @@ public class FlightDAO extends DAO<Flight> {
 
 	@Override
 	public List<Flight> get() {
-		
 		return list;
 	}
 	
-	public List<Flight> search(String date, String departure, String arrival,String local, String travel) { 
+	public List<Flight> search(String local, String travel,String date, String departure, String arrival) { 
 	
 		ArrayList<Flight> l = new ArrayList <Flight>();
 		for(Flight f : list) {
@@ -56,4 +55,3 @@ public class FlightDAO extends DAO<Flight> {
 
 	
 }
-

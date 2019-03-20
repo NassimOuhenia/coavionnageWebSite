@@ -1,35 +1,37 @@
 package com.example.jetty_jersey.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Flight {
-	
+
 	private String idFlight;
 	private String date;
-	private String departure_airport;
-	private String arrival_airport;
+	private String departureAirport;
+	private String arrivalAirport;
 	private double travelTime;
 	private double price;
 	private String typeflight;
 	private Plane plane;
 	private Pilot pilot;
 	private List<Passenger> passagers;
-	
-	public Flight(String idFlight, String date, String departure_airport, String arrival_airport, double travelTime,
+
+	public Flight(String idFlight, String date, String departureAirport, String arrivalAirport, double travelTime,
 			double price, String typeflight, Plane plane, Pilot pilot) {
 		super();
 		this.idFlight = idFlight;
 		this.date = date;
-		this.departure_airport = departure_airport;
-		this.arrival_airport = arrival_airport;
+		this.departureAirport = departureAirport;
+		this.arrivalAirport = arrivalAirport;
 		this.travelTime = travelTime;
 		this.price = price;
 		this.typeflight = typeflight;
 		this.plane = plane;
 		this.pilot = pilot;
 		passagers = new ArrayList<Passenger>();
+	}
+
+	public Flight() {
 	}
 
 	public String getDate() {
@@ -41,19 +43,19 @@ public class Flight {
 	}
 
 	public String getDeparture_airport() {
-		return departure_airport;
+		return departureAirport;
 	}
 
 	public void setDeparture_airport(String departure_airport) {
-		this.departure_airport = departure_airport;
+		this.departureAirport = departure_airport;
 	}
 
 	public String getArrival_airport() {
-		return arrival_airport;
+		return arrivalAirport;
 	}
 
 	public void setArrival_airport(String arrival_airport) {
-		this.arrival_airport = arrival_airport;
+		this.arrivalAirport = arrival_airport;
 	}
 
 	public double getTravelTime() {
@@ -107,7 +109,5 @@ public class Flight {
 	public String getIdFlight() {
 		return idFlight;
 	}
-
-	
 
 }
