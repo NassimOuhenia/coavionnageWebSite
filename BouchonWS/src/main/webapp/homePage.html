@@ -10,6 +10,9 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+
 <link rel="stylesheet" href="img/hPage.css">
 
 </head>
@@ -112,14 +115,16 @@
 		<h1>BLABLAPLANE</h1>
 		<h4>share your flight!</h4>
 	</div>
+
+<!--------------------------------------------------------------->
 	<section>
 		<h4>FIND A FLIGHT!</h4>
 		<div class="backgroud">
-			<form method="get" action="/blablaplane/flights/flight">
+			<div id="formr">
 				<div class="col-lg-2">
-					<input type="checkbox" name="travel" value="travel" checked><label
+					<input type="checkbox" name="travel" value="travel" id="travel" checked><label
 						for="travel">TRAVEL</label> <br> <input type="checkbox"
-						name="local" value="local" checked><label for="local">LOCAL
+						name="local" value="local" id="local" checked><label for="local">LOCAL
 						FLIGHT</label>
 				</div>
 				<div class="search">
@@ -129,12 +134,12 @@
 						class="champs" type="text" name="departure" id="departure"
 						placeholder="departure" required /> <img class="chmaps"
 						src="img/arrival.png" alt="" /> <input class="champs" type="text"
-						name="arrival" value="" placeholder="arrival" required />
-					<button type="submit" class="btn btn-primary">
+						name="arrival" id="arrival" value="" placeholder="arrival" required />
+					<button class="btn btn-primary" id="rvol">
 						<span class="glyphicon glyphicon-search"></span> Search
 					</button>
 				</div>
-			</form>
+			</div>
 		</div>
 		<br>
 		<div class="row">
@@ -147,7 +152,60 @@
 		</div>
 		<br>
 	</section>
+	
+<script id="ajoutr" type="text/template">
+<div>
+	<p><%= depart %></p>
+	<p><%= arrive %></p>
+	<p><%= date %></p>
+	<p><%= type %></p>
+</div>
+</script>
+<div  id="resultr">
 
+</div>
+<script>
+	function myFunction(listF) {
+		//alert("je parse");
+		//var obj=JSON.parse(listF);
+		for(i=0;i<listF.length;i++){
+			var templateExample = _.template($('#ajoutr').html());
+			var html = templateExample({
+				"depart":JSON.stringify(obj[i]),
+				"arrive":JSON.stringify(obj[i]),
+				"date":JSON.stringify(obj[i]),
+				"type":JSON.stringify(obj[i])
+			});
+			$("#resultr").append(html);
+		}
+	}
+	
+	$("#rvol").click(function(){
+		var donne={typeLocal:$("#local").val(),
+			typeTravel:$("#travel").val(),
+			date:$("#date").val(),
+			departure:$("#departure").val(),
+			arrival:$("#arrival").val()
+		};
+		$.ajax({
+			url: 'http://localhost:8080/blablaplane/flights/search',
+			type: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function (data) {
+				myFunction(data);
+				//alert("ok");
+			},
+			data: JSON.stringify(donne),
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("pas ok");
+			}
+		});
+	});
+</script>
+	
+<!--------------------------------------------------------------->
+	
 	<footer>
 		<div class="container">
 			<div id="myCarousel" class="carousel slide" data-ride="carousel">

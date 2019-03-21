@@ -13,7 +13,6 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import com.example.jetty_jersey.ws.TestResource;
 
 public class JettyMain {
 
@@ -54,7 +53,6 @@ public class JettyMain {
 		contexts.setHandlers(new Handler[] { handlerWebServices, handlerPortalCtx });
 		server.setHandler(contexts);
 		
-		TestResource testResource = new TestResource();
 
 		/*
 		 * web service // /blablaplane/search/

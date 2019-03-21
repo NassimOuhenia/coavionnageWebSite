@@ -34,6 +34,14 @@ public class Flight {
 	public Flight() {
 	}
 
+	public String getIdFlight() {
+		return idFlight;
+	}
+
+	public void setIdFlight(String idFlight) {
+		this.idFlight = idFlight;
+	}
+
 	public String getDate() {
 		return date;
 	}
@@ -42,20 +50,20 @@ public class Flight {
 		this.date = date;
 	}
 
-	public String getDeparture_airport() {
+	public String getDepartureAirport() {
 		return departureAirport;
 	}
 
-	public void setDeparture_airport(String departure_airport) {
-		this.departureAirport = departure_airport;
+	public void setDepartureAirport(String departureAirport) {
+		this.departureAirport = departureAirport;
 	}
 
-	public String getArrival_airport() {
+	public String getArrivalAirport() {
 		return arrivalAirport;
 	}
 
-	public void setArrival_airport(String arrival_airport) {
-		this.arrivalAirport = arrival_airport;
+	public void setArrivalAirport(String arrivalAirport) {
+		this.arrivalAirport = arrivalAirport;
 	}
 
 	public double getTravelTime() {
@@ -106,8 +114,6 @@ public class Flight {
 		this.passagers = passagers;
 	}
 
-	public String getIdFlight() {
-		return idFlight;
-	}
+	
 
 }

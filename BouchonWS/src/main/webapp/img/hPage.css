@@ -11,12 +11,10 @@ a.btn {
   height: 30px;
 }
 
-div.centre {
-  padding-bottom:20%;
-  background-image: url("plane.jpg");
+div.centre { 
   background-size: cover;
   text-align: center;
-  color: white
+  color: black
 }
 
 h4 {
