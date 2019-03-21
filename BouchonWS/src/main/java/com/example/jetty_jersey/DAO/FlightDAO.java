@@ -12,12 +12,12 @@ public class FlightDAO extends DAO<Flight> {
 
 	public FlightDAO(DAOFactory f) {
 		list=new ArrayList<Flight>();
-		list.add(new Flight("1", "2019-03-07", "Orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
-		list.add(new Flight("2", "2019-03-07", "Orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
-		list.add(new Flight("3", "2019-05-05", "paris", "paris", 35, 2, "local", new Plane(), new Pilot()));
-		list.add(new Flight("1", "2019-12-07", "CDG", "Orly", 35, 2, "travel", new Plane(), new Pilot()));
-		list.add(new Flight("2", "2019-03-23", "Orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
-		list.add(new Flight("3", "2019-10-07", "paris", "paris", 35, 2, "local", new Plane(), new Pilot()));
+		list.add(new Flight("1", "2019-03-07", "Orly", "CDG", 35, 3, "travel", new Plane(), new Pilot("Toto","","","",0,"")));
+		list.add(new Flight("2", "2019-03-07", "Orly", "Berlin", 40, 2, "travel", new Plane(), new Pilot("Gerard","","","",0,"")));
+		list.add(new Flight("3", "2019-05-05", "paris", "paris", 35, 2, "local", new Plane(), new Pilot("Pascal","","","",0,"")));
+		list.add(new Flight("1", "2019-12-07", "CDG", "Orly", 35, 2, "travel", new Plane(), new Pilot("Nassim","","","",0,"")));
+		list.add(new Flight("2", "2019-03-23", "Orly", "CDG", 35, 2, "travel", new Plane(), new Pilot("Jo","","","",0,"")));
+		list.add(new Flight("3", "2019-10-07", "paris", "paris", 35, 2, "local", new Plane(), new Pilot("Akli","","","",0,"")));
 		// daofactory = f;
 	}
 

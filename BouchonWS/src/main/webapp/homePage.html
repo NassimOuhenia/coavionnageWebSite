@@ -13,6 +13,10 @@
 	
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+<script type="text/javascript" src="homePage.js"></script>
+
 <link rel="stylesheet" href="img/hPage.css">
 
 </head>
@@ -155,54 +159,15 @@
 	
 <script id="ajoutr" type="text/template">
 <div>
-	<p><%= depart %></p>
-	<p><%= arrive %></p>
-	<p><%= date %></p>
-	<p><%= type %></p>
+	<tr><%= depart %></tr>
+	<tr><%= arrive %></tr>
+	<tr><%= date %></tr>
+	<tr><%= type %></tr>
 </div>
 </script>
 <div  id="resultr">
-
 </div>
-<script>
-	function myFunction(listF) {
-		//alert("je parse");
-		//var obj=JSON.parse(listF);
-		for(i=0;i<listF.length;i++){
-			var templateExample = _.template($('#ajoutr').html());
-			var html = templateExample({
-				"depart":JSON.stringify(obj[i]),
-				"arrive":JSON.stringify(obj[i]),
-				"date":JSON.stringify(obj[i]),
-				"type":JSON.stringify(obj[i])
-			});
-			$("#resultr").append(html);
-		}
-	}
-	
-	$("#rvol").click(function(){
-		var donne={typeLocal:$("#local").val(),
-			typeTravel:$("#travel").val(),
-			date:$("#date").val(),
-			departure:$("#departure").val(),
-			arrival:$("#arrival").val()
-		};
-		$.ajax({
-			url: 'http://localhost:8080/blablaplane/flights/search',
-			type: 'post',
-			dataType: 'json',
-			contentType: 'application/json',
-			success: function (data) {
-				myFunction(data);
-				//alert("ok");
-			},
-			data: JSON.stringify(donne),
-			error : function(jqXHR, textStatus, errorThrown) {
-				alert("pas ok");
-			}
-		});
-	});
-</script>
+
 	
 <!--------------------------------------------------------------->
 	
