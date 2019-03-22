@@ -27,7 +27,7 @@ public class PassengerDAO extends DAO<Passenger>{
 	public IndexResponse put(Passenger obj) {
 		TransportClient client = daofactory.getConnextion();  
 		try { 
-			IndexResponse response = client.prepareIndex("passager", "_doc").setSource(
+			IndexResponse response = client.prepareIndex("passenger", "_doc").setSource(
 					jsonBuilder()
 					.startObject()
 					.field("firstName",obj.getFirstName())
@@ -55,6 +55,12 @@ public class PassengerDAO extends DAO<Passenger>{
 	public boolean update(Passenger obj) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	
+	public java.util.Map<String, Object> get(String id) {
+	    TransportClient client = daofactory.getConnextion();
+	    return client.prepareGet("passenger", "_doc", id).get().getSource();
 	}
 
 	@Override

@@ -15,7 +15,7 @@ import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.model.Plane;
 
-@Path("/planes")
+@Path("/plClientanes")
 public class PlaneRessource {
 	
 	private DAO<Plane> daoPlane = DAOFactory.getInstance().getPlaneDAO();
