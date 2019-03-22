@@ -128,28 +128,27 @@
 				<div class="modal-body">
 					<div id="formsignup">
 						<h4>Type?</h4>
-						<input type="radio" name="type" value="travel"> Travel <input
-							type="radio" name="type" value="local" checked>
+						<input type="radio" name="type" id="travelp" value="travel" checked> Travel <input
+							type="radio" name="type" id="localp" value="local">
 						Local Flight <br> <br> <input class="champs" type="date"
-							name="date" required> <br>
-						<br> <input class="champs" type="text" name="departureAirport" required
+							name="date" id="datep" required> <br>
+						<br> <input class="champs" type="text" name="departureAirport" id="departurep" required
 							placeholder="departure"> <br> <br> <input
-							class="champs" type="text" name="arrivalAirport" required
+							class="champs" type="text" name="arrivalAirport" id="arrivalp" required
 							placeholder="arrival"> <br> <br> <input
-							class="champs" type="number" name="travelTime" required
+							class="champs" type="number" name="travelTime" id="travelTimep" required
 							placeholder="travel time"> <br> <br> <input
-							class="champs" type="number" name="price" required
+							class="champs" type="number" id="pricep" name="price" required
 							placeholder="price $$"> <br> <br>
 							<select>
- 								<option value="volvo">Volvo</option>
- 								<option value="saab">Saab</option>
- 								<option value="mercedes">Mercedes</option>
- 								<option value="audi">Audi</option>
+ 								<option value="ATR">ATR</option>
+ 								<option value="Boing">Boing</option>
+ 								<option value="Concorde">Concorde</option>
 							</select>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Post</button>
+							<button id="pFlight" class="btn btn-primary">Post</button>
 						</div>
 					</div>
 				</div>
@@ -169,20 +168,20 @@
 		<div class="backgroud">
 			<div id="formr">
 				<div class="col-lg-2">
-					<input type="checkbox" name="travel" value="travel" id="travel" checked><label
+					<input type="checkbox" name="travel" value="travel" id="travelr" checked><label
 						for="travel">TRAVEL</label> <br> <input type="checkbox"
-						name="local" value="local" id="local" checked><label for="local">LOCAL
+						name="local" value="local" id="localr" checked><label for="local">LOCAL
 						FLIGHT</label>
 				</div>
 				<div class="search">
 					<img class="chmaps" src="img/calendar.png" alt=""> <input
-						class="champs" type="date" name="date" id="date" /> <img
+						class="champs" type="date" name="date" id="dater" /> <img
 						class="chmaps" src="img/departure.png" alt="" /> <input
-						class="champs" type="text" name="departure" id="departure"
+						class="champs" type="text" name="departure" id="departurer"
 						placeholder="departure" required /> <img class="chmaps"
 						src="img/arrival.png" alt="" /> <input class="champs" type="text"
-						name="arrival" id="arrival" value="" placeholder="arrival" required />
-					<button class="btn btn-primary" id="rvol">
+						name="arrival" id="arrivalr" value="" placeholder="arrival" required />
+					<button class="btn btn-primary" id="rFlight">
 						<span class="glyphicon glyphicon-search"></span> Search
 					</button>
 				</div>
@@ -208,7 +207,7 @@
     <span class="date-vol"><%= date %></span>
     <span class="avion">Avion : Diamond - DA40</span>
     <div>
-				TYPE:<p><%= type %></p>
+				TYPE:<%= type %>
 		</div>
 	</div>
 </center>
