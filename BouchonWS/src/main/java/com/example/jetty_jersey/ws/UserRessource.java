@@ -1,24 +1,18 @@
 package com.example.jetty_jersey.ws;
 
 
-import java.io.IOException;
-import java.util.List;
+
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.rest.RestStatus;
 
-import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.PassengerDAO;
 import com.example.jetty_jersey.model.Passenger;
@@ -30,19 +24,21 @@ public class UserRessource {
 	private PassengerDAO daoPassenger = DAOFactory.getInstance().getPassengerDAO();
 
 	@POST
-	@Path("/get")
-	public String getExample(ID identification) {
-	    System.out.println(identification.getId());
+	@Path("/")
+	public String getUser(ID identification) {
 	    Map<String, Object> map = daoPassenger.get(identification.getId());
 	    if (map.size() > 0) {
 		return "{" +
-			    "\"status\":\"201\"," +
+			    "\"status\":\"200\"," +
 			    "\"firstName\":\"" + map.get("firstName") + "\"" +
 			    "\"lastName\":\"" + map.get("lastName") + "\"" +
 			    "\"mail\":\"" + map.get("mail") + "\"" +
 			    "}";
 	    }
-	    return "";
+	    return "{" +
+	    	"\"status\":\"400\"," +
+	    	"\"error\":\"Can not find user\"" +
+	    	"}";
 	}
 
 	@POST

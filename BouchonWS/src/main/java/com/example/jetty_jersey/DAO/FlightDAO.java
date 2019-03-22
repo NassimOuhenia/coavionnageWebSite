@@ -3,6 +3,7 @@ package com.example.jetty_jersey.DAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -77,6 +78,13 @@ public class FlightDAO extends DAO<Flight> {
 				l.add(f);
 		}
 		return l;
+	}
+
+
+	@Override
+	public Map<String, Object> get(String id) {
+	    TransportClient client = daofactory.getConnextion();
+	    return client.prepareGet("flight", "_doc", id).get().getSource();
 	}
 
 	

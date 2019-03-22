@@ -2,15 +2,13 @@ package com.example.jetty_jersey.ws;
 
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.elasticsearch.action.index.IndexResponse;
@@ -19,6 +17,7 @@ import org.elasticsearch.rest.RestStatus;
 import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.model.Pilot;
+import com.example.jetty_jersey.model.ID;
 
 
 @Path("/pilots")
@@ -59,6 +58,28 @@ public class PilotRessource {
 	    "\"status\":\"500\"," +
 	    "\"error\":\"User couldnt be created \"" +
 	    "}";
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/")
+	public String getPilot(ID identification) {
+	    Map<String, Object> map = daoPilot.get(identification.getId());
+	    if (map.size() > 0) {
+		return "{" +
+			    "\"status\":\"200\"," +
+			    "\"firstName\":\"" + map.get("firstName") + "\"," +
+			    "\"lastName\":\"" + map.get("lastName") + "\"," +
+			    "\"mail\":\"" + map.get("mail") + "\"," +
+			    "\"experience\":\"" + map.get("experience") + "\"," +
+			    "\"certificate\":\"" + map.get("certificate") + "\"" +
+			    "}";
+	    }
+	    return "{" +
+	    	"\"status\":\"400\"," +
+	    	"\"error\":\"Can not find user\"" +
+	    	"}";
 	}
 	
 }

@@ -31,10 +31,10 @@ public class PilotDAO extends DAO<Pilot> {
 			    	.startObject()
 			    		.field("lastName", obj.getLastName())
 			    		.field("firstName", obj.getLastName())
-			    		.field("email", obj.getMail())
+			    		.field("mail", obj.getMail())
 			    		.field("password", obj.getPassword())
 			    		.field("experience", obj.getExperience())
-			    		.field("qualification", obj.getCertificate())
+			    		.field("certificate", obj.getCertificate())
 			    	.endObject()
 			    ).get();
 		    return response;
@@ -59,6 +59,11 @@ public class PilotDAO extends DAO<Pilot> {
 	@Override
 	public List<Pilot> get() {
 		return list;
+	}
+	
+	public java.util.Map<String, Object> get(String id) {
+	    TransportClient client = daofactory.getConnextion();
+	    return client.prepareGet("pilot", "_doc", id).get().getSource();
 	}
 
 }

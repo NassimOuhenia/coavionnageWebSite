@@ -3,6 +3,7 @@ package com.example.jetty_jersey.DAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -57,6 +58,12 @@ public class PlaneDAO extends DAO<Plane>{
 	public List<Plane> get() {
 		
 		return listPlane;
+	}
+
+	@Override
+	public Map<String, Object> get(String id) {
+	    // TODO Auto-generated method stub
+	    return null;
 	}
 
 	

@@ -1,6 +1,7 @@
 package com.example.jetty_jersey.ws;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.QueryParam;
@@ -20,6 +21,7 @@ import com.example.jetty_jersey.DAO.FlightDAO;
 import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.Plane;
+import com.example.jetty_jersey.model.ID;
 
 @Path("/flights")
 public class FlightRessource {
@@ -86,6 +88,33 @@ public class FlightRessource {
 	@Path("/book")
 	public void bookFlight(Reservation r) {
 		//daoFlight.put();
+	}
+	
+	//Recuperer infos d'un vol
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/")
+	public String get(ID identification) {
+	    Map<String, Object> map = daoFlight.get(identification.getId());
+	    if (map.size() > 0) {
+		return "{" +
+			    "\"status\":\"200\"," +
+			    "\"date\":\"" + map.get("date") + "\"," +
+			    "\"departureAirport\":\"" + map.get("departureAirport") + "\"," +
+			    "\"arrivalAirport\":\"" + map.get("arrivalAirport") + "\"," +
+			    "\"travelTime\":\"" + map.get("travelTime") + "\"," +
+			    "\"price\":\"" + map.get("price") + "\"" +
+			    "\"typeflight\":\"" + map.get("typeflight") + "\"," +
+			    "\"plane\":\"" + map.get("plane") + "\"," +
+			    "\"pilot\":\"" + map.get("pilot") + "\"," +
+			    "\"passagers\":\"" + map.get("passagers") + "\"," +
+			    "}";
+	    }
+	    return "{" +
+	    	"\"status\":\"400\"," +
+	    	"\"error\":\"Can not find flight\"" +
+	    	"}";
 	}
 
 }
