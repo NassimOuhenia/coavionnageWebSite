@@ -200,19 +200,23 @@
 		<br>
 	</section>
 
-<script id="ajoutr" type="text/template">
-<center>
-	<div class="detail-vol">
-    <span class="trajet"><%= depart %> ▶ <%= arrive %><br><span class="type-vol">Vol par beau temps (VFR) <!--[0 km]--></span></span>
-    <span class="date-vol"><%= date %></span>
-    <span class="avion">Avion : Diamond - DA40</span>
-    <div>
+	<script id="ajoutr" type="text/template">
+		 
+		<ul>
+		<li class="col-lg-4">
+		  <div id="detail-vol">
+    		<span class="trajet"><%= depart %> ▶ <%= arrive %><br><span class="type-vol">Vol par beau temps (VFR) <!--[0 km]--></span></span>
+    		<span class="date-vol"><%= date %></span>
+    		<span class="avion">Avion : Diamond - DA40</span>
+    		<div>
 				TYPE:<%= type %>
-		</div>
-	</div>
-</center>
-</script>
-<div  id="resultr"></div>
+			</div>
+		  </div>
+		</li>
+		</ul>
+	
+	</script>
+	<div  id="resultr"></div>
 
 <!--------------------------------------------------------------->
 
