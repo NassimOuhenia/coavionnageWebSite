@@ -43,6 +43,10 @@ public class FlightRessource {
 	@Path("/add")
 	public String postFlight(Flight f) {
 		System.out.println("je planifie un vol");
+		System.out.println(f.getTimep());
+		System.out.println(f.getArrivalAirport());
+		System.out.println(f.getDepartureAirport());
+		
 		if (daoFlight.put(f))
 			return "ok";
 		return "nok";

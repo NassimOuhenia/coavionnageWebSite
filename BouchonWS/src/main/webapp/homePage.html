@@ -12,8 +12,9 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-	 <script type="text/javascript" src="homePage.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script type="text/javascript" src="homePage.js"></script>
 
 <link rel="stylesheet" href="img/hPage.css">
 
@@ -34,13 +35,16 @@
 					<li><a href="#"> <img src="img/github.png"></a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li class=""><a href="#" data-toggle="modal"
+					<li id="connecter"><a href="#" data-toggle="modal"
 						data-target="#signin">SIGN IN</a></li>
-					<li class=""><a href="#" data-toggle="modal"
+					<li id="inscrire"><a href="#" data-toggle="modal"
 						data-target="#signup">SIGN UP</a></li>
-					<li style="display :none;"><button id="mes reservations" class="btn btn-info">My Flights</button></li>
-					<li style="display :none;"><button id="mes reservations" class="btn btn-info" >My Reservations</button></li>
-					<li style="display :none;"><button id="logout" class="btn btn-info">LOGOUT</button></li>
+					<li id="mes vols" style="display: none;"><button
+							class="btn btn-info">My Flights</button></li>
+					<li id="mes reservations" style="display: none;"><button
+							class="btn btn-info">My Reservations</button></li>
+					<li id="logout" style="display: none;"><button
+							class="btn btn-info">LOGOUT</button></li>
 				</ul>
 			</div>
 		</nav>
@@ -87,8 +91,7 @@
 				</div>
 				<div class="modal-body">
 					<p>
-						Already a me
-						mber? <a href="#" data-dismiss="modal"
+						Already a me mber? <a href="#" data-dismiss="modal"
 							data-target="#signin" data-toggle="modal">Sign in</a>
 					</p>
 					<div id="formsignup">
@@ -128,23 +131,24 @@
 				<div class="modal-body">
 					<div id="formsignup">
 						<h4>Type?</h4>
-						<input type="radio" name="type" id="travelp" value="travel" checked> Travel <input
-							type="radio" name="type" id="localp" value="local">
-						Local Flight <br> <br> <input class="champs" type="date"
-							name="date" id="datep" required> <br>
-						<br> <input class="champs" type="text" name="departureAirport" id="departurep" required
+						<input type="radio" name="type" id="travelp" value="travel"
+							checked> Travel <input type="radio" name="type"
+							id="localp" value="local"> Local Flight <br> <br>
+						<input class="champs" type="date" name="date" id="datep" required>
+						<br> <br> Time <input type="time" id="timep"
+							value="00:00"> <br> <br> <input class="champs"
+							type="text" name="departureAirport" id="departurep" required
 							placeholder="departure"> <br> <br> <input
-							class="champs" type="text" name="arrivalAirport" id="arrivalp" required
-							placeholder="arrival"> <br> <br> <input
-							class="champs" type="number" name="travelTime" id="travelTimep" required
-							placeholder="travel time"> <br> <br> <input
+							class="champs" type="text" name="arrivalAirport" id="arrivalp"
+							required placeholder="arrival"> <br> <br> <input
+							class="champs" type="number" name="travelTime" id="travelTimep"
+							required placeholder="travel time"> <br> <br> <input
 							class="champs" type="number" id="pricep" name="price" required
-							placeholder="price $$"> <br> <br>
-							<select>
- 								<option value="ATR">ATR</option>
- 								<option value="Boing">Boing</option>
- 								<option value="Concorde">Concorde</option>
-							</select>
+							placeholder="price $$"> <br> <br> <select>
+							<option value="ATR">ATR</option>
+							<option value="Boing">Boing</option>
+							<option value="Concorde">Concorde</option>
+						</select>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>
@@ -162,16 +166,16 @@
 		<h4>share your flight!</h4>
 	</div>
 
-<!--------------------------------------------------------------->
+	<!--------------------------------------------------------------->
 	<section>
 		<h4>FIND A FLIGHT!</h4>
 		<div class="backgroud">
 			<div id="formr">
 				<div class="col-lg-2">
-					<input type="checkbox" name="travel" value="travel" id="travelr" checked><label
-						for="travel">TRAVEL</label> <br> <input type="checkbox"
-						name="local" value="local" id="localr" checked><label for="local">LOCAL
-						FLIGHT</label>
+					<input type="checkbox" name="travel" value="travel" id="travelr"
+						checked><label for="travel">TRAVEL</label> <br> <input
+						type="checkbox" name="local" value="local" id="localr" checked><label
+						for="local">LOCAL FLIGHT</label>
 				</div>
 				<div class="search">
 					<img class="chmaps" src="img/calendar.png" alt=""> <input
@@ -180,7 +184,8 @@
 						class="champs" type="text" name="departure" id="departurer"
 						placeholder="departure" required /> <img class="chmaps"
 						src="img/arrival.png" alt="" /> <input class="champs" type="text"
-						name="arrival" id="arrivalr" value="" placeholder="arrival" required />
+						name="arrival" id="arrivalr" value="" placeholder="arrival"
+						required />
 					<button class="btn btn-primary" id="rFlight">
 						<span class="glyphicon glyphicon-search"></span> Search
 					</button>
@@ -190,8 +195,8 @@
 		<br>
 		<div class="row">
 			<div class="col-lg-6">
-				<a href="#" data-dismiss="modal"
-					data-target="#postFlight" data-toggle="modal" class="btn btn-primary">POST A FLIGHT</a>
+				<a href="#" data-dismiss="modal" data-target="#postFlight"
+					data-toggle="modal" class="btn btn-primary">POST A FLIGHT</a>
 			</div>
 			<div class="col-lg-6">
 				<a href="#" class="btn btn-primary">BOOK A FLIGHT</a>
@@ -203,7 +208,7 @@
 	<script id="ajoutr" type="text/template">
 		 
 		<ul>
-		<li class="col-lg-4">
+		<li>
 		  <div id="detail-vol">
     		<span class="trajet"><%= depart %> ▶ <%= arrive %><br><span class="type-vol">Vol par beau temps (VFR) <!--[0 km]--></span></span>
     		<span class="date-vol"><%= date %></span>
@@ -216,9 +221,12 @@
 		</ul>
 	
 	</script>
-	<div  id="resultr"></div>
+	<div id="notfound" style="display: none;">
+		<h3>No flight found!!</h3>
+	</div>
+	<div id="resultr"></div>
 
-<!--------------------------------------------------------------->
+	<!--------------------------------------------------------------->
 
 	<footer>
 		<div class="container">

@@ -11,27 +11,49 @@ public class Flight {
 	private String arrivalAirport;
 	private double travelTime;
 	private double price;
+	private String timep;
 	private String typeflight;
 	private Plane plane;
 	private Pilot pilot;
+	private int seatLeft;
 	private List<Passenger> passagers;
-
+	
+	
+	
 	public Flight(String idFlight, String date, String departureAirport, String arrivalAirport, double travelTime,
-			double price, String typeflight, Plane plane, Pilot pilot) {
-		super();
+			double price, String time, String typeflight, Plane plane, Pilot pilot, int seatLeft) {
 		this.idFlight = idFlight;
 		this.date = date;
 		this.departureAirport = departureAirport;
 		this.arrivalAirport = arrivalAirport;
 		this.travelTime = travelTime;
 		this.price = price;
+		this.timep = time;
 		this.typeflight = typeflight;
 		this.plane = plane;
 		this.pilot = pilot;
-		passagers = new ArrayList<Passenger>();
+		this.seatLeft = seatLeft;
+		passagers = new ArrayList<Passenger>(); 
 	}
 
 	public Flight() {
+	}
+
+	
+	public String getTimep() {
+		return timep;
+	}
+
+	public void setTimep(String time) {
+		this.timep = time;
+	}
+
+	public int getSeatLeft() {
+		return seatLeft;
+	}
+
+	public void setSeatLeft(int seatLeft) {
+		this.seatLeft = seatLeft;
 	}
 
 	public String getIdFlight() {

@@ -17,7 +17,7 @@ import com.example.jetty_jersey.DAO.PilotDAO;
 import com.example.jetty_jersey.model.Passenger;
 import com.example.jetty_jersey.model.Pilot;
 
-@Path("/user")
+@Path("/passenger")
 public class UserRessource {
 
 	private PassengerDAO daoPassenger = DAOFactory.getInstance().getPassengerDAO();
@@ -25,6 +25,7 @@ public class UserRessource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	
 	@Path("/passenger")
 	public List<Passenger> getExample() {
 		return daoPassenger.get();

@@ -10,7 +10,7 @@ public class Reservation {
 	}
 
 	public Reservation(String idPassenger, String idFlight, int numberPlace) {
-		super();
+		
 		this.idPassenger = idPassenger;
 		this.idFlight = idFlight; 
 		this.numberPlace = numberPlace;

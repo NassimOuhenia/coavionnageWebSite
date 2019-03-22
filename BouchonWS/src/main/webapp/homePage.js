@@ -3,7 +3,12 @@ var urlPostFlight='http://localhost:8080/blablaplane/flights/add';
 
 function afterSearch(listF) {
 	$("#resultr").text("");
+	$("#notfound").hide();
 	console.log(listF.length);
+	if(listF.length == 0) {
+		$("#notfound").show();
+		return;
+	}
 	for(i=0;i<listF.length;i++){
 		var templateExample = _.template($('#ajoutr').html());
 		var html = templateExample({
@@ -55,13 +60,14 @@ $(function(){
 		//construction des donne du vol
 		var data={
 			date:$("#datep").val(),
+			timep:$("#timep").val(),
 			departureAirport:$("#departurep").val(),
 			arrivalAirport:$("#arrivalp").val(),
 			travelTime:$("#travelTimep").val(),
 			price:$("#pricep").val(),
 			typeflight:"local"
 		};
-		alert(data);
+		
 		getServerData(urlPostFlight,null, 'post', data);
 	});
 });

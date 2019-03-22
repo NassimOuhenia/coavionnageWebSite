@@ -1,5 +1,6 @@
 package com.example.jetty_jersey;
 
+
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -19,7 +20,6 @@ public class JettyMain {
 	public static void main(String[] args) throws Exception {
 		// Initialize the server
 		Server server = new Server();
-
 		// Add a connector
 		ServerConnector connector = new ServerConnector(server);
 		connector.setHost("0.0.0.0");
