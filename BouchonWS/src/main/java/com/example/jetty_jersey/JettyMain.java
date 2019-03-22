@@ -52,7 +52,7 @@ public class JettyMain {
 		ContextHandlerCollection contexts = new ContextHandlerCollection();
 		contexts.setHandlers(new Handler[] { handlerWebServices, handlerPortalCtx });
 		server.setHandler(contexts);
-		
+		System.out.println("server start");
 
 		/*
 		 * web service // /blablaplane/search/
