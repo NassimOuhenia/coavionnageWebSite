@@ -2,11 +2,14 @@ package com.example.jetty_jersey.DAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.index.query.QueryBuilders;
 
 import com.example.jetty_jersey.model.*;
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
@@ -17,9 +20,9 @@ public class FlightDAO extends DAO<Flight> {
 	private DAOFactory daofactory;
 
 	public FlightDAO(DAOFactory f) {
-		list.add(new Flight("1","13/07/2019", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
-		list.add(new Flight("2","13/07/2019", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
-		list.add(new Flight("3","13/07/2019", "paris", "paris", 35, 2, "travel", new Plane(), new Pilot()));
+		list.add(new Flight("1",new Date(), "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
+		list.add(new Flight("2",new Date(), "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
+		list.add(new Flight("3",new Date(), "paris", "paris", 35, 2, "travel", new Plane(), new Pilot()));
 		
 		daofactory = f;
 	}
@@ -32,7 +35,6 @@ public class FlightDAO extends DAO<Flight> {
 			IndexResponse response = client.prepareIndex("flight","_doc").setSource(
 					jsonBuilder()
 					.startObject()
-					.field("idFlight",obj.getIdFlight())
 					.field("date",obj.getDate())
 					.field("departureAirport",obj.getDeparture_airport())
 					.field("arrivalAirport",obj.getArrival_airport())
@@ -69,7 +71,7 @@ public class FlightDAO extends DAO<Flight> {
 		return list;
 	}
 	
-	public List<Flight> search(String date, String departure, String arrival,String local, String travel) { 
+	public List<Flight> search(String local, String travel, Date date, String departure, String arrival) { 
 	
 		ArrayList<Flight> l = new ArrayList <Flight>();
 		for(Flight f : list) {
@@ -88,7 +90,39 @@ public class FlightDAO extends DAO<Flight> {
 	}
 
 	
-
+	public IndexResponse book (String idFlight, String idPassenger, int numberPlace) {
+	    TransportClient  client = daofactory.getConnextion(); 
+		try { 
+		    IndexResponse response = client.prepareIndex("book","_doc").setSource(
+			    jsonBuilder()
+			    	.startObject()
+			    		.field("idFlight", idFlight)
+					.field("idPassenger", idPassenger)
+					.field("numberPlace", numberPlace)
+					.field("confrimed", 0)
+				.endObject()
+				).get(); 
+			return response; 
+		}catch (IOException e ) { 
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public SearchResponse get(String typeFlight, Date date, String departure, String arrival) {
+	    TransportClient client = daofactory.getConnextion();
+	    
+	    SearchResponse response = client.prepareSearch("flight")
+		    .setTypes("_doc")
+		    	.setQuery(QueryBuilders.termQuery("typeflight", typeFlight))
+			.setQuery(QueryBuilders.termQuery("departureAirport", departure))
+			.setQuery(QueryBuilders.termQuery("arrivalAirport", arrival))
+			.setQuery(QueryBuilders.termQuery("date", date))
+			.get();
+	    
+	    return response;
+	    
+	}
 	
 }
 

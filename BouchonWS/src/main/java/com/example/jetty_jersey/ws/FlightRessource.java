@@ -1,5 +1,6 @@
 package com.example.jetty_jersey.ws;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.rest.RestStatus;
+import org.elasticsearch.search.SearchHit;
 
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.FlightDAO;
@@ -27,9 +30,10 @@ import com.example.jetty_jersey.model.ID;
 public class FlightRessource {
 
 	public static class Recherche {
-		String type_local;
-		String type_travel;
-		String date;
+	    	String type_local; //Temporaire
+	    	String type_travel; //Temporaire
+		String typeFlight;
+		Date date;
 		String departure;
 		String arrival;
 	}
@@ -115,6 +119,42 @@ public class FlightRessource {
 	    	"\"status\":\"400\"," +
 	    	"\"error\":\"Can not find flight\"" +
 	    	"}";
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/book")
+	public String book(Reservation r) {
+	    IndexResponse response = daoFlight.book(r.idFlight, r.idPassenger, r.numberPlace);
+	    if (!(response != null && response.status() == RestStatus.CREATED)) {
+		return "{" +
+		    	"\"status\":\"400\"," +
+		    	"\"error\":\"Can not book the flight\"" +
+		    	"}";
+	    }
+	    Pilot pilot = (Pilot)daoFlight.get(r.idFlight).get("pilot");
+	    String emailPilot = pilot.getMail();
+	    //Envoyer email
+	    
+	    return "{" +
+	    	"\"status\":\"200\"," +
+	    	"\"massage\":\"Well booked\"" +
+	    	"}";
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/search")
+	public String search(Recherche r) {
+	    SearchResponse response = daoFlight.get(r.typeFlight, r.date, r.departure, r.arrival);
+	    SearchHit[] result = response.getHits().getHits();
+	    for (SearchHit sh : result) {
+		Map<String, Object> map = sh.getSourceAsMap();
+		//Faire un string et le replir avec map
+	    }
+	    return "";
 	}
 
 }
