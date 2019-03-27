@@ -98,7 +98,7 @@ public class FlightRessource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/")
+	@Path("/get")
 	public String get(ID identification) {
 	    Map<String, Object> map = daoFlight.get(identification.getId());
 	    if (map.size() > 0) {
@@ -139,7 +139,7 @@ public class FlightRessource {
 	    
 	    return "{" +
 	    	"\"status\":\"200\"," +
-	    	"\"massage\":\"Well booked\"" +
+	    	"\"message\":\"Well booked\"" +
 	    	"}";
 	}
 	
@@ -150,11 +150,27 @@ public class FlightRessource {
 	public String search(Recherche r) {
 	    SearchResponse response = daoFlight.get(r.typeFlight, r.date, r.departure, r.arrival);
 	    SearchHit[] result = response.getHits().getHits();
+	    String res = "{" +
+		    	"\"status\":\"200\"," +
+		    	"\"result\": {";
 	    for (SearchHit sh : result) {
 		Map<String, Object> map = sh.getSourceAsMap();
-		//Faire un string et le replir avec map
+		res += "{" +
+			"\"date\":\"" + map.get("date") + "\"," +
+			"\"departureAirport\":\"" + map.get("departureAirport") + "\"," +
+			"\"arrivalAirport\":\"" + map.get("arrivalAirport") + "\"," +
+			"\"travelTime\":\"" + map.get("travelTime") + "\"," +
+			"\"price\":\"" + map.get("price") + "\"" +
+			"\"typeflight\":\"" + map.get("typeflight") + "\"," +
+			"\"plane\":\"" + map.get("plane") + "\"," +
+			"\"pilot\":\"" + map.get("pilot") + "\"," +
+			"\"passagers\":\"" + map.get("passagers") + "\"," +
+			"}";
+		if (sh != result[result.length-1])
+		    res += ",";
 	    }
-	    return "";
+	    res += "}";
+	    return res;
 	}
 
 }

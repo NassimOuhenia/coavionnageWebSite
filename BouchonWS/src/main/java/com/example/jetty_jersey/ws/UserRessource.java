@@ -24,7 +24,7 @@ public class UserRessource {
 	private PassengerDAO daoPassenger = DAOFactory.getInstance().getPassengerDAO();
 
 	@POST
-	@Path("/")
+	@Path("/get")
 	public String getUser(ID identification) {
 	    Map<String, Object> map = daoPassenger.get(identification.getId());
 	    if (map.size() > 0) {

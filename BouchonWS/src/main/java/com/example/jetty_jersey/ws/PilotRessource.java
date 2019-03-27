@@ -63,7 +63,7 @@ public class PilotRessource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/")
+	@Path("/get")
 	public String getPilot(ID identification) {
 	    Map<String, Object> map = daoPilot.get(identification.getId());
 	    if (map.size() > 0) {
