@@ -105,8 +105,6 @@ $(function(){
 
 
 
-
-
 function formlogToJSON() {
 	
 	
