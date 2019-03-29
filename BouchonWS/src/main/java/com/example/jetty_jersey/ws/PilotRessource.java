@@ -13,23 +13,24 @@ import javax.ws.rs.core.MediaType;
 import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.model.Pilot;
+import com.example.jetty_jersey.model.User;
 
 
-@Path("/pilots")
+@Path("/user/pilots/")
 public class PilotRessource {
 
 	private DAO<Pilot> daoPilot = DAOFactory.getInstance().getPiloteDAO();
 
-	@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/pilot")
-	public List<Pilot> getExample() {
+	@Path("/signup")
+	public List<Pilot> getExample(User pilote) {
 		return daoPilot.get();
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/pilot")
+	@Path("/signin")
 	public void retrieveExample() {
 		
 		daoPilot.put(new Pilot(" "," ","m","**",12,"a"));

@@ -15,6 +15,7 @@
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script type="text/javascript" src="homePage.js"></script>
+<script type="text/javascript" src="home.js"></script>
 
 <link rel="stylesheet" href="img/hPage.css">
 
@@ -98,20 +99,27 @@
 						<h4>I am?</h4>
 						<input type="radio" name="type" value="pilot"> Pilot <input
 							type="radio" name="type" value="passenger" checked>
-						Passenger <br> <br> <input class="champs" type="text"
-							name="fName" required placeholder="First Name*"> <br>
-						<br> <input class="champs" type="text" name="lName" required
-							placeholder="Last Name*"> <br> <br> <input
-							class="champs" type="email" name="email" required
-							placeholder="Email*"> <br> <br> <input
-							class="champs" type="password" name="password" required
-							placeholder="Password*"> <br> <br> <input
-							class="champs" type="password" name="cPassword" required
+						Passenger <br> <br> 
+						
+						<input class="champs" type="text" id="firstName"
+							name="fName" required placeholder="First Name*"> 
+							<br>
+						<br> <input class="champs" type="text" id="lastName" name="lName" required
+							placeholder="Last Name*"> <br> <br>
+							 
+							<input
+							class="champs" type="email" id="mail" name="email" required
+							placeholder="Email*"> <br> <br> 
+							<input
+							class="champs" type="password" id="password" name="password" required
+							placeholder="Password*"> <br> <br> 
+							<input
+							class="champs" type="password" id="#passwordc" name="cPassword" required
 							placeholder="Confirm Password*"> <br> <br>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Sign Up</button>
+							<button type="button" id="createUser" class="btn btn-primary">Sign Up</button>
 						</div>
 					</div>
 				</div>
