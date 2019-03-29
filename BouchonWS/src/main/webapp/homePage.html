@@ -160,73 +160,87 @@
 
 		</div>
 	</div>
+
+	<div class="modal fade" id="resultSearch" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4>Flights found</h4>
+				</div>
+				<div class="modal-body">
+					<div id="flightsFound">
+						<script id="ajoutr" type="text/template">
+							<ul>
+							<li>
+		 					<div id="detail-vol">
+    							<span class="trajet"><%= depart %> ▶ <%= arrive %><br><span class="type-vol">Vol par beau temps (VFR) <!--[0 km]--></span></span>
+					    		<span class="date-vol"><%= date %></span>
+    							<span class="avion">Avion : Diamond - DA40</span>
+    							<div>TYPE:<%= type %></div>
+		  					</div>
+							</li>
+							</ul>
+
+					</script>	
+					<div id="notfound" style="display: none;">
+				         <h3>No flight found!!</h3>
+			        </div>
+					<div  id="resultr"></div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>	
+	
 	<div class="centre">
 		<img src="img/avion2.png">
 		<h1>BLABLAPLANE</h1>
 		<h4>share your flight!</h4>
 	</div>
 
-	<!--------------------------------------------------------------->
 	<section>
-		<h4>FIND A FLIGHT!</h4>
-		<div class="backgroud">
-			<div id="formr">
-				<div class="col-lg-2">
-					<input type="checkbox" name="travel" value="travel" id="travelr"
-						checked><label for="travel">TRAVEL</label> <br> <input
-						type="checkbox" name="local" value="local" id="localr" checked><label
-						for="local">LOCAL FLIGHT</label>
-				</div>
-				<div class="search">
-					<img class="chmaps" src="img/calendar.png" alt=""> <input
-						class="champs" type="date" name="date" id="dater" /> <img
-						class="chmaps" src="img/departure.png" alt="" /> <input
-						class="champs" type="text" name="departure" id="departurer"
-						placeholder="departure" required /> <img class="chmaps"
-						src="img/arrival.png" alt="" /> <input class="champs" type="text"
-						name="arrival" id="arrivalr" value="" placeholder="arrival"
-						required />
-					<button class="btn btn-primary" id="rFlight">
-						<span class="glyphicon glyphicon-search"></span> Search
-					</button>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-lg-6">
-				<a href="#" data-dismiss="modal" data-target="#postFlight"
-					data-toggle="modal" class="btn btn-primary">POST A FLIGHT</a>
-			</div>
-			<div class="col-lg-6">
-				<a href="#" class="btn btn-primary">BOOK A FLIGHT</a>
-			</div>
-		</div>
-		<br>
-	</section>
-
-	<script id="ajoutr" type="text/template">
-		 
-		<ul>
-		<li>
-		  <div id="detail-vol">
-    		<span class="trajet"><%= depart %> ▶ <%= arrive %><br><span class="type-vol">Vol par beau temps (VFR) <!--[0 km]--></span></span>
-    		<span class="date-vol"><%= date %></span>
-    		<span class="avion">Avion : Diamond - DA40</span>
-    		<div>
-				TYPE:<%= type %>
-			</div>
-		  </div>
-		</li>
-		</ul>
+	  <h4>FIND A FLIGHT!</h4>
+	  <div class="backgroud">
+	    <div id="formr">
+	      <div class="col-lg-2">
+	        <input type="checkbox" name="travel" value="travel" id="travelr" checked><label
+	          for="travel">TRAVEL</label> <br> <input type="checkbox"
+	          name="local" value="local" id="localr" checked><label for="local">LOCAL
+	          FLIGHT</label>
+	      </div>
+	      <div class="search">
+	        <img class="chmaps" src="img/calendar.png" alt="">
+	        <input class="champs" type="date" name="date" id="dater" />
+	        <img class="chmaps" src="img/departure.png" alt="" />
+	        <input class="champs" type="text" name="departure" id="departurer" placeholder="departure" required />
+	        <img class="chmaps" src="img/arrival.png" alt="" />
+	        <input class="champs" type="text" name="arrival" id="arrivalr" value="" placeholder="arrival" required />
 	
-	</script>
-	<div id="notfound" style="display: none;">
-		<h3>No flight found!!</h3>
-	</div>
-	<div id="resultr"></div>
-
-	<!--------------------------------------------------------------->
+	        <a class="btn btn-primary" id="rFlight" href="#" data-toggle="modal" data-target="#resultSearch">
+	        <span class="glyphicon glyphicon-search"></span>Search</a>
+	
+	      </div>
+	    </div>
+	  </div>
+	  <br>
+	  <div class="row">
+	    <div class="col-lg-6">
+	      <a href="#" data-dismiss="modal"
+	        data-target="#postFlight" data-toggle="modal" class="btn btn-primary">POST A FLIGHT</a>
+	    </div>
+	    <div class="col-lg-6">
+	      <a href="#" class="btn btn-primary">BOOK A FLIGHT</a>
+	    </div>
+	  </div>
+	  <br>
+	</section>
 
 	<footer>
 		<div class="container">

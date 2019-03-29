@@ -28,7 +28,9 @@ public class FlightRessource {
 	public List<Flight> searchFlight(Recherche r) {
 		System.out.println("je recherche : "+r.getTypeLocal()+" "+r.getTypeTravel()+" "+r.getDate()+" "+
 				r.getDeparture()+" "+r.getArrival());
+		
 		List<Flight> l=daoFlight.search(r.getTypeLocal(), r.getTypeTravel(), r.getDate(), r.getDeparture(), r.getArrival());
+		
 		for(Flight f:l) {
 			System.out.println("j'ai trouvé : "+f.getTypeflight()+" "+f.getDate()+" "+f.getDepartureAirport()
 				+" "+f.getArrivalAirport()+" "+f.getTravelTime()+" "+f.getPrice());
