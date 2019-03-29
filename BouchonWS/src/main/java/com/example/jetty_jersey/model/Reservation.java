@@ -10,9 +10,9 @@ public class Reservation {
 	}
 
 	public Reservation(String idPassenger, String idFlight, int numberPlace) {
-		
+
 		this.idPassenger = idPassenger;
-		this.idFlight = idFlight; 
+		this.idFlight = idFlight;
 		this.numberPlace = numberPlace;
 	}
 
@@ -39,6 +39,5 @@ public class Reservation {
 	public void setNumberPlace(int numberPlace) {
 		this.numberPlace = numberPlace;
 	}
-	
-	
+
 }

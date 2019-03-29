@@ -7,7 +7,7 @@ public class Recherche {
 	private String departure;
 	private String arrival;
 
-	public Recherche() { 
+	public Recherche() {
 	}
 
 	public Recherche(String typeLocal, String typeTravel, String date, String departure, String arrival) {
@@ -57,7 +57,5 @@ public class Recherche {
 	public void setArrival(String arrival) {
 		this.arrival = arrival;
 	}
-	
-	
-	
+
 }
