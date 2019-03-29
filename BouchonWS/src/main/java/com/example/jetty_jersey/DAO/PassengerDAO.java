@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.rest.RestStatus;
 
@@ -52,9 +53,24 @@ public class PassengerDAO extends DAO<Passenger>{
 	}
 
 	@Override
-	public boolean update(Passenger obj) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(Passenger obj, String idPassenger) {
+		TransportClient client = daofactory.getConnextion();
+		try {
+			UpdateResponse update = client.prepareUpdate("passenger", "_doc", idPassenger)
+					.setDoc(jsonBuilder()
+							.startObject()
+							.field("firstName",obj.getFirstName())
+							.field("lastName",obj.getLastName())
+							.field("mail",obj.getMail())
+							.field("password",obj.getPassword())
+							.endObject()).get();
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
 	}
 	
 	

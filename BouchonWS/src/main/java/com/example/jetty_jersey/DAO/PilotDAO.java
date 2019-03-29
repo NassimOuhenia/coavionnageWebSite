@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.rest.RestStatus;
 
@@ -51,9 +52,25 @@ public class PilotDAO extends DAO<Pilot> {
 	}
 
 	@Override
-	public boolean update(Pilot obj) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(Pilot obj, String idPilot) {
+		TransportClient client = daofactory.getConnextion();
+		try {
+			UpdateResponse update = client.prepareUpdate("passenger", "_doc", idPilot)
+					.setDoc(jsonBuilder()
+							.startObject()
+							.field("lastName", obj.getLastName())
+				    		.field("firstName", obj.getLastName())
+				    		.field("mail", obj.getMail())
+				    		.field("password", obj.getPassword())
+				    		.field("experience", obj.getExperience())
+				    		.field("certificate", obj.getCertificate())
+							.endObject()).get();
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
