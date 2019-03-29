@@ -10,7 +10,7 @@ contentType: 'application/json',
         dataType: "json",
 data:formToJSON(),
         url: url,
-       success: function(data){ console.log('findB success: ' + data.firstname);
+       success: function(data){ console.log('findB success: ' + data.firstName);
 
 },
        error: function(jqXHR, textStatus, errorThrown){
@@ -51,6 +51,7 @@ message="Votre mail et mot de passe sont incorrect";
 		
 	}else{
 		
+		console.log(data.firstName);	
 		
 	}
 
@@ -110,7 +111,7 @@ $(function(){
 function formlogToJSON() {
 	
 	
-	var form=JSON.stringify({firstname:"", lastname:"",mail:$('#mailog').val(),
+	var form=JSON.stringify({firstName:"", lastName:"",mail:$('#mailog').val(),
 	password:$('#logpass').val()});
 	
 	return form;
@@ -118,8 +119,8 @@ function formlogToJSON() {
 
 function formToJSON() {
 	
-	var formulaire=JSON.stringify({firstname:$('#firstName').val(),lastname:$('#lastName').val(),mail:$('#mail').val(),
-	password:$('#mail').val()});
+	var formulaire=JSON.stringify({firstName:$('#firstName').val(),lastName:$('#lastName').val(),mail:$('#mail').val(),
+	password:$('#password').val()});
 	
 	return formulaire;
 }

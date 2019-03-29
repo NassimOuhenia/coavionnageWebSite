@@ -2,6 +2,9 @@ package com.example.jetty_jersey.DAO;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.elasticsearch.action.search.SearchAction;
+
 import com.example.jetty_jersey.model.Pilot;
 
 public class PilotDAO extends DAO<Pilot> {
@@ -9,6 +12,7 @@ public class PilotDAO extends DAO<Pilot> {
 	//un fois la bdd est en place
 	//private DAOFactory daofactory;
 
+	
 	public PilotDAO(DAOFactory f) {
 
 	//	daofactory = f;
@@ -17,6 +21,8 @@ public class PilotDAO extends DAO<Pilot> {
 	@Override
 	public boolean put(Pilot obj) {
 		// TODO Auto-generated method stub
+		
+		
 		return list.add(obj);
 	}
 
@@ -35,6 +41,17 @@ public class PilotDAO extends DAO<Pilot> {
 	@Override
 	public List<Pilot> get() {
 		return list;
+	}
+	
+	public Pilot Searchpilote(Pilot p) {
+		
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getMail().equals(p.getMail())&& list.get(i).getPassword().equals(p.getPassword())  ) {
+				return list.get(i);
+			}
+			
+		}
+		return null;
 	}
 
 }

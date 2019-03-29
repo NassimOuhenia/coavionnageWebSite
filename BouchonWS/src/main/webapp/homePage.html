@@ -66,14 +66,18 @@
 					</p>
 
 					<div id="formsignin">
-						<input class="champs" type="text" name="login" required
+					<h4>I am?</h4>
+						<input type="radio" name="type" value="pilot"> Pilot <input
+							type="radio" name="type" value="passenger" checked>
+						Passenger <br> <br> 
+						<input class="champs" type="text" id="mailog" name="login" required
 							placeholder="username*"> <br> <br> <input
-							class="champs" type="password" name="password" required
+							class="champs" id="logpass" type="password" name="password" required
 							placeholder="password*"> <br> <br>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Sign in</button>
+							<button type="submit" id="connectuser" class="btn btn-primary">Sign in</button>
 						</div>
 					</div>
 				</div>
