@@ -76,7 +76,11 @@ public class DAOFactory {
 	 * M�thodes de r�cup�ration de l'impl�mentation des diff�rents DAO
 	 * 
 	 */
-
+	
+	public ReservationDAO getReservationDAO() {
+		return new ReservationDAO(this);
+	}
+	
 	public PilotDAO getPiloteDAO() {
 		return new PilotDAO(this);
 	}
