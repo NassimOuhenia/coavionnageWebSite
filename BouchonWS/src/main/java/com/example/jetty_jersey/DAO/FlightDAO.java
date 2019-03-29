@@ -6,8 +6,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.index.query.QueryBuilders;
 
@@ -122,6 +125,24 @@ public class FlightDAO extends DAO<Flight> {
 	    
 	    return response;
 	    
+	}
+	
+	public UpdateResponse updateBook(String idPassenger) {
+		TransportClient client = daofactory.getConnextion();
+		try {
+			UpdateResponse update = client.prepareUpdate("book", "_doc", idPassenger)
+					.setDoc(jsonBuilder()
+							.startObject()
+							.field("confirmed",1)
+							.endObject()).get();
+			return update;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+		
 	}
 	
 }

@@ -14,8 +14,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 
@@ -172,5 +174,24 @@ public class FlightRessource {
 	    res += "}";
 	    return res;
 	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/book/confirm")
+	public String confirm(ID idPassenger) {
+		UpdateResponse response = daoFlight.updateBook(idPassenger.getId());
+		if(response != null && response.status() == RestStatus.OK) {
+			return "{" +
+			    	"\"status\":\"200\"," +
+			    	"\"message\":\"Well confirmed\"" +
+			    	"}";
+		}
+		return "{" +
+    	"\"status\":\"400\"," +
+    	"\"error\":\"Can not confirm the booking\"" +
+    	"}";
+	}
+	
 
 }
