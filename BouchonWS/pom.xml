@@ -76,8 +76,9 @@
 			<artifactId>log4j-core</artifactId>
 			<version>2.11.1</version>
 		</dependency>
-			
-			<dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.3</version>
