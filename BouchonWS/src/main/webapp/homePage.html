@@ -60,6 +60,7 @@
 					<h4>sign in</h4>
 				</div>
 				<div class="modal-body">
+				<p class="signup-sucess"></p>
 					<p>
 						don't have an account? <a href="#" data-dismiss="modal"
 							data-target="#signup" data-toggle="modal">Sign up</a>
@@ -71,9 +72,10 @@
 							type="radio" name="type" value="passenger" checked>
 						Passenger <br> <br> 
 						<input class="champs" type="text" id="mailog" name="login" required
-							placeholder="username*"> <br> <br> <input
+							placeholder="email*"> <br> <br> <input
 							class="champs" id="logpass" type="password" name="password" required
 							placeholder="password*"> <br> <br>
+							<div class="error-form"></div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>
@@ -119,7 +121,8 @@
 							placeholder="Password*"> <br> <br> 
 							<input
 							class="champs" type="password" id="#passwordc" name="cPassword" required
-							placeholder="Confirm Password*"> <br> <br>
+							placeholder="Confirm Password*"/> <br> <br>
+							<div class="error-form"></div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>
