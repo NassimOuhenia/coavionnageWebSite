@@ -45,41 +45,15 @@ public class PilotRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signup")
 	public String signUp(Pilot p) {
-	    IndexResponse response = daoPilot.put(p);
-	    if (response != null) {
-		if (response.status() == RestStatus.CREATED) {
-		    return "{" +
-			    "\"status\":\"201\"," +
-			    "\"id\":\"" + response.getId() + "\"" +
-			    "}";
-		}
-	    }
-	    return "{" +
-	    "\"status\":\"500\"," +
-	    "\"error\":\"User couldnt be created \"" +
-	    "}";
+	    return daoPilot.put(p);
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get")
-	public String getPilot(ID identification) {
-	    Map<String, Object> map = daoPilot.get(identification.getId());
-	    if (map.size() > 0) {
-		return "{" +
-			    "\"status\":\"200\"," +
-			    "\"firstName\":\"" + map.get("firstName") + "\"," +
-			    "\"lastName\":\"" + map.get("lastName") + "\"," +
-			    "\"mail\":\"" + map.get("mail") + "\"," +
-			    "\"experience\":\"" + map.get("experience") + "\"," +
-			    "\"certificate\":\"" + map.get("certificate") + "\"" +
-			    "}";
-	    }
-	    return "{" +
-	    	"\"status\":\"400\"," +
-	    	"\"error\":\"Can not find user\"" +
-	    	"}";
+	public List<Pilot> getPilot(ID identification) {
+	    return daoPilot.get(identification.getId());
 	}
 	
 }

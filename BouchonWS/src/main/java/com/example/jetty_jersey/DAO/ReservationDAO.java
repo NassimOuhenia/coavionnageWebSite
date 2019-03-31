@@ -17,7 +17,7 @@ public class ReservationDAO extends DAO<Reservation> {
 	
 
 	@Override
-	public IndexResponse put(Reservation obj) {
+	public String put(Reservation obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -41,7 +41,7 @@ public class ReservationDAO extends DAO<Reservation> {
 	}
 
 	@Override
-	public Map<String, Object> get(String id) {
+	public List<Reservation> get(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

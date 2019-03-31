@@ -34,15 +34,6 @@ import com.example.jetty_jersey.model.ID;
 public class FlightRessource {
 	
 	private FlightDAO daoFlight = DAOFactory.getInstance().getFlightDAO();
-
-	/*@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/flight")
-	public List<Flight> getExample(@QueryParam("departure") String departure, @QueryParam("arrival") String arrival,
-			@QueryParam("date") String date, @QueryParam("travel") String travel, @QueryParam("local") String local) {
-		return daoFlight.search(date, departure, arrival, local, travel);
-
-	}*/
 	
 	//recherche d'un vol
 	@POST
@@ -59,19 +50,7 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/add")
 	public String postFlight(Flight f) {
-		IndexResponse response = daoFlight.put(f);
-		if (response != null) {
-		    if (response .status() == RestStatus.CREATED) {
-			return "{" +
-				"\"status\":\"201\"," +
-				"\"id\":\"" + response.getId() + "\"" +
-				"}";
-		    }
-		}
-		return "{" +
-		    "\"status\":\"500\"," +
-		    "\"error\":\"Flight couldnt be created \"" +
-		    "}";
+		return daoFlight.put(f);
 	}
 
 	
@@ -80,26 +59,8 @@ public class FlightRessource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get")
-	public String get(ID identification) {
-	    Map<String, Object> map = daoFlight.get(identification.getId());
-	    if (map.size() > 0) {
-		return "{" +
-			    "\"status\":\"200\"," +
-			    "\"date\":\"" + map.get("date") + "\"," +
-			    "\"departureAirport\":\"" + map.get("departureAirport") + "\"," +
-			    "\"arrivalAirport\":\"" + map.get("arrivalAirport") + "\"," +
-			    "\"travelTime\":\"" + map.get("travelTime") + "\"," +
-			    "\"price\":\"" + map.get("price") + "\"" +
-			    "\"typeflight\":\"" + map.get("typeflight") + "\"," +
-			    "\"plane\":\"" + map.get("plane") + "\"," +
-			    "\"pilot\":\"" + map.get("pilot") + "\"," +
-			    "\"passagers\":\"" + map.get("passagers") + "\"," +
-			    "}";
-	    }
-	    return "{" +
-	    	"\"status\":\"400\"," +
-	    	"\"error\":\"Can not find flight\"" +
-	    	"}";
+	public List<Flight> get(ID identification) {
+	    return daoFlight.get(identification.getId());
 	}
 	
 	@POST
@@ -107,51 +68,23 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/book")
 	public String book(Reservation r) {
-	    IndexResponse response = daoFlight.book(r);
-	    if (!(response != null && response.status() == RestStatus.CREATED)) {
-		return "{" +
-		    	"\"status\":\"400\"," +
-		    	"\"error\":\"Can not book the flight\"" +
-		    	"}";
+	    String response = daoFlight.book(r);
+	    if (response.contains("400")) {
+		return response;
 	    }
-	    Pilot pilot = (Pilot)daoFlight.get(r.getIdFlight()).get("pilot");
+	    Pilot pilot = daoFlight.get(r.getIdFlight()).get(0).getPilot();
 	    String emailPilot = pilot.getMail();
 	    //Envoyer email
 	    
-	    return "{" +
-	    	"\"status\":\"200\"," +
-	    	"\"message\":\"Well booked\"" +
-	    	"}";
+	    return response;
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/search")
-	public String search(Recherche r) {
-	    SearchResponse response = daoFlight.get(r);
-	    SearchHit[] result = response.getHits().getHits();
-	    String res = "{" +
-		    	"\"status\":\"200\"," +
-		    	"\"result\": {";
-	    for (SearchHit sh : result) {
-		Map<String, Object> map = sh.getSourceAsMap();
-		res += "{" +
-			"\"date\":\"" + map.get("date") + "\"," +
-			"\"departureAirport\":\"" + map.get("departureAirport") + "\"," +
-			"\"arrivalAirport\":\"" + map.get("arrivalAirport") + "\"," +
-			"\"travelTime\":\"" + map.get("travelTime") + "\"," +
-			"\"price\":\"" + map.get("price") + "\"" +
-			"\"typeflight\":\"" + map.get("typeflight") + "\"," +
-			"\"plane\":\"" + map.get("plane") + "\"," +
-			"\"pilot\":\"" + map.get("pilot") + "\"," +
-			"\"passagers\":\"" + map.get("passagers") + "\"," +
-			"}";
-		if (sh != result[result.length-1])
-		    res += ",";
-	    }
-	    res += "}";
-	    return res;
+	public List<Flight> search(Recherche r) {
+	    return daoFlight.get(r);
 	}
 	
 	@POST
@@ -159,17 +92,7 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/book/confirm")
 	public String confirm(ID idPassenger) {
-		UpdateResponse response = daoFlight.updateBook(idPassenger.getId());
-		if(response != null && response.status() == RestStatus.OK) {
-			return "{" +
-			    	"\"status\":\"200\"," +
-			    	"\"message\":\"Well confirmed\"" +
-			    	"}";
-		}
-		return "{" +
-    	"\"status\":\"400\"," +
-    	"\"error\":\"Can not confirm the booking\"" +
-    	"}";
+		return daoFlight.updateBook(idPassenger.getId());
 	}
 	
 

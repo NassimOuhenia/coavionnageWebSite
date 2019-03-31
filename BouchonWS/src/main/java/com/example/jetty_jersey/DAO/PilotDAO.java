@@ -3,7 +3,9 @@ package com.example.jetty_jersey.DAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -24,7 +26,7 @@ public class PilotDAO extends DAO<Pilot> {
 	}
 
 	@Override
-	public IndexResponse put(Pilot obj) {
+	public String put(Pilot obj) {
 		TransportClient client = daofactory.getConnextion();
 		try {
 		    IndexResponse response = client.prepareIndex("pilot", "_doc").setSource(
@@ -38,11 +40,19 @@ public class PilotDAO extends DAO<Pilot> {
 			    		.field("certificate", obj.getCertificate())
 			    	.endObject()
 			    ).get();
-		    return response;
+		    if (response.status() == RestStatus.CREATED) {
+			return "{" +
+				    "\"status\":\"201\"," +
+				    "\"id\":\"" + response.getId() + "\"" +
+				    "}";
+		    }
 		} catch(IOException e) {
 		    e.printStackTrace();
 		}
-		return null;
+		return "{" +
+		    "\"status\":\"500\"," +
+		    "\"error\":\"User couldnt be created \"" +
+		    "}";
 	}
 
 	@Override
@@ -78,9 +88,19 @@ public class PilotDAO extends DAO<Pilot> {
 		return list;
 	}
 	
-	public java.util.Map<String, Object> get(String id) {
+	public List<Pilot> get(String id) {
 	    TransportClient client = daofactory.getConnextion();
-	    return client.prepareGet("pilot", "_doc", id).get().getSource();
+	    GetResponse get = client.prepareGet("pilot", "_doc", id).get();
+	    ArrayList<Pilot> list = new ArrayList<Pilot>();
+	    if(get.isSourceEmpty()) {
+		return list;
+	    }
+	    Map<String, Object> map = get.getSource();
+	    Pilot p = new Pilot(map.get("firstName").toString(), map.get("lastName").toString(),
+		    map.get("mail").toString(), map.get("password").toString(), Integer.parseInt(map.get("experience").toString()),
+		    map.get("certificate").toString());
+	    list.add(p);
+	    return list;
 	}
 
 }

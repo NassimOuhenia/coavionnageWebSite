@@ -36,19 +36,7 @@ public class PlaneRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/add")
 	public String put(Plane p) {
-		IndexResponse response = daoPlane.put(p);
-		if (response != null) {
-			if (response.status() == RestStatus.CREATED) {
-			    return "{" +
-				    "\"status\":\"201\"," +
-				    "\"id\":\"" + response.getId() + "\"" +
-				    "}";
-			}
-		}
-		return "{" +
-		    "\"status\":\"500\"," +
-		    "\"error\":\"Plane couldnt be created \"" +
-		    "}";
+		return daoPlane.put(p);
 	}
 	
 }

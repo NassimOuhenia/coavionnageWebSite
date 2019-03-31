@@ -3,7 +3,9 @@ package com.example.jetty_jersey.DAO;
 import java.io.IOException; 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -25,7 +27,7 @@ public class PassengerDAO extends DAO<Passenger>{
 	}
 
 	@Override
-	public IndexResponse put(Passenger obj) {
+	public String put(Passenger obj) {
 		TransportClient client = daofactory.getConnextion();  
 		try { 
 			IndexResponse response = client.prepareIndex("passenger", "_doc").setSource(
@@ -37,13 +39,20 @@ public class PassengerDAO extends DAO<Passenger>{
 					.field("password",obj.getPassword())
 					.endObject()
 					).get(); 
-			return response; 
+			if (response.status() == RestStatus.CREATED) {
+			    return "{" +
+				    "\"status\":\"201\"," +
+				    "\"id\":\"" + response.getId() + "\"" +
+				    "}";
+			}
 		}
 		catch (IOException e) { 
 			e.printStackTrace();
 		}
-		
-		return null;
+		return "{" +
+	    		"\"status\":\"500\"," +
+	    		"\"error\":\"Plane couldnt be created \"" +
+	    		"}";
 	}
 
 	@Override
@@ -74,9 +83,17 @@ public class PassengerDAO extends DAO<Passenger>{
 	}
 	
 	
-	public java.util.Map<String, Object> get(String id) {
+	public List<Passenger> get(String id) {
 	    TransportClient client = daofactory.getConnextion();
-	    return client.prepareGet("passenger", "_doc", id).get().getSource();
+	    GetResponse get = client.prepareGet("passenger", "_doc", id).get();
+	    ArrayList<Passenger> list = new ArrayList<Passenger>();
+	    if (get.isSourceEmpty()) {
+		return list;
+	    }
+	    Map<String, Object> map = get.getSource();
+	    Passenger p = new Passenger(map.get("firstName").toString(), map.get("lastName").toString(), map.get("mail").toString(), map.get("password").toString());
+	    list.add(p);
+	    return list;
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import org.elasticsearch.action.index.IndexResponse;
 
 public abstract class DAO<T>{
 	  
-	  public abstract IndexResponse put(T obj);
+	  public abstract String put(T obj);
 
 	  public abstract boolean delete(T obj);
 
@@ -15,5 +15,5 @@ public abstract class DAO<T>{
 	  
 	  public abstract List<T> get();
 	 
-	  public abstract java.util.Map<String, Object> get(String id);
+	  public abstract List<T> get(String id);
 }

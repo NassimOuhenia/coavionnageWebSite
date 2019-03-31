@@ -2,17 +2,17 @@ package com.example.jetty_jersey.DAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.rest.RestStatus;
+import org.elasticsearch.search.SearchHit;
 
 import com.example.jetty_jersey.model.*;
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
@@ -23,16 +23,16 @@ public class FlightDAO extends DAO<Flight> {
 	private DAOFactory daofactory;
 
 	public FlightDAO(DAOFactory f) {
-		list.add(new Flight("1",new Date(), "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
-		list.add(new Flight("2",new Date(), "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
-		list.add(new Flight("3",new Date(), "paris", "paris", 35, 2, "travel", new Plane(), new Pilot()));
+		list.add(new Flight("1", "2019-03-21", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
+		list.add(new Flight("2", "2019-03-21", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
+		list.add(new Flight("3", "2019-03-21", "paris", "paris", 35, 2, "travel", new Plane(), new Pilot()));
 		
 		daofactory = f;
 	}
 	
 
 	@Override
-	public IndexResponse put(Flight obj) {
+	public String put(Flight obj) {
 		TransportClient  client = daofactory.getConnextion(); 
 		try { 
 			IndexResponse response = client.prepareIndex("flight","_doc").setSource(
@@ -46,14 +46,21 @@ public class FlightDAO extends DAO<Flight> {
 					.field("typeflight",obj.getTypeflight())
 					.field("plane",obj.getPlane())
 					.field("pilot",obj.getPilot())
-					.field("passagers",obj.getPassagers())
 					.endObject()
 					).get(); 
-			return response; 
+			if (response.status() == RestStatus.CREATED) {
+			    return "{" +
+					"\"status\":\"201\"," +
+					"\"id\":\"" + response.getId() + "\"" +
+					"}";
+			}
 		}catch (IOException e ) { 
 			e.printStackTrace();
 		}
-		return null;
+		return "{" +
+		    "\"status\":\"500\"," +
+		    "\"error\":\"Flight couldnt be created \"" +
+		    "}";
 	}
 
 	@Override
@@ -87,13 +94,23 @@ public class FlightDAO extends DAO<Flight> {
 
 
 	@Override
-	public Map<String, Object> get(String id) {
+	public List<Flight> get(String id) {
 	    TransportClient client = daofactory.getConnextion();
-	    return client.prepareGet("flight", "_doc", id).get().getSource();
+	    ArrayList<Flight> list = new ArrayList<Flight>();
+	    GetResponse get = client.prepareGet("flight", "_doc", id).get();
+	    if (get.isSourceEmpty()) {
+		return list;
+	    }
+	    Map<String, Object> map = get.getSource();
+	    Flight f = new Flight(id, (String)map.get("date"), (String)map.get("departureAirport"), (String)map.get("arrivalAirport"),
+		    Double.valueOf(map.get("travelTime").toString()), Double.valueOf(map.get("price").toString()), (String)map.get("typeFlight"),
+		    (Plane)map.get("plane"), (Pilot)map.get("pilot"));
+	    list.add(f);
+	    return list;
 	}
 
 	
-	public IndexResponse book (Reservation r) {
+	public String book (Reservation r) {
 	    TransportClient  client = daofactory.getConnextion();
 		try { 
 		    IndexResponse response = client.prepareIndex("book","_doc").setSource(
@@ -105,14 +122,22 @@ public class FlightDAO extends DAO<Flight> {
 					.field("confrimed", 0)
 				.endObject()
 				).get(); 
-			return response; 
+		    if (response.status() == RestStatus.CREATED) {
+			return "{" +
+			    	"\"status\":\"201\"," +
+			    	"\"message\":\"Well booked\"" +
+			    	"}";
+		    }
 		}catch (IOException e ) { 
 			e.printStackTrace();
 		}
-		return null;
+		return "{" +
+	    		"\"status\":\"400\"," +
+	    		"\"error\":\"Can not book the flight\"" +
+	    		"}";
 	}
 	
-	public SearchResponse get(Recherche r) {
+	public List<Flight> get(Recherche r) {
 	    TransportClient client = daofactory.getConnextion();
 	    
 	    int typeFlight = 0;
@@ -128,11 +153,20 @@ public class FlightDAO extends DAO<Flight> {
 			.setQuery(QueryBuilders.termQuery("date", r.getDate()))
 			.get();
 	    
-	    return response;
+	    SearchHit[] result = response.getHits().getHits();
+	    ArrayList<Flight> list = new ArrayList<Flight>();
+	    for (SearchHit sh : result) {
+		Map<String, Object> map = sh.getSourceAsMap();
+		Flight f = new Flight(sh.getId(), map.get("date").toString(), map.get("departureAirport").toString(), map.get("arrivalAirport").toString(),
+		    Double.valueOf(map.get("travelTime").toString()), Double.valueOf(map.get("price").toString()), map.get("typeFlight").toString(),
+		    (Plane)map.get("plane"), (Pilot)map.get("pilot"));
+		list.add(f);
+	    }
+	    return list;
 	    
 	}
 	
-	public UpdateResponse updateBook(String idPassenger) {
+	public String updateBook(String idPassenger) {
 		TransportClient client = daofactory.getConnextion();
 		try {
 			UpdateResponse update = client.prepareUpdate("book", "_doc", idPassenger)
@@ -140,14 +174,19 @@ public class FlightDAO extends DAO<Flight> {
 							.startObject()
 							.field("confirmed",1)
 							.endObject()).get();
-			return update;
+			if(update.status() == RestStatus.OK) {
+			    return "{" +
+				    	"\"status\":\"200\"," +
+				    	"\"message\":\"Well confirmed\"" +
+				    	"}";
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
 		}
-		
-		
+		return "{" +
+	    	"\"status\":\"400\"," +
+	    	"\"error\":\"Can not confirm the booking\"" +
+	    	"}";
 	}
 	
 }

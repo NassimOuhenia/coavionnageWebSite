@@ -8,7 +8,7 @@ import java.util.List;
 public class Flight {
 
 	private String idFlight;
-	private Date date;
+	private String date;
 	private String departureAirport;
 	private String arrivalAirport;
 	private double travelTime;
@@ -18,7 +18,7 @@ public class Flight {
 	private Pilot pilot;
 	private List<Passenger> passagers;
 
-	public Flight(String idFlight, Date date, String departureAirport, String arrivalAirport, double travelTime,
+	public Flight(String idFlight, String date, String departureAirport, String arrivalAirport, double travelTime,
 			double price, String typeflight, Plane plane, Pilot pilot) {
 		super();
 		this.idFlight = idFlight;
@@ -36,11 +36,11 @@ public class Flight {
 	public Flight() {
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.rest.RestStatus;
+
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
 import com.example.jetty_jersey.model.Plane;
@@ -22,7 +24,7 @@ public class PlaneDAO extends DAO<Plane>{
 	}
 	
 	@Override
-	public IndexResponse put(Plane obj) {
+	public String put(Plane obj) {
 	    	TransportClient client = daofactory.getConnextion();
 	    	IndexResponse response;
 	    	
@@ -35,11 +37,19 @@ public class PlaneDAO extends DAO<Plane>{
 	    				.field("numberplace", obj.getNumberplace())
 	    			.endObject())
 	    		.get();
-	    	    return response;
+	    	    if (response.status() == RestStatus.CREATED) {
+	    		return "{" +
+				    "\"status\":\"201\"," +
+				    "\"id\":\"" + response.getId() + "\"" +
+				    "}";
+	    	    }
 	    	} catch (IOException e) {
 	    	    e.printStackTrace();
 	    	}
-	    	return null;
+	    	return "{" +
+		    "\"status\":\"500\"," +
+		    "\"error\":\"Plane couldnt be created \"" +
+		    "}";
 	}
 
 	@Override
@@ -61,7 +71,7 @@ public class PlaneDAO extends DAO<Plane>{
 	}
 
 	@Override
-	public Map<String, Object> get(String id) {
+	public List<Plane> get(String id) {
 	    // TODO Auto-generated method stub
 	    return null;
 	}
