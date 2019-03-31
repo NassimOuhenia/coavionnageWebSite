@@ -34,7 +34,7 @@ public class PlaneDAO extends DAO<Plane>{
 	    			.startObject()
 	    				.field("modele", obj.getModele())
 	    				.field("name" , obj.getName())
-	    				.field("numberplace", obj.getNumberplace())
+	    				.field("numberplace", obj.getNumberPlace())
 	    			.endObject())
 	    		.get();
 	    	    if (response.status() == RestStatus.CREATED) {

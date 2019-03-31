@@ -23,6 +23,7 @@ import org.elasticsearch.search.SearchHit;
 
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.FlightDAO;
+import com.example.jetty_jersey.DAO.ReservationDAO;
 import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.Plane;
@@ -34,6 +35,7 @@ import com.example.jetty_jersey.model.ID;
 public class FlightRessource {
 	
 	private FlightDAO daoFlight = DAOFactory.getInstance().getFlightDAO();
+	private ReservationDAO daoReservation = DAOFactory.getInstance().getReservationDAO();
 	
 	//recherche d'un vol
 	@POST
@@ -50,6 +52,7 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/add")
 	public String postFlight(Flight f) {
+	    System.out.println(f.getDepartureAirport());
 		return daoFlight.put(f);
 	}
 
@@ -68,7 +71,7 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/book")
 	public String book(Reservation r) {
-	    String response = daoFlight.book(r);
+	    String response = daoReservation.put(r);
 	    if (response.contains("400")) {
 		return response;
 	    }
@@ -91,8 +94,8 @@ public class FlightRessource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/book/confirm")
-	public String confirm(ID idPassenger) {
-		return daoFlight.updateBook(idPassenger.getId());
+	public boolean confirm(ID idReservation) {
+		return daoReservation.update(null, idReservation.getId());
 	}
 	
 

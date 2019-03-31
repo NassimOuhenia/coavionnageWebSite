@@ -2,27 +2,27 @@ package com.example.jetty_jersey.model;
 
 public class Plane {
 
-	private int idplane;
+	private int idPlane;
 	private String modele;
 	private String name;
-	private int numberplace;
+	private int numberPlace;
 
-	public Plane(int nbP, String md, String nm, int nbplace) {
-		idplane = nbP;
-		modele = md;
-		name = nm;
-		numberplace = nbplace;
+	public Plane(int idPlane, String modele, String name, int numberPlace) {
+		this.idPlane = idPlane;
+		this.modele = modele;
+		this.name = name;
+		this.numberPlace = numberPlace;
 	}
 
 	public Plane() {
 	}
 
-	public int getIdplane() {
-		return idplane;
+	public int getIdPlane() {
+		return idPlane;
 	}
 
-	public void setIdplane(int idplane) {
-		this.idplane = idplane;
+	public void setIdPlane(int idPlane) {
+		this.idPlane = idPlane;
 	}
 
 	public String getModele() {
@@ -41,12 +41,12 @@ public class Plane {
 		name = m;
 	}
 
-	public int getNumberplace() {
-		return numberplace;
+	public int getNumberPlace() {
+		return numberPlace;
 	}
 
-	public void setNumberplace(int numberplace) {
-		this.numberplace = numberplace;
+	public void setNumberPlace(int numberPlace) {
+		this.numberPlace = numberPlace;
 	}
 
 }

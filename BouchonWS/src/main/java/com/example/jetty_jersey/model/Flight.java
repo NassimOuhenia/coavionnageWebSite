@@ -1,13 +1,10 @@
 package com.example.jetty_jersey.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class Flight {
 
-	private String idFlight;
 	private String date;
 	private String departureAirport;
 	private String arrivalAirport;
@@ -18,16 +15,15 @@ public class Flight {
 	private Pilot pilot;
 	private List<Passenger> passagers;
 
-	public Flight(String idFlight, String date, String departureAirport, String arrivalAirport, double travelTime,
-			double price, String typeflight, Plane plane, Pilot pilot) {
+	public Flight(String date, String departureAirport, String arrivalAirport, double travelTime,
+			double price, String typeFlight, Plane plane, Pilot pilot) {
 		super();
-		this.idFlight = idFlight;
 		this.date = date;
 		this.departureAirport = departureAirport;
 		this.arrivalAirport = arrivalAirport;
 		this.travelTime = travelTime;
 		this.price = price;
-		this.typeflight = typeflight;
+		this.typeflight = typeFlight;
 		this.plane = plane;
 		this.pilot = pilot;
 		passagers = new ArrayList<Passenger>();
@@ -44,20 +40,20 @@ public class Flight {
 		this.date = date;
 	}
 
-	public String getDeparture_airport() {
+	public String getDepartureAirport() {
 		return departureAirport;
 	}
 
-	public void setDeparture_airport(String departure_airport) {
-		this.departureAirport = departure_airport;
+	public void setDepartureAirport(String departureAirport) {
+		this.departureAirport = departureAirport;
 	}
 
-	public String getArrival_airport() {
+	public String getArrivalAirport() {
 		return arrivalAirport;
 	}
 
-	public void setArrival_airport(String arrival_airport) {
-		this.arrivalAirport = arrival_airport;
+	public void setArrivalAirport(String arrivalAirport) {
+		this.arrivalAirport = arrivalAirport;
 	}
 
 	public double getTravelTime() {
@@ -76,11 +72,11 @@ public class Flight {
 		this.price = price;
 	}
 
-	public String getTypeflight() {
+	public String getTypeFlight() {
 		return typeflight;
 	}
 
-	public void setTypeflight(String typeflight) {
+	public void setTypeFlight(String typeflight) {
 		this.typeflight = typeflight;
 	}
 
@@ -106,10 +102,6 @@ public class Flight {
 
 	public void setPassagers(List<Passenger> passagers) {
 		this.passagers = passagers;
-	}
-
-	public String getIdFlight() {
-		return idFlight;
 	}
 
 }
