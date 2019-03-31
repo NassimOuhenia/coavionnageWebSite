@@ -49,7 +49,7 @@ public class PlaneDAO extends DAO<Plane>{
 	}
 
 	@Override
-	public boolean update(Plane obj) {
+	public boolean update(Plane obj, String idPassenger) {
 		// TODO Auto-generated method stub
 		return false;
 	}

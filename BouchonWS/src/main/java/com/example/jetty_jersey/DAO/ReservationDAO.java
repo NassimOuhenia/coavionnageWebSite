@@ -29,7 +29,7 @@ public class ReservationDAO extends DAO<Reservation> {
 	}
 
 	@Override
-	public boolean update(Reservation obj) {
+	public boolean update(Reservation obj, String idPassenger) {
 		// TODO Auto-generated method stub
 		return false;
 	}

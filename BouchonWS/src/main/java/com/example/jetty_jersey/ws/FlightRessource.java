@@ -26,25 +26,12 @@ import com.example.jetty_jersey.DAO.FlightDAO;
 import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.Plane;
+import com.example.jetty_jersey.model.Recherche;
+import com.example.jetty_jersey.model.Reservation;
 import com.example.jetty_jersey.model.ID;
 
 @Path("/flights")
 public class FlightRessource {
-
-	public static class Recherche {
-	    	String type_local; //Temporaire
-	    	String type_travel; //Temporaire
-		String typeFlight;
-		Date date;
-		String departure;
-		String arrival;
-	}
-	
-	public static class Reservation{
-		String idPassenger;
-		String idFlight;
-		int numberPlace;
-	}
 	
 	private FlightDAO daoFlight = DAOFactory.getInstance().getFlightDAO();
 
@@ -61,9 +48,9 @@ public class FlightRessource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/search")
+	@Path("/searchBouchon")
 	public List<Flight> searchFlight(Recherche r) {
-		return daoFlight.search(r.type_local,r.type_travel,r.date,r.departure,r.arrival);
+		return daoFlight.search(r.getTypeLocal(),r.getTypeTravel(),r.getDate(),r.getDeparture(),r.getArrival());
 	}
 	
 	//planifié un vol
@@ -86,15 +73,7 @@ public class FlightRessource {
 		    "\"error\":\"Flight couldnt be created \"" +
 		    "}";
 	}
-	
-	//reserver un vol
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	//@Produces(MediaType.APPLICATION_JSON)
-	@Path("/book")
-	public void bookFlight(Reservation r) {
-		//daoFlight.put();
-	}
+
 	
 	//Recuperer infos d'un vol
 	@POST
@@ -128,14 +107,14 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/book")
 	public String book(Reservation r) {
-	    IndexResponse response = daoFlight.book(r.idFlight, r.idPassenger, r.numberPlace);
+	    IndexResponse response = daoFlight.book(r);
 	    if (!(response != null && response.status() == RestStatus.CREATED)) {
 		return "{" +
 		    	"\"status\":\"400\"," +
 		    	"\"error\":\"Can not book the flight\"" +
 		    	"}";
 	    }
-	    Pilot pilot = (Pilot)daoFlight.get(r.idFlight).get("pilot");
+	    Pilot pilot = (Pilot)daoFlight.get(r.getIdFlight()).get("pilot");
 	    String emailPilot = pilot.getMail();
 	    //Envoyer email
 	    
@@ -150,7 +129,7 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/search")
 	public String search(Recherche r) {
-	    SearchResponse response = daoFlight.get(r.typeFlight, r.date, r.departure, r.arrival);
+	    SearchResponse response = daoFlight.get(r);
 	    SearchHit[] result = response.getHits().getHits();
 	    String res = "{" +
 		    	"\"status\":\"200\"," +

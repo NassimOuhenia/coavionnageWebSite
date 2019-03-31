@@ -63,7 +63,7 @@ public class FlightDAO extends DAO<Flight> {
 	}
 
 	@Override
-	public boolean update(Flight obj) {
+	public boolean update(Flight obj, String idPassenger) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -74,7 +74,7 @@ public class FlightDAO extends DAO<Flight> {
 		return list;
 	}
 	
-	public List<Flight> search(String local, String travel, Date date, String departure, String arrival) { 
+	public List<Flight> search(String local, String travel, String date, String departure, String arrival) { 
 	
 		ArrayList<Flight> l = new ArrayList <Flight>();
 		for(Flight f : list) {
@@ -93,15 +93,15 @@ public class FlightDAO extends DAO<Flight> {
 	}
 
 	
-	public IndexResponse book (String idFlight, String idPassenger, int numberPlace) {
-	    TransportClient  client = daofactory.getConnextion(); 
+	public IndexResponse book (Reservation r) {
+	    TransportClient  client = daofactory.getConnextion();
 		try { 
 		    IndexResponse response = client.prepareIndex("book","_doc").setSource(
 			    jsonBuilder()
 			    	.startObject()
-			    		.field("idFlight", idFlight)
-					.field("idPassenger", idPassenger)
-					.field("numberPlace", numberPlace)
+			    		.field("idFlight", r.getIdFlight())
+					.field("idPassenger", r.getIdPassenger())
+					.field("numberPlace", r.getNumberPlace())
 					.field("confrimed", 0)
 				.endObject()
 				).get(); 
@@ -112,15 +112,20 @@ public class FlightDAO extends DAO<Flight> {
 		return null;
 	}
 	
-	public SearchResponse get(String typeFlight, Date date, String departure, String arrival) {
+	public SearchResponse get(Recherche r) {
 	    TransportClient client = daofactory.getConnextion();
+	    
+	    int typeFlight = 0;
+	    if (r.getTypeLocal() == null) {
+		typeFlight++;
+	    }
 	    
 	    SearchResponse response = client.prepareSearch("flight")
 		    .setTypes("_doc")
 		    	.setQuery(QueryBuilders.termQuery("typeflight", typeFlight))
-			.setQuery(QueryBuilders.termQuery("departureAirport", departure))
-			.setQuery(QueryBuilders.termQuery("arrivalAirport", arrival))
-			.setQuery(QueryBuilders.termQuery("date", date))
+			.setQuery(QueryBuilders.termQuery("departureAirport", r.getDeparture()))
+			.setQuery(QueryBuilders.termQuery("arrivalAirport", r.getArrival()))
+			.setQuery(QueryBuilders.termQuery("date", r.getDate()))
 			.get();
 	    
 	    return response;
