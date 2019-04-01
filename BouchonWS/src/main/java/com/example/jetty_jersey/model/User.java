@@ -29,7 +29,7 @@ public class User {
 	}
 
 	public void setLastName(String lastNam) {
-		lastName = lastName;
+		lastName = lastNam;
 	}
 
 	public String getMail() {
