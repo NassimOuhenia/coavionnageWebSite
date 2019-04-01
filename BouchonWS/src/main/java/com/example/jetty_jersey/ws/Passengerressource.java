@@ -1,38 +1,33 @@
 package com.example.jetty_jersey.ws;
 
-
-import java.util.List;
-
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
+import com.example.jetty_jersey.DAO.PassengerDAO;
 import com.example.jetty_jersey.DAO.PilotDAO;
+import com.example.jetty_jersey.model.Passenger;
 import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.User;
 
 
-@Path("/user/pilots/")
-public class PilotRessource {
-
-	private PilotDAO daoPilot = DAOFactory.getInstance().getPiloteDAO();
+@Path("/user/passenger/")
+public class Passengerressource {
+	private PassengerDAO daoPassenger = DAOFactory.getInstance().getPassengerDAO();
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/signup")
-	public Pilot createPilot(User pilote) {
-		Pilot pilot=new Pilot(pilote.getFirstName(), pilote.getLastName(), pilote.getMail(), pilote.getPassword(),
-				0, "");
+	public Passenger createPilot(User passenger) {
+		Passenger ps=new Passenger(passenger.getFirstName(), passenger.getLastName(), passenger.getMail(), passenger.getPassword());
 		
-		if(daoPilot.put(pilot)) {
+		if(daoPassenger.put(ps)) {
 			//System.out.println("hhhhh");
-		return pilot;	
+		return ps;	
 		}else {
 			return null;
 		}
@@ -44,13 +39,11 @@ public class PilotRessource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signin")
-	public Pilot loginpilot(User pilote) {
+	public Passenger loginpilot(User p) {
 		
-		Pilot pilot=new Pilot(pilote.getFirstName(), pilote.getLastName(), pilote.getMail(), pilote.getPassword(),
-				0, "");
+		Passenger pas=new Passenger(p.getFirstName(), p.getLastName(), p.getMail(), p.getPassword());
 		
-		return daoPilot.Searchpilote(pilot);
+		return daoPassenger.SearchPassenger(pas);
 		
 	}
-	
 }

@@ -54,6 +54,21 @@ $(function(){
 	});
 });
 
+$(function(){
+	$("#rFlight").click(function(){
+		//construction des donne de recherche
+		var data={typeLocal:$("#localr").val(),
+			typeTravel:$("#travelr").val(),
+			date:$("#dater").val(),
+			departure:$("#departurer").val(),
+			arrival:$("#arrivalr").val()
+		};
+		getServerData(urlSearchFlight, afterSearch, 'post', data);
+	});
+});
+
+
+
 //click de bouton planifié vol
 $(function(){
 	$("#pFlight").click(function(){

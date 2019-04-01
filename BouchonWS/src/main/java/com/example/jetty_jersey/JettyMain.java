@@ -26,6 +26,7 @@ public class JettyMain {
 		connector.setPort(8080);
 		connector.setIdleTimeout(30000);
 		server.addConnector(connector);
+		
 
 		// Configure Jersey
 		ResourceConfig rc = new ResourceConfig();
