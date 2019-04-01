@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.PilotDAO;
+import com.example.jetty_jersey.model.Passenger;
 import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.User;
 
@@ -26,31 +27,25 @@ public class PilotRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/signup")
-	public Pilot createPilot(User pilote) {
-		Pilot pilot=new Pilot(pilote.getFirstName(), pilote.getLastName(), pilote.getMail(), pilote.getPassword(),
-				0, "");
-		
-		if(daoPilot.put(pilot)) {
-			//System.out.println("hhhhh");
-		return pilot;	
-		}else {
-			return null;
-		}
-		
-	
+	public Pilot createPilot(Pilot pilot) {
+		if(daoPilot.put(pilot))
+			System.out.println("pilot ajouter");
+		else
+			System.out.println("pilot pas ajouter");
+		return pilot;
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signin")
-	public Pilot loginpilot(User pilote) {
-		
-		Pilot pilot=new Pilot(pilote.getFirstName(), pilote.getLastName(), pilote.getMail(), pilote.getPassword(),
-				0, "");
-		
-		return daoPilot.Searchpilote(pilot);
-		
+	public Pilot loginpilot(Pilot pilot) {
+		Pilot p=daoPilot.searchPilot(pilot);
+		if(p==null)
+			System.out.println("je ne t'ai pas trouvé");
+		else
+			System.out.println("autorisation d'entré");
+		return p;
 	}
 	
 }

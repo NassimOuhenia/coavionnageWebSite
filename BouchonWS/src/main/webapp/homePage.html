@@ -1,128 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-
- <meta charset="utf-8">
-<title>home page</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-<script type="text/javascript" src="homePage.js"></script>
-<script type="text/javascript" src="home.js"></script>
-
-<link rel="stylesheet" href="img/hPage.css">
-
-</head>
-<body>
-	<header>
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#"> <img src="img/avion_opt.png"
-						alt="">
-					</a>
+	<head>
+		<meta charset="utf-8">
+		<title>home page</title>
+		<link rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+		</script>
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js">
+		</script>
+		<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js">
+		</script>
+		<script type="text/javascript"
+			src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js">
+		</script>
+		<script type="text/javascript" src="homePage.js">
+		</script>
+		<link rel="stylesheet" type="text/css" href="homePage.css">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="">Blablaplane</a>
+					</div>
+					<ul class="nav navbar-nav">
+						<li><a href="#"> <img src="image/facebook-logo.png"></a></li>
+						<li><a href="#"> <img src="image/twitter.png"></a></li>
+						<li><a href="#"> <img src="image/instagram.png"></a></li>
+						<!--<li class="passenger connected"><a href="#" id="lienRecherche">search flight</a></li>
+						<li class="passenger connected"><a href="#" id="">my reservations</a></li>
+						<li class="pilot connected"><a href="#" data-toggle="modal"
+							data-target="#postFlight">book flight</a></li>-->
+					</ul>
+					<button class="btn navbar-btn passenger connected" id="lienRecherche">search flight</button>
+					<button class="btn navbar-btn passenger connected" id="lienReservation">my reservations</button>
+					<button class="btn navbar-btn pilot connected" data-toggle="modal"
+							data-target="#postFlight">book flight</button>
+					<ul class="nav navbar-nav navbar-right">
+						<li id="sin"><a href="#" data-toggle="modal"
+							data-target="#signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+						<li id="lin"><a href="#" data-toggle="modal"
+							data-target="#signin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+						<li id="logOut"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+					</ul>
 				</div>
-				<ul class="nav navbar-nav">
-					<li><a href="#"> <img src="img/facebook-logo.png"></a></li>
-					<li><a href="#"> <img src="img/twitter.png"></a></li>
-					<li><a href="#"> <img src="img/instagram.png"></a></li>
-					<li><a href="#"> <img src="img/github.png"></a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li id="connecter"><a href="#" data-toggle="modal"
-						data-target="#signin">SIGN IN</a></li>
-					<li id="inscrire"><a href="#" data-toggle="modal"
-						data-target="#signup">SIGN UP</a></li>
-					<li id="mes vols" style="display: none;"><button
-							class="btn btn-info">My Flights</button></li>
-					<li id="mes reservations" style="display: none;"><button
-							class="btn btn-info">My Reservations</button></li>
-					<li id="logout" style="display: none;"><button
-							class="btn btn-info">LOGOUT</button></li>
-				</ul>
-			</div>
-		</nav>
-	</header>
-	<div class="modal fade" id="signin" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4>sign in</h4>
-				</div>
-				<div class="modal-body">
-				<p class="signup-sucess"></p>
-					<p>
-						don't have an account? <a href="#" data-dismiss="modal"
-							data-target="#signup" data-toggle="modal">Sign up</a>
-					</p>
-
-					<div id="formsignin">
-					<h4>I am?</h4>
-						<input type="radio" name="type" value="pilot"> Pilot <input
-							type="radio" name="type" value="passenger" checked>
-						Passenger <br> <br> 
-						<input class="champs" type="text" id="mailog" name="login" required
-							placeholder="email*"> <br> <br> <input
-							class="champs" id="logpass" type="password" name="password" required
-							placeholder="password*"> <br> <br>
-							<div class="error-form"></div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">Close</button>
-							<button type="submit" id="connectuser" class="btn btn-primary">Sign in</button>
+			</nav> 
+		</header>
+		<div class="modal fade" id="signin" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4>sign in</h4>
+					</div>
+					<div class="modal-body">
+						<p class="signup-sucess"></p>
+						<p>	don't have an account? <a href="#" data-dismiss="modal"
+								data-target="#signup" data-toggle="modal">Sign up</a>
+						</p>
+						<div id="formsignin">
+							<h4>I am?</h4>
+							<input type="radio" name="type" value="pilot"> Pilot <input
+								type="radio" name="type" value="passenger" checked>
+								Passenger <br> <br> 
+							<input class="champs" type="text" id="mailog" name="login" required
+								placeholder="email*">
+							<br>
+							<br>
+							<input class="champs" id="logpass" type="password" name="password" required
+								placeholder="password*">
+							<br>
+							<br>
+							<div class="error-form">
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Close
+								</button>
+								<button type="submit" id="connectuser" class="btn btn-primary">Sign in</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
-	</div>
 	<div class="modal fade" id="signup" role="dialog">
 		<div class="modal-dialog">
-
-			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4>sign up</h4>
 				</div>
 				<div class="modal-body">
-					<p>
-						Already a me mber? <a href="#" data-dismiss="modal"
+					<p>	Already a me mber? <a href="#" data-dismiss="modal"
 							data-target="#signin" data-toggle="modal">Sign in</a>
 					</p>
 					<div id="formsignup">
 						<h4>I am?</h4>
-						<input type="radio" name="type" value="pilot"> Pilot <input
-							type="radio" name="type" value="passenger" checked>
-						Passenger <br> <br> 
-						
+						<input type="radio" name="type" value="pilot"> Pilot 
+						<input type="radio" name="type" value="passenger" checked>
+							Passenger
+						<br>
+						<br> 
 						<input class="champs" type="text" id="firstName"
 							name="fName" required placeholder="First Name*"> 
-							<br>
-						<br> <input class="champs" type="text" id="lastName" name="lName" required
-							placeholder="Last Name*"> <br> <br>
-							 
-							<input
-							class="champs" type="email" id="mail" name="email" required
-							placeholder="Email*"> <br> <br> 
-							<input
-							class="champs" type="password" id="password" name="password" required
+						<br>
+						<br>
+						<input class="champs" type="text" id="lastName" name="lName" required
+						placeholder="Last Name*">
+						<br>
+						<br>
+						<input class="champs" type="email" id="mail" name="email" required
+							placeholder="Email*">
+						<br>
+						<br> 
+						<input class="champs" type="password" id="password" name="password" required
 							placeholder="Password*"> <br> <br> 
-							<input
-							class="champs" type="password" id="#passwordc" name="cPassword" required
-							placeholder="Confirm Password*"/> <br> <br>
-							<div class="error-form"></div>
+						<input class="champs" type="password" id="#passwordc" name="cPassword" required
+							placeholder="Confirm Password*">
+						<br>
+						<br>
+						<div class="error-form">
+						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>
@@ -131,212 +134,122 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
-	<div class="modal fade" id="postFlight" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4>post flight</h4>
-				</div>
-				<div class="modal-body">
-					<div id="formsignup">
-						<h4>Type?</h4>
-						<input type="radio" name="type" id="travelp" value="travel"
-							checked> Travel <input type="radio" name="type"
-							id="localp" value="local"> Local Flight <br> <br>
-						<input class="champs" type="date" name="date" id="datep" required>
-						<br> <br> Time <input type="time" id="timep"
-							value="00:00"> <br> <br> <input class="champs"
-							type="text" name="departureAirport" id="departurep" required
-							placeholder="departure"> <br> <br> <input
-							class="champs" type="text" name="arrivalAirport" id="arrivalp"
-							required placeholder="arrival"> <br> <br> <input
-							class="champs" type="number" name="travelTime" id="travelTimep"
-							required placeholder="travel time"> <br> <br> <input
-							class="champs" type="number" id="pricep" name="price" required
-							placeholder="price $$"> <br> <br> <select>
-							<option value="ATR">ATR</option>
-							<option value="Boing">Boing</option>
-							<option value="Concorde">Concorde</option>
-						</select>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">Close</button>
-							<button id="pFlight" class="btn btn-primary">Post</button>
+		<div class="modal fade" id="postFlight" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4>post flight</h4>
+					</div>
+					<div class="modal-body">
+						<div id="formpostFlight">
+							<h4>Type?</h4>
+							<input type="radio" name="type" id="travelpost" value="travel" checked> 
+								Travel 
+							<input type="radio" name="type" id="localpost" value="local">
+								Local Flight 
+							<br>
+							<br>
+							date <input class="champs" type="date" id="datepost" required>
+							<br>
+							<br>
+							Time <input type="time" id="timepost" value="00:00">
+							<br>
+							<br>
+							departure <input class="champs" type="text" id="departurepost" required
+								placeholder="departure"> 
+							<br>
+							<br>
+							arrival <input class="champs" type="text" id="arrivalpost"
+								required placeholder="arrival">
+							<br>
+							<br>
+							travel time <input class="champs" type="number" id="traveltimepost"
+								required placeholder="travel time">
+							<br>
+							<br>
+							price <input class="champs" type="number" id="pricepost" required
+								placeholder="price $$">
+							<br>
+							<br>
+							number of seat <input class="champs" type="number" id="placepost" required
+								placeholder="number of seat">
+							<br>
+							<br>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Close</button>
+								<button id="postflight" class="btn btn-primary">Post</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
-	</div>
-
-	<div class="modal fade" id="resultSearch" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4>Flights found</h4>
-				</div>
-				<div class="modal-body">
-					<div id="flightsFound">
-						<script id="ajoutr" type="text/template">
-							<ul>
-							<li>
-		 					<div id="detail-vol">
-    							<span class="trajet"><%= depart %> ▶ <%= arrive %><br><span class="type-vol">Vol par beau temps (VFR) <!--[0 km]--></span></span>
-					    		<span class="date-vol"><%= date %></span>
-    							<span class="avion">Avion : Diamond - DA40</span>
-    							<div>TYPE:<%= type %></div>
-		  					</div>
-							</li>
-							</ul>
-
-					</script>	
-					<div id="notfound" style="display: none;">
-				         <h3>No flight found !</h3>
-			        </div>
-					<div  id="resultr"></div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
+		<br>
+		<div class="container-fluid passenger" id="recherche">
+			<div class="row">
+				<div align="center">
+					<h1>BLABLAPLANE</h1>
+					<h4>share your flight!</h4>
 				</div>
 			</div>
-
-		</div>
-	</div>	
-	
-	<div class="centre">
-		<img src="img/avion2.png">
-		<h1>BLABLAPLANE</h1>
-		<h4>share your flight!</h4>
-	</div>
-
-	<section>
-	  <h4>FIND A FLIGHT!</h4>
-	  <div class="backgroud">
-	    <div id="formr">
-	      <div class="col-lg-2">
-	        <input type="checkbox" name="travel" value="travel" id="travelr" checked><label
-	          for="travel">TRAVEL</label> <br> <input type="checkbox"
-	          name="local" value="local" id="localr" checked><label for="local">LOCAL
-	          FLIGHT</label>
-	      </div>
-	      <div class="search">
-	        <img class="chmaps" src="img/calendar.png" alt="">
-	        <input class="champs" type="date" name="date" id="dater" />
-	        <img class="chmaps" src="img/departure.png" alt="" />
-	        <input class="champs" type="text" name="departure" id="departurer" placeholder="departure" required />
-	        <img class="chmaps" src="img/arrival.png" alt="" />
-	        <input class="champs" type="text" name="arrival" id="arrivalr" value="" placeholder="arrival" required />
-	
-	        <a class="btn btn-primary" id="rFlight" href="#" data-toggle="modal" data-target="#resultSearch">
-	        <span class="glyphicon glyphicon-search"></span>Search</a>
-	
-	      </div>
-	    </div>
-	  </div>
-	  <br>
-	  <div class="row">
-	    <div class="col-lg-6">
-	      <a href="#" data-dismiss="modal"
-	        data-target="#postFlight" data-toggle="modal" class="btn btn-primary">POST A FLIGHT</a>
-	    </div>
-	    <div class="col-lg-6">
-	      <a href="#" class="btn btn-primary">BOOK A FLIGHT</a>
-	    </div>
-	  </div>
-	  <br>
-	</section>
-
-	<footer>
-		<div class="container">
-			<div id="myCarousel" class="carousel slide" data-ride="carousel">
-				<!-- Indicators -->
-				<ol class="carousel-indicators">
-					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-					<li data-target="#myCarousel" data-slide-to="1"></li>
-					<li data-target="#myCarousel" data-slide-to="2"></li>
-
-				</ol>
-
-				<!-- Wrapper for slides -->
-				<div class="carousel-inner">
-					<div class="item active">
-						<a href="#"> <img src="img/paris_opt.jpg"></a>
-						<div class="carousel-caption">
-							<h3>Discover Paris</h3>
-							<p>Effel Tower!</p>
+			<br>
+			<div class="row" id="formsearch">
+				<div align="center">
+					<div class="form-inline" action="">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+							<input type="date" class="form-control" id="datesearch">
 						</div>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+							<input type="text" class="form-control" id="departuresearch" placeholder="departure">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
+							<input type="text" class="form-control" id="arrivalsearch" placeholder="arrival">
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id="travelsearch">travel</label>
+							<br>
+							<label><input type="checkbox" id="localsearch">local</label>
+						</div>
+						<button id="search" class="btn btn-default">search</button>
+					</div> 
+				</div>
+			</div>
+			<br>
+			<div class="col-sm-2 col-sm-offset-5">
+				<h1 id="notfound">no flights</h1>
+			</div>
+			<script id="ajoutsearch" type="text/template">
+				<div class="listFlight col-sm-6 col-sm-offset-3">
+					<div class="col-sm-8">
+						<h4><%=depart%> ▶ <%=arrive%></h4>
+						<hr>
+						<h4><%=date%> <%=time%></h4>
+						<hr>
+						<h4>Pilot : <%=pilote%> with plane modele:<%=modele%></h4>
+						<hr>
+						<h4>Price : <%=price%> €</h4>
 					</div>
-
-					<div class="item">
-						<a href="#"> <img src="img/london_opt.jpg"></a>
-						<div class="carousel-caption">
-							<h3>Discover London</h3>
-							<p>Thank you London!</p>
-						</div>
-
-					</div>
-					<div class="item">
-						<a href="#"> <img src="img/amsterdam_opt.jpg"></a>
-						<div class="carousel-caption">
-							<h3>Discover Amsterdam</h3>
-							<p>Always so much fun!</p>
-						</div>
+					<div class="col-sm-4" align="center">
+						<h3><%=place%> seat left</h3>
+						<p><input  type="number" value="1"></p>
+						<p><button type="button" id="bookFlight" onclick="bookFlight()" 
+							class="btn btn-primary btn-lg">book</button></p>
 					</div>
 				</div>
-				<!-- Left and right controls -->
-				<a class="left carousel-control" href="#myCarousel"
-					data-slide="prev"> <span
-					class="glyphicon glyphicon-chevron-left"></span> <span
-					class="sr-only">Previous</span>
-				</a> <a class="right carousel-control" href="#myCarousel"
-					data-slide="next"> <span
-					class="glyphicon glyphicon-chevron-right"></span> <span
-					class="sr-only">Next</span>
-				</a>
+			</script>
+			<div id="resultsearch">
 			</div>
 		</div>
-	</footer>
-	<section class="footer">
-		<div class="row">
-			<div class="col-lg-4">
-				<h3>ABOUT</h3>
-				<ul class="nav navbar-nav navbar-center">
-					<li><a href="#" style="color: black;">SIGN IN</a></li>
-					<li><a href="#" style="color: black;">SIGN UP</a></li>
-				</ul>
-			</div>
-			<div class="col-lg-4">
-				<h3>DISCOVER</h3>
-				<ul class="nav navbar-nav navbar-center">
-					<li class=""><a href="#" data-toggle="modal"
-						data-target="#signin">SIGN IN</a></li>
-					<li class=""><a href="#" data-toggle="modal"
-						data-target="#signup">SIGN UP</a></li>
-				</ul>
-			</div>
-			<div class="col-lg-4">
-				<h3>FOLLOW US</h3>
-				<ul class="nav navbar-nav">
-					<li><a href="#"> <img src="img/facebook-logo.png"></a></li>
-					<li><a href="#"> <img src="img/twitter.png"></a></li>
-					<li><a href="#"> <img src="img/instagram.png"></a></li>
-				</ul>
-			</div>
+		<div class="container-fluid" id="reservation">
+		
 		</div>
-		<div class="copyright">
-			<h5>© BLABLAPLANE 2019, All rights reserved</h5>
-		</div>
-	</section>
-</body>
+		
+	</body>
 </html>

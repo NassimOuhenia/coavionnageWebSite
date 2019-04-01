@@ -36,24 +36,17 @@ public class PassengerDAO extends DAO<Passenger>{
 
 	@Override
 	public List<Passenger> get() {
-		
 		return list;
 	}
 	
 	
-public Passenger SearchPassenger(Passenger p) {
-		
+public Passenger searchPassenger(Passenger p) {
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getMail().equals(p.getMail())&& list.get(i).getPassword().equals(p.getPassword())  ) {
+			if (list.get(i).getMail().equals(p.getMail())&& list.get(i).getPassword().equals(p.getPassword())) {
 				return list.get(i);
 			}
-			
 		}
 		return null;
 	}
-
-	
-
-	
 
 }

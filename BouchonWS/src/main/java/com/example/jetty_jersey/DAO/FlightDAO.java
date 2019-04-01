@@ -15,9 +15,9 @@ public class FlightDAO extends DAO<Flight> {
 				new Pilot("Toto", "", "", "", 0, ""), 5));
 		list.add(new Flight("2", "2019-03-07", "Orly", "CDG", 40, 2, "12:00", "travel", new Plane(),
 				new Pilot("Gerard", "", "", "", 0, ""), 6));
-		list.add(new Flight("1", "2019-12-07", "CDG", "Orly", 35, 2, "12:00", "travel", new Plane(),
+		list.add(new Flight("3", "2019-12-07", "CDG", "Orly", 35, 2, "12:00", "travel", new Plane(),
 				new Pilot("Nassim", "", "", "", 0, ""), 5));
-		list.add(new Flight("2", "2019-03-23", "Orly", "CDG", 35, 2, "12:00", "travel", new Plane(),
+		list.add(new Flight("4", "2019-03-23", "Orly", "CDG", 35, 2, "12:00", "travel", new Plane(),
 				new Pilot("Jo", "", "", "", 0, ""), 4));
 
 		// daofactory = f;
@@ -25,6 +25,8 @@ public class FlightDAO extends DAO<Flight> {
 
 	@Override
 	public boolean put(Flight obj) {
+		obj.setPilot(new Pilot("a", "a", "a", "a", 0, "certifié"));
+		obj.setPlane(new Plane(4, "modele", "avion", 2));
 		return list.add(obj);
 	}
 
@@ -48,9 +50,14 @@ public class FlightDAO extends DAO<Flight> {
 	public List<Flight> search(String local, String travel, String date, String departure, String arrival) {
 		ArrayList<Flight> l = new ArrayList<Flight>();
 		for (Flight f : list) {
-			if ((f.getTypeflight().equals(local) || f.getTypeflight().equals(travel)) && f.getDate().equals(date)
-					&& f.getArrivalAirport().equals(arrival) && f.getDepartureAirport().equals(departure))
-				l.add(f);
+			try {
+				if ((f.getTypeflight().equals(local) || f.getTypeflight().equals(travel)) && f.getDate().equals(date)
+						&& f.getArrivalAirport().equals(arrival) && f.getDepartureAirport().equals(departure))
+					l.add(f);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return l;
 	}

@@ -10,12 +10,14 @@ public class Pilot extends User{
 	
 
 	public Pilot(String firstName, String lastName, String mail, String password, double experience, String certificate) {
-
 		super(firstName,lastName,mail,password);
 		this.experience = experience;
 		this.certificate = certificate;
 	}
 
+	public Pilot() {
+		super();
+	}
 
 	public double getExperience() {
 		return experience;

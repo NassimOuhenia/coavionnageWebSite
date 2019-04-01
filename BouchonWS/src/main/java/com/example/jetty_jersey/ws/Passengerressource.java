@@ -22,28 +22,24 @@ public class Passengerressource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/signup")
-	public Passenger createPilot(User passenger) {
-		Passenger ps=new Passenger(passenger.getFirstName(), passenger.getLastName(), passenger.getMail(), passenger.getPassword());
-		
-		if(daoPassenger.put(ps)) {
-			//System.out.println("hhhhh");
-		return ps;	
-		}else {
-			return null;
-		}
-		
-	
+	public Passenger createPassenger(Passenger passenger) {
+		if(daoPassenger.put(passenger))
+			System.out.println("pasenger ajouter");
+		else
+			System.out.println("pasenger pas ajouter");
+		return passenger;
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signin")
-	public Passenger loginpilot(User p) {
-		
-		Passenger pas=new Passenger(p.getFirstName(), p.getLastName(), p.getMail(), p.getPassword());
-		
-		return daoPassenger.SearchPassenger(pas);
-		
+	public Passenger loginPassenger(Passenger passenger) {
+		Passenger p=daoPassenger.searchPassenger(passenger);
+		if(p==null)
+			System.out.println("je ne t'ai pas trouvé");
+		else
+			System.out.println("autorisation d'entré");
+		return p;
 	}
 }

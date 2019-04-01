@@ -3,8 +3,6 @@ package com.example.jetty_jersey.DAO;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.elasticsearch.action.search.SearchAction;
-
 import com.example.jetty_jersey.model.Pilot;
 
 public class PilotDAO extends DAO<Pilot> {
@@ -43,7 +41,7 @@ public class PilotDAO extends DAO<Pilot> {
 		return list;
 	}
 	
-	public Pilot Searchpilote(Pilot p) {
+	public Pilot searchPilot(Pilot p) {
 		
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getMail().equals(p.getMail())&& list.get(i).getPassword().equals(p.getPassword())  ) {
