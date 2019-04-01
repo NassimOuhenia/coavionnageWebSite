@@ -3,7 +3,10 @@ package com.example.jetty_jersey.DAO;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.Passenger;
@@ -17,7 +20,7 @@ public class DAOFactory {
 	private String username;
 	private String password;
 	
-	//private static TransportClient connexion;
+	private static TransportClient connexion;
 	
 	public DAOFactory() {
 		// TODO Auto-generated constructor stub

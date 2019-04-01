@@ -1,21 +1,21 @@
 package com.example.jetty_jersey.model;
 
-import javax.print.DocFlavor.STRING;
 
-public class Pilot extends User{
+public class Pilot extends User {
 
 	private int experience;
 	private String certificate;
 
-	
-
 	public Pilot(String firstName, String lastName, String mail, String password, int experience, String certificate) {
 
-		super(firstName,lastName,mail,password);
+		super(firstName, lastName, mail, password);
 		this.experience = experience;
 		this.certificate = certificate;
 	}
 
+	public Pilot() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public int getExperience() {
 		return experience;

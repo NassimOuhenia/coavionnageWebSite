@@ -8,10 +8,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.rest.RestStatus;
-
-import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.PlaneDAO;
 import com.example.jetty_jersey.model.Plane;

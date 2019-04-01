@@ -8,11 +8,8 @@ import javax.ws.rs.core.MediaType;
 
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.PassengerDAO;
-import com.example.jetty_jersey.DAO.PilotDAO;
 import com.example.jetty_jersey.model.Passenger;
-import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.User;
-
 
 @Path("/user/passenger/")
 public class Passengerressource {
@@ -22,17 +19,12 @@ public class Passengerressource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/signup")
-	public Passenger createPilot(User passenger) {
-		Passenger ps=new Passenger(passenger.getFirstName(), passenger.getLastName(), passenger.getMail(), passenger.getPassword());
-		
-		if(daoPassenger.put(ps)) {
-			//System.out.println("hhhhh");
-		return ps;	
-		}else {
-			return null;
-		}
-		
-	
+	public String createPilot(User passenger) {
+		Passenger ps = new Passenger(passenger.getFirstName(), passenger.getLastName(), passenger.getMail(),
+				passenger.getPassword());
+
+		return daoPassenger.put(ps);
+
 	}
 
 	@POST
@@ -40,10 +32,8 @@ public class Passengerressource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signin")
 	public Passenger loginpilot(User p) {
-		
-		Passenger pas=new Passenger(p.getFirstName(), p.getLastName(), p.getMail(), p.getPassword());
-		
+		Passenger pas = new Passenger(p.getFirstName(), p.getLastName(), p.getMail(), p.getPassword());
 		return daoPassenger.SearchPassenger(pas);
-		
+
 	}
 }

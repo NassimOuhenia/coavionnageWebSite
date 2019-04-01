@@ -132,10 +132,5 @@ public class Flight {
 		this.passagers = passagers;
 	}
 
-	public String getIdFlight() {
-		return idFlight;
-	}
-
-	
 
 }

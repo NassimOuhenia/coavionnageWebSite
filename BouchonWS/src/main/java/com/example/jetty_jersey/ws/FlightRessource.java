@@ -1,34 +1,19 @@
 package com.example.jetty_jersey.ws;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.update.UpdateResponse;
-import org.elasticsearch.rest.RestStatus;
-import org.elasticsearch.search.SearchHit;
-
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.FlightDAO;
 import com.example.jetty_jersey.DAO.ReservationDAO;
 import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.Recherche;
 import com.example.jetty_jersey.model.Reservation;
-import com.example.jetty_jersey.model.Pilot;
-import com.example.jetty_jersey.model.Plane;
-import com.example.jetty_jersey.model.Recherche;
-import com.example.jetty_jersey.model.Reservation;
+//import com.example.jetty_jersey.model.Pilot;
+
 import com.example.jetty_jersey.model.ID;
 
 @Path("/flights")
@@ -75,8 +60,8 @@ public class FlightRessource {
 	    if (response.contains("400")) {
 		return response;
 	    }
-	    Pilot pilot = daoFlight.get(r.getIdFlight()).get(0).getPilot();
-	    String emailPilot = pilot.getMail();
+	   // Pilot pilot = daoFlight.get(r.getIdFlight()).get(0).getPilot();
+	    //String emailPilot = pilot.getMail();
 	    //Envoyer email
 	    
 	    return response;
