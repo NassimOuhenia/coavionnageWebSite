@@ -66,5 +66,5 @@ a {
   font-weight: bold;
 }
 #resultSearch{
-	overflow: scroll;
+	overflow: auto;
 }
