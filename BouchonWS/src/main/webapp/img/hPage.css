@@ -64,5 +64,7 @@ div.copyright {
 a {
   color: black;
   font-weight: bold;
-
+}
+#resultSearch{
+	overflow: auto;
 }
