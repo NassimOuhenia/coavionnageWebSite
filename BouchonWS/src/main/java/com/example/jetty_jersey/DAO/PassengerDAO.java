@@ -14,6 +14,7 @@ import org.elasticsearch.rest.RestStatus;
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
 import com.example.jetty_jersey.model.Passenger;
+import com.example.jetty_jersey.model.Pilot;
 
 
 public class PassengerDAO extends DAO<Passenger>{
@@ -100,6 +101,18 @@ public class PassengerDAO extends DAO<Passenger>{
 	public List<Passenger> get() {
 		
 		return list;
+	}
+	
+	
+public Passenger SearchPassenger(Passenger p) {
+		
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getMail().equals(p.getMail())&& list.get(i).getPassword().equals(p.getPassword())  ) {
+				return list.get(i);
+			}
+			
+		}
+		return null;
 	}
 
 	

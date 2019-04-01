@@ -1,5 +1,6 @@
 package com.example.jetty_jersey;
 
+
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -13,7 +14,6 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import com.example.jetty_jersey.ws.TestResource;
 
 import static sun.net.www.protocol.http.AuthCacheValue.Type.Server;
 
@@ -22,13 +22,13 @@ public class JettyMain {
 	public static void main(String[] args) throws Exception {
 		// Initialize the server
 		Server server = new Server();
-
 		// Add a connector
 		ServerConnector connector = new ServerConnector(server);
 		connector.setHost("0.0.0.0");
 		connector.setPort(8080);
 		connector.setIdleTimeout(30000);
 		server.addConnector(connector);
+		
 
 		// Configure Jersey
 		ResourceConfig rc = new ResourceConfig();
@@ -55,8 +55,7 @@ public class JettyMain {
 		ContextHandlerCollection contexts = new ContextHandlerCollection();
 		contexts.setHandlers(new Handler[] { handlerWebServices, handlerPortalCtx });
 		server.setHandler(contexts);
-		
-		TestResource testResource = new TestResource();
+		System.out.println("server start");
 
 		/*
 		 * web service // /blablaplane/search/

@@ -1,13 +1,13 @@
 package com.example.jetty_jersey.model;
 
-public class Pilot extends Passenger{
+import javax.print.DocFlavor.STRING;
+
+public class Pilot extends User{
 
 	private int experience;
 	private String certificate;
 
-	public Pilot() {
-		super();
-	}
+	
 
 	public Pilot(String firstName, String lastName, String mail, String password, int experience, String certificate) {
 

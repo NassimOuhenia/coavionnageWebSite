@@ -1,16 +1,14 @@
 package com.example.jetty_jersey.ws;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -25,6 +23,8 @@ import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.FlightDAO;
 import com.example.jetty_jersey.DAO.ReservationDAO;
 import com.example.jetty_jersey.model.Flight;
+import com.example.jetty_jersey.model.Recherche;
+import com.example.jetty_jersey.model.Reservation;
 import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.Plane;
 import com.example.jetty_jersey.model.Recherche;
@@ -56,8 +56,8 @@ public class FlightRessource {
 		return daoFlight.put(f);
 	}
 
-	
 	//Recuperer infos d'un vol
+	// reserver un vol
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

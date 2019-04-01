@@ -18,16 +18,16 @@ import com.example.jetty_jersey.model.*;
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
 public class FlightDAO extends DAO<Flight> {
-	private static List<Flight> list=new ArrayList<Flight>();
-	//un fois la bdd est en place
 	private DAOFactory daofactory;
+
+	private static List<Flight> list = new ArrayList<Flight>();
+	// un fois la bdd est en place
+	// private DAOFactory daofactory;
 
 	public FlightDAO(DAOFactory f) {
 		list.add(new Flight("2019-03-21", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
-		list.add(new Flight("2019-03-21", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
-		list.add(new Flight("2019-03-21", "paris", "paris", 35, 2, "travel", new Plane(), new Pilot()));
-		
 		daofactory = f;
+		list.add(new Flight("2019-03-21", "orly", "CDG", 35, 2, "travel", new Plane(), new Pilot()));
 	}
 	
 
@@ -77,16 +77,14 @@ public class FlightDAO extends DAO<Flight> {
 
 	@Override
 	public List<Flight> get() {
-		
 		return list;
 	}
-	
-	public List<Flight> search(String local, String travel, String date, String departure, String arrival) { 
-	
-		ArrayList<Flight> l = new ArrayList <Flight>();
-		for(Flight f : list) {
-			if(f.getArrivalAirport().equals(arrival)
-				&& f.getDepartureAirport().equals(departure))
+
+	public List<Flight> search(String local, String travel, String date, String departure, String arrival) {
+		ArrayList<Flight> l = new ArrayList<Flight>();
+		for (Flight f : list) {
+			if ((f.getTypeflight().equals(local) || f.getTypeflight().equals(travel)) && f.getDate().equals(date)
+					&& f.getArrivalAirport().equals(arrival) && f.getDepartureAirport().equals(departure))
 				l.add(f);
 		}
 		return l;
@@ -151,4 +149,3 @@ public class FlightDAO extends DAO<Flight> {
 	}
 	
 }
-

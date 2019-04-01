@@ -20,6 +20,7 @@ public class PilotDAO extends DAO<Pilot> {
 	//un fois la bdd est en place
 	private DAOFactory daofactory;
 
+	
 	public PilotDAO(DAOFactory f) {
 
 		daofactory = f;

@@ -13,12 +13,13 @@ import org.elasticsearch.rest.RestStatus;
 
 import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
+import com.example.jetty_jersey.DAO.PlaneDAO;
 import com.example.jetty_jersey.model.Plane;
 
 @Path("/plClientanes")
 public class PlaneRessource {
 	
-	private DAO<Plane> daoPlane = DAOFactory.getInstance().getPlaneDAO();
+	private PlaneDAO daoPlane = DAOFactory.getInstance().getPlaneDAO();
 		
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

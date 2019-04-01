@@ -16,28 +16,46 @@ import org.elasticsearch.rest.RestStatus;
 
 import com.example.jetty_jersey.DAO.DAO;
 import com.example.jetty_jersey.DAO.DAOFactory;
+import com.example.jetty_jersey.DAO.PilotDAO;
 import com.example.jetty_jersey.model.Pilot;
+import com.example.jetty_jersey.model.User;
 import com.example.jetty_jersey.model.ID;
 
 
-@Path("/pilots")
+@Path("/user/pilots/")
 public class PilotRessource {
 
-	private DAO<Pilot> daoPilot = DAOFactory.getInstance().getPiloteDAO();
+	private PilotDAO daoPilot = DAOFactory.getInstance().getPiloteDAO();
 
-	@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/pilot")
-	public List<Pilot> getExample() {
-		return daoPilot.get();
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/signup")
+	public Pilot createPilot(User pilote) {
+		Pilot pilot=new Pilot(pilote.getFirstName(), pilote.getLastName(), pilote.getMail(), pilote.getPassword(),
+				0, "");
+		
+		if(daoPilot.put(pilot)) {
+			//System.out.println("hhhhh");
+		return pilot;	
+		}else {
+			return null;
+		}
+		
+	
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/pilot")
-	public void retrieveExample() {
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/signin")
+	public Pilot loginpilot(User pilote) {
 		
-		daoPilot.put(new Pilot(" "," ","m","**",12,"a"));
+		Pilot pilot=new Pilot(pilote.getFirstName(), pilote.getLastName(), pilote.getMail(), pilote.getPassword(),
+				0, "");
+		
+		return daoPilot.Searchpilote(pilot);
+		
 	}
 	
 	@POST
