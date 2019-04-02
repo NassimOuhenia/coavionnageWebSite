@@ -238,8 +238,8 @@
 					</div>
 					<div class="col-sm-4" align="center">
 						<h3><%=place%> seat left</h3>
-						<p><input  type="number" value="1"></p>
-						<p><button type="button" id="bookFlight" onclick="bookFlight()" 
+						<p><input  type="number" value="0" min="0" max=<%=place%>></p>
+						<p><button type="button" onclick="bookFlight(<%=price%>)" 
 							class="btn btn-primary btn-lg">book</button></p>
 					</div>
 				</div>
