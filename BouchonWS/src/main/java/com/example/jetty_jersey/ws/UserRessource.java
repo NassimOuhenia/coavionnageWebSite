@@ -31,6 +31,12 @@ public class UserRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signup")
 	public String signup(Passenger p) {
+	    if (daoPassenger.checkEmailExist(p.getMail())) {
+		return "{" +
+	    		"\"status\":\"400\"," +
+	    		"\"error\":\"Email already used\"" +
+	    		"}";
+	    }
 	    return daoPassenger.put(p);
 	}
 	

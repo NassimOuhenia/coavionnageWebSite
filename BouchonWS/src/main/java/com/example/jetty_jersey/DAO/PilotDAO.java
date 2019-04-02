@@ -115,5 +115,22 @@ public class PilotDAO extends DAO<Pilot> {
 			}
 		}
 	}
+	
+	public boolean checkEmailExist(String mail) {
+	    TransportClient client = daofactory.getConnextion();
+	    
+	    QueryBuilder query = QueryBuilders.queryStringQuery("mail:'" + mail + "'");
+	    
+	    SearchResponse response = client.prepareSearch("passenger")
+		    .setTypes("_doc")
+		    	.setQuery(query)
+		    .get();
+	    
+	    SearchHit[] result = response.getHits().getHits();
+	    if (result.length == 1) {
+		return true;
+	    }
+	    return false;
+	}
 
 }

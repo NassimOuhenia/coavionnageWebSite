@@ -23,6 +23,12 @@ public class PilotRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signup")
 	public String signUp(Pilot p) {
+	    if (daoPilot.checkEmailExist(p.getMail())) {
+		return "{" +
+	    		"\"status\":\"400\"," +
+	    		"\"error\":\"Email already used\"" +
+	    		"}";
+	    }
 		return daoPilot.put(p);
 	}
 
