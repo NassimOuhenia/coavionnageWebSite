@@ -10,22 +10,23 @@ public class Flight {
 	private String arrivalAirport;
 	private double travelTime;
 	private double price;
-	private String timep;
-	private String typeflight;
+	private String time;
+	private String typeFlight;
 	private Plane plane;
 	private Pilot pilot;
 	private int seatLeft;
 	private List<Passenger> passagers;
+	
 	public Flight(String idFlight, String date, String departureAirport, String arrivalAirport, double travelTime,
-			double price, String time, String typeflight, Plane plane, Pilot pilot, int seatLeft) {
+			double price, String time, String typeFlight, Plane plane, Pilot pilot, int seatLeft) {
 		this.idFlight = idFlight;
 		this.date = date;
 		this.departureAirport = departureAirport;
 		this.arrivalAirport = arrivalAirport;
 		this.travelTime = travelTime;
 		this.price = price;
-		this.timep = time;
-		this.typeflight = typeflight;
+		this.time = time;
+		this.typeFlight = typeFlight;
 		this.plane = plane;
 		this.pilot = pilot;
 		this.seatLeft = seatLeft;
@@ -36,12 +37,12 @@ public class Flight {
 	}
 
 	
-	public String getTimep() {
-		return timep;
+	public String getTime() {
+		return time;
 	}
 
-	public void setTimep(String time) {
-		this.timep = time;
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 	public int getSeatLeft() {
@@ -101,11 +102,11 @@ public class Flight {
 	}
 
 	public String getTypeFlight() {
-		return typeflight;
+		return typeFlight;
 	}
 
-	public void setTypeFlight(String typeflight) {
-		this.typeflight = typeflight;
+	public void setTypeFlight(String typeFlight) {
+		this.typeFlight = typeFlight;
 	}
 
 	public Plane getPlane() {

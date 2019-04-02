@@ -11,6 +11,8 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
@@ -22,23 +24,35 @@ public class FlightDAO extends DAO<Flight> {
 	
 	private static List<Flight> list = new ArrayList<Flight>();
 	// un fois la bdd est en place
-	// private DAOFactory daofactory;
+	 private DAOFactory daofactory;
 
 	public FlightDAO(DAOFactory f) {
 		list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));
 		list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));
+		daofactory = f;
 	}
+	
+	/*
+	 * Ajoute un object vol dans la base de donnees
+	 */
 
 	@Override
 	public String put(Flight obj) {
 		TransportClient client = DAOFactory.getConnextion();
 		try {
 			IndexResponse response = client.prepareIndex("flight", "_doc")
-					.setSource(jsonBuilder().startObject().field("date", obj.getDate())
+					.setSource(jsonBuilder().startObject()
+							.field("date", obj.getDate())
 							.field("departureAirport", obj.getDepartureAirport())
-							.field("arrivalAirport", obj.getArrivalAirport()).field("travelTime", obj.getTravelTime())
-							.field("price", obj.getPrice()).field("typeFlight", obj.getTypeFlight())
-							.field("plane", obj.getPlane()).field("pilot", obj.getPilot()).endObject())
+							.field("arrivalAirport", obj.getArrivalAirport())
+							.field("travelTime", obj.getTravelTime())
+							.field("price", obj.getPrice())
+							.field("time", obj.getTime())
+							.field("typeFlight", obj.getTypeFlight())
+							.field("plane", obj.getPlane())
+							.field("pilot", obj.getPilot())
+							.field("seatLeft", obj.getSeatLeft())
+						.endObject())
 					.get();
 			if (response.status() == RestStatus.CREATED) {
 				return "{" + "\"status\":\"201\"," + "\"id\":\"" + response.getId() + "\"" + "}";
@@ -75,6 +89,12 @@ public class FlightDAO extends DAO<Flight> {
 		}
 		return l;
 	}
+	
+	
+	
+	/*
+	 * Retourne un vol en fonction de son id
+	 */
 
 	@Override
 	public List<Flight> get(String id) {
@@ -85,13 +105,27 @@ public class FlightDAO extends DAO<Flight> {
 			return list;
 		}
 		Map<String, Object> map = get.getSource();
-		Flight f = new Flight(map.get("date").toString(), map.get("departureAirport").toString(),
-				map.get("arrivalAirport").toString(), id, Double.valueOf(map.get("travelTime").toString()),
-				Double.valueOf(map.get("price").toString()), map.get("typeFlight").toString(), id,
-				(Plane) map.get("plane"), (Pilot) map.get("pilot"), 0);
+		Flight f = new Flight(
+			get.getId(),
+			map.get("date").toString(),
+			map.get("departureAirport").toString(),
+			map.get("arrivalAirport").toString(),
+			Double.valueOf(map.get("travelTime").toString()),
+			Double.valueOf(map.get("price").toString()),
+			map.get("time").toString(),
+			map.get("typeFlight").toString(),
+			(Plane) map.get("plane"),
+			(Pilot) map.get("pilot"),
+			Integer.parseInt(map.get("seatLeft").toString()));
 		list.add(f);
 		return list;
 	}
+	
+	
+	
+	/*
+	 * Retourne une liste de vols en fonction de la recherche
+	 */
 
 	public List<Flight> get(Recherche r) {
 	    TransportClient client = daofactory.getConnextion();
@@ -101,63 +135,41 @@ public class FlightDAO extends DAO<Flight> {
 		typeFlight++;
 	    }
 	    System.out.println(r.getDeparture());
+	    
+	    
 	    SearchResponse response = client.prepareSearch("flight")
 		    .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 		    .setTypes("_doc")
-		    	.setQuery(QueryBuilders.matchQuery("typeFlight", typeFlight))
-			.setQuery(QueryBuilders.matchQuery("departureAirport", r.getDeparture()))
-			.setQuery(QueryBuilders.matchQuery("arrivalAirport", r.getArrival()))
-			.setQuery(QueryBuilders.matchQuery("date", r.getDate()))
+		    	.setQuery(QueryBuilders.matchPhraseQuery("typeFlight", typeFlight))
+		    	.setQuery(QueryBuilders.matchPhraseQuery("departureAirport", r.getDeparture()))
+			.setQuery(QueryBuilders.matchPhraseQuery("arrivalAirport", r.getArrival()))
 			.get();
 	    
 	    SearchHit[] result = response.getHits().getHits();
 	    ArrayList<Flight> list = new ArrayList<Flight>();
+	    System.out.println(result.length);
 	    for (SearchHit sh : result) {
 		Map<String, Object> map = sh.getSourceAsMap();
 		for (String key : map.keySet()) {
 		    System.out.println(key + " " + map.get(key));
 		}
 		System.out.println();
-		/* Flight f = new Flight(
+		Flight f = new Flight(
+			sh.getId(),
 			    map.get("date").toString(),
 			    map.get("departureAirport").toString(),
 			    map.get("arrivalAirport").toString(),
 			    Double.valueOf(map.get("travelTime").toString()),
 			    Double.valueOf(map.get("price").toString()),
+			    map.get("time").toString(),
 			    map.get("typeFlight").toString(),
 			    (Plane)map.get("plane"),
-			    (Pilot)map.get("pilot"));
-		list.add(f);*/
+			    (Pilot)map.get("pilot"),
+			    Integer.parseInt(map.get("seatLeft").toString()));
+		list.add(f);
 	    }
 	    return list;
 	    
 	}
 	
-}
-
-		int typeFlight = 0;
-		if (r.getTypeLocal() == null) {
-			typeFlight++;
-		}
-
-		SearchResponse response = client.prepareSearch("flight").setTypes("_doc")
-				.setQuery(QueryBuilders.termQuery("typeflight", typeFlight))
-				.setQuery(QueryBuilders.termQuery("departureAirport", r.getDeparture()))
-				.setQuery(QueryBuilders.termQuery("arrivalAirport", r.getArrival()))
-				.setQuery(QueryBuilders.termQuery("date", r.getDate())).get();
-
-		SearchHit[] result = response.getHits().getHits();
-		ArrayList<Flight> list = new ArrayList<Flight>();
-		for (SearchHit sh : result) {
-			Map<String, Object> map = sh.getSourceAsMap();
-			Flight f = new Flight(map.get("date").toString(), map.get("departureAirport").toString(),
-					map.get("arrivalAirport").toString(), null, Double.valueOf(map.get("travelTime").toString()),
-					Double.valueOf(map.get("price").toString()), map.get("typeFlight").toString(), null,
-					(Plane) map.get("plane"), (Pilot) map.get("pilot"), typeFlight);
-			list.add(f);
-		}
-		return list;
-
-	}
-
 }

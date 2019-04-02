@@ -29,16 +29,16 @@ public class Plane {
 		return modele;
 	}
 
-	public void setModele(String m) {
-		modele = m;
+	public void setModele(String modele) {
+		this.modele = modele;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String m) {
-		name = m;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getNumberPlace() {

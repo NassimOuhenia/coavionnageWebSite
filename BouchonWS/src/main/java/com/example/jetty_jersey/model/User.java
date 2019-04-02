@@ -8,11 +8,11 @@ public class User {
 	
 	public User() {}
 	
-	public User( String FirstNam,  String LastNam , String ma,String pass) {
-		firstName=FirstNam;
-		lastName=LastNam;
-		mail=ma;
-		password=pass;
+	public User( String firstName,  String lastName, String mail,String password) {
+		this.firstName=firstName;
+		this.lastName=lastName;
+		this.mail=mail;
+		this.password=password;
 		
 	}
 
@@ -20,16 +20,16 @@ public class User {
 		return firstName;
 	}
 
-	public void setFirstName(String firstNam) {
-		firstName = firstNam;
+	public void setFirstName(String firstName) {
+	    	this.firstName = firstName;
 	}
 
 	public String getLastName() {
 		return lastName;
 	}
 
-	public void setLastName(String lastNam) {
-		lastName = lastNam;
+	public void setLastName(String lastName) {
+	    	this.lastName = lastName;
 	}
 
 	public String getMail() {
