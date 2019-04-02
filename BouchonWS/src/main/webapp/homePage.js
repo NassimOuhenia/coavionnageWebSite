@@ -17,7 +17,7 @@ function afterSearch(listF) {
 	for (i = 0; i < listF.length; i++) {
 		var templateExample = _.template($('#ajoutsearch').html());
 		var html = templateExample({
-			// "idf":listF[i].idFlight,
+			"idf":listF[i].idFlight,
 			"depart" : listF[i].departureAirport,
 			"arrive" : listF[i].arrivalAirport,
 			"date" : listF[i].date,
