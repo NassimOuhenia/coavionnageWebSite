@@ -8,6 +8,8 @@ import java.util.Map;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
@@ -92,7 +94,46 @@ public class FlightDAO extends DAO<Flight> {
 	}
 
 	public List<Flight> get(Recherche r) {
-		TransportClient client = DAOFactory.getConnextion();
+	    TransportClient client = daofactory.getConnextion();
+	    
+	    int typeFlight = 0;
+	    if (r.getTypeLocal() == null) {
+		typeFlight++;
+	    }
+	    System.out.println(r.getDeparture());
+	    SearchResponse response = client.prepareSearch("flight")
+		    .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+		    .setTypes("_doc")
+		    	.setQuery(QueryBuilders.matchQuery("typeFlight", typeFlight))
+			.setQuery(QueryBuilders.matchQuery("departureAirport", r.getDeparture()))
+			.setQuery(QueryBuilders.matchQuery("arrivalAirport", r.getArrival()))
+			.setQuery(QueryBuilders.matchQuery("date", r.getDate()))
+			.get();
+	    
+	    SearchHit[] result = response.getHits().getHits();
+	    ArrayList<Flight> list = new ArrayList<Flight>();
+	    for (SearchHit sh : result) {
+		Map<String, Object> map = sh.getSourceAsMap();
+		for (String key : map.keySet()) {
+		    System.out.println(key + " " + map.get(key));
+		}
+		System.out.println();
+		/* Flight f = new Flight(
+			    map.get("date").toString(),
+			    map.get("departureAirport").toString(),
+			    map.get("arrivalAirport").toString(),
+			    Double.valueOf(map.get("travelTime").toString()),
+			    Double.valueOf(map.get("price").toString()),
+			    map.get("typeFlight").toString(),
+			    (Plane)map.get("plane"),
+			    (Pilot)map.get("pilot"));
+		list.add(f);*/
+	    }
+	    return list;
+	    
+	}
+	
+}
 
 		int typeFlight = 0;
 		if (r.getTypeLocal() == null) {
