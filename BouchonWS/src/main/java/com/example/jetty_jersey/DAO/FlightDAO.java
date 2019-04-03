@@ -119,22 +119,28 @@ public class FlightDAO extends DAO<Flight> {
 		    typeFlight++;
 	
 		QueryBuilder query = QueryBuilders.queryStringQuery(
-				"typeFlight: '" + Integer.toString(typeFlight) +
+				"typeFlight:'" + Integer.toString(typeFlight) +
 				"' AND departureAirport:'" + r.getDeparture() + 
 				"' AND arrivalAirport:'" + r.getArrival() +
-				"' AND seatLeft > 0");
+				"'");
 
-		SearchResponse response = client.prepareSearch("flight").setTypes("_doc").setQuery(query).get();
+		SearchResponse response = client.prepareSearch("flight")
+			.setTypes("_doc")
+				.setQuery(QueryBuilders.matchAllQuery())
+				.setSize(10000)
+			.get();
 
 		SearchHit[] result = response.getHits().getHits();
 		ArrayList<Flight> list = new ArrayList<Flight>();
 		for (SearchHit sh : result) {
 			Map<String, Object> map = sh.getSourceAsMap();
-			for (String key : map.keySet()) {
-				System.out.println(key + " " + map.get(key));
-			}
-			System.out.println();
-			Flight f = new Flight(
+			System.out.println(map.get("typeFlight").equals(Integer.toString(typeFlight)));
+			if (map.get("typeFlight").equals(Integer.toString(typeFlight))
+				&& map.get("departureAirport").equals(r.getDeparture())
+				&& map.get("arrivalAirport").equals(r.getArrival())
+				&& Integer.parseInt(map.get("seatLeft").toString()) > 0) {
+			    
+			    Flight f = new Flight(
 				sh.getId(),
 				map.get("date").toString(),
 				map.get("departureAirport").toString(),
@@ -146,7 +152,8 @@ public class FlightDAO extends DAO<Flight> {
 				(Plane) map.get("plane"),
 				(Pilot) map.get("pilot"),
 				Integer.parseInt(map.get("seatLeft").toString()));
-			list.add(f);
+			    list.add(f);
+			}
 		}
 		return list;
 

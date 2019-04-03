@@ -15,6 +15,7 @@ import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
+import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
 import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.Pilot;
@@ -119,16 +120,20 @@ public class PilotDAO extends DAO<Pilot> {
 	public boolean checkEmailExist(String mail) {
 	    TransportClient client = daofactory.getConnextion();
 	    
-	    QueryBuilder query = QueryBuilders.queryStringQuery("mail:'" + mail + "'");
-	    
-	    SearchResponse response = client.prepareSearch("passenger")
+	    SearchResponse response = client.prepareSearch("pilot")
 		    .setTypes("_doc")
-		    	.setQuery(query)
+		    	.setQuery(matchAllQuery())
+		    	.setSize(10000)
 		    .get();
 	    
 	    SearchHit[] result = response.getHits().getHits();
-	    if (result.length == 1) {
-		return true;
+	    System.out.println(response.status());
+	    System.out.println(result.length);
+	    for (int i = 0; i < result.length; i++) {
+		Map<String, Object> map = result[i].getSourceAsMap();
+		if (map.get("mail").equals(mail)) {
+		    return true;
+		}
 	    }
 	    return false;
 	}

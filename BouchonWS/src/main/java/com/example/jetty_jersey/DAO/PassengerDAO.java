@@ -1,5 +1,6 @@
 package com.example.jetty_jersey.DAO;
 
+import java.beans.Expression;
 import java.io.IOException; 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +11,12 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
@@ -164,16 +167,22 @@ public Passenger SearchPassenger(Passenger p) {
 	public boolean checkEmailExist(String mail) {
 	    TransportClient client = daofactory.getConnextion();
 	    
-	    QueryBuilder query = QueryBuilders.queryStringQuery("mail:'" + mail + "'");
-	    
 	    SearchResponse response = client.prepareSearch("passenger")
 		    .setTypes("_doc")
-		    	.setQuery(query)
+		    	.setQuery(matchAllQuery())
+		    	.setSize(10000)
 		    .get();
 	    
 	    SearchHit[] result = response.getHits().getHits();
-	    if (result.length == 1) {
-		return true;
+	    System.out.println(response.status());
+	    System.out.println(result.length);
+	    for (int i = 0; i < result.length; i++) {
+		Map<String, Object> map = result[i].getSourceAsMap();
+		for (String key : map.keySet()) {
+		    if (map.get("mail").equals(mail)) {
+			return true;
+		    }
+		}
 	    }
 	    return false;
 	}
