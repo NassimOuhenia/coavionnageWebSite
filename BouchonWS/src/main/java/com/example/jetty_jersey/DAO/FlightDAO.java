@@ -13,6 +13,8 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.Operator;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
@@ -134,20 +136,17 @@ public class FlightDAO extends DAO<Flight> {
 	    if (r.getTypeLocal() == null) {
 		typeFlight++;
 	    }
-	    System.out.println(r.getDeparture());
 	    
+	    QueryBuilder query = QueryBuilders.queryStringQuery("departureAirport:'" + r.getDeparture() + 
+		    "' AND arrivalAirport:'" + r.getArrival() +"'");
 	    
 	    SearchResponse response = client.prepareSearch("flight")
-		    .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 		    .setTypes("_doc")
-		    	.setQuery(QueryBuilders.matchPhraseQuery("typeFlight", typeFlight))
-		    	.setQuery(QueryBuilders.matchPhraseQuery("departureAirport", r.getDeparture()))
-			.setQuery(QueryBuilders.matchPhraseQuery("arrivalAirport", r.getArrival()))
+		    	.setQuery(query)
 			.get();
 	    
 	    SearchHit[] result = response.getHits().getHits();
 	    ArrayList<Flight> list = new ArrayList<Flight>();
-	    System.out.println(result.length);
 	    for (SearchHit sh : result) {
 		Map<String, Object> map = sh.getSourceAsMap();
 		for (String key : map.keySet()) {

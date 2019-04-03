@@ -7,12 +7,17 @@ import java.util.Map;
 
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
+import org.elasticsearch.search.SearchHit;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
+import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.Passenger;
 import com.example.jetty_jersey.model.Pilot;
 
@@ -115,8 +120,44 @@ public Passenger SearchPassenger(Passenger p) {
 		return null;
 	}
 
-	
-
-	
-
+	public String connect(Connection c) {
+	    TransportClient client = daofactory.getConnextion();
+	    
+	    QueryBuilder query = QueryBuilders.queryStringQuery("mail:'" + c.getMail() + "'");
+	    
+	    SearchResponse response = client.prepareSearch("passenger")
+		    .setTypes("_doc")
+		    	.setQuery(query)
+		    .get();
+	    
+	    SearchHit[] result = response.getHits().getHits(); 
+	    if (result.length == 0) {
+		return "{" +
+	    		"\"status\":\"404\"," +
+	    		"\"error\":\"User not found \"" +
+	    		"}";
+	    }
+	    else if (result.length >1) {
+		return "{" +
+	    		"\"status\":\"500\"," +
+	    		"\"error\":\"Multiply mail \"" +
+	    		"}";
+	    }
+	    else {
+		Map<String, Object> map = result[0].getSourceAsMap();
+		if (map.get("password").equals(c.getPassword())) {
+		    return "{" +
+		    		"\"status\":\"200\"," +
+		    		//Mettre a la place le token
+		    		"\"id\":\"" + result[0].getId() + "\"" +
+		    		"}";
+		}
+		else {
+		    return "{" +
+		    		"\"status\":\"400\"," +
+		    		"\"error\":\"Wrong password\"" +
+		    		"}";
+		}
+	    }
+	}
 }

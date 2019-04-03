@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.PassengerDAO;
+import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.ID;
 import com.example.jetty_jersey.model.Passenger;
 
@@ -31,6 +32,14 @@ public class UserRessource {
 	@Path("/signup")
 	public String signup(Passenger p) {
 	    return daoPassenger.put(p);
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/signin")
+	public String signin(Connection c) {
+	    return daoPassenger.connect(c);
 	}
 
 }

@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.PilotDAO;
 import com.example.jetty_jersey.model.Pilot;
+import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.ID;
 
 @Path("/user/pilots/")
@@ -31,6 +32,14 @@ public class PilotRessource {
 	@Path("/get")
 	public List<Pilot> getPilot(ID identification) {
 		return daoPilot.get(identification.getId());
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/signin")
+	public String signIn(Connection c) {
+		return daoPilot.connect(c);
 	}
 
 }
