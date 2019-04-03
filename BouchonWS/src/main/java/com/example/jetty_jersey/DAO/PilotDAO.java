@@ -13,6 +13,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
+import org.mindrot.jbcrypt.BCrypt;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
@@ -60,10 +61,13 @@ public class PilotDAO extends DAO<Pilot> {
 		TransportClient client = DAOFactory.getConnextion();
 		try {
 			client.prepareUpdate("passenger", "_doc", idPilot)
-					.setDoc(jsonBuilder().startObject().field("lastName", obj.getLastName())
-							.field("firstName", obj.getLastName()).field("mail", obj.getMail())
-							.field("password", obj.getPassword()).field("experience", obj.getExperience())
-							.field("certificate", obj.getCertificate()).endObject())
+					.setDoc(jsonBuilder().startObject()
+						.field("lastName", obj.getLastName())
+						.field("firstName", obj.getLastName())
+						.field("mail", obj.getMail())
+						.field("password", BCrypt.hashpw(obj.getPassword(), BCrypt.gensalt()))
+						.field("experience", obj.getExperience())
+						.field("certificate", obj.getCertificate()).endObject())
 					.get();
 			return true;
 		} catch (IOException e) {
@@ -96,25 +100,21 @@ public class PilotDAO extends DAO<Pilot> {
 	public String connect(Connection c) {
 		TransportClient client = DAOFactory.getConnextion();
 
-		QueryBuilder query = QueryBuilders.queryStringQuery("mail:'" + c.getMail() + "'");
-
-		SearchResponse response = client.prepareSearch("pilot").setTypes("_doc").setQuery(query).get();
+		SearchResponse response = client.prepareSearch("pilot").setTypes("_doc").setQuery(matchAllQuery()).setSize(10000).get();
 
 		SearchHit[] result = response.getHits().getHits();
-		if (result.length == 0) {
-			return "{" + "\"status\":\"404\"," + "\"error\":\"User not found \"" + "}";
-		} else if (result.length > 1) {
-			return "{" + "\"status\":\"500\"," + "\"error\":\"Multiply mail \"" + "}";
-		} else {
-			Map<String, Object> map = result[0].getSourceAsMap();
-			if (map.get("password").equals(c.getPassword())) {
-				return "{" + "\"status\":\"200\"," +
-				// Mettre a la place le token
-						"\"id\":\"" + result[0].getId() + "\"" + "}";
-			} else {
-				return "{" + "\"status\":\"400\"," + "\"error\":\"Wrong password\"" + "}";
+		for (int i = 0; i < result.length; i++) {
+		    Map<String, Object> map = result[i].getSourceAsMap();
+		    if (map.get("mail").toString().equals(c.getMail())) {
+			if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
+			    return "{" + "\"status\":\"200\"," +
+				    // Mettre a la place le token
+				    "\"id\":\"" + result[0].getId() + "\"" + "}";
 			}
+			return "{" + "\"status\":\"400\"," + "\"error\":\"Wrong password\"" + "}";
+		    }
 		}
+		return "{" + "\"status\":\"404\"," + "\"error\":\"User not found \"" + "}";
 	}
 	
 	public boolean checkEmailExist(String mail) {
@@ -127,8 +127,6 @@ public class PilotDAO extends DAO<Pilot> {
 		    .get();
 	    
 	    SearchHit[] result = response.getHits().getHits();
-	    System.out.println(response.status());
-	    System.out.println(result.length);
 	    for (int i = 0; i < result.length; i++) {
 		Map<String, Object> map = result[i].getSourceAsMap();
 		if (map.get("mail").equals(mail)) {
