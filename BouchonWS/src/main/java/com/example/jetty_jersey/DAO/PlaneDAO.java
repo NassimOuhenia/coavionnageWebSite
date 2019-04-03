@@ -3,8 +3,6 @@ package com.example.jetty_jersey.DAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.rest.RestStatus;
@@ -17,7 +15,7 @@ public class PlaneDAO extends DAO<Plane>{
 	
 	private static List<Plane> listPlane=new ArrayList<Plane>();
 	// pour l'instant base de donnée pas mise en place
-	private DAOFactory daofactory;
+	public DAOFactory daofactory;
 
 	public PlaneDAO(DAOFactory f) {
 		daofactory = f;
@@ -25,7 +23,7 @@ public class PlaneDAO extends DAO<Plane>{
 	
 	@Override
 	public String put(Plane obj) {
-	    	TransportClient client = daofactory.getConnextion();
+	    	TransportClient client = DAOFactory.getConnextion();
 	    	IndexResponse response;
 	    	
 	    	try {

@@ -22,14 +22,6 @@ public class FlightRessource {
 	private FlightDAO daoFlight = DAOFactory.getInstance().getFlightDAO();
 	private ReservationDAO daoReservation = DAOFactory.getInstance().getReservationDAO();
 	
-	//recherche d'un vol
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/searchBouchon")
-	public List<Flight> searchFlight(Recherche r) {
-		return daoFlight.search(r.getTypeLocal(),r.getTypeTravel(),r.getDate(),r.getDeparture(),r.getArrival());
-	}
 	
 	//planifié un vol
 	@POST
@@ -63,7 +55,6 @@ public class FlightRessource {
 	   // Pilot pilot = daoFlight.get(r.getIdFlight()).get(0).getPilot();
 	    //String emailPilot = pilot.getMail();
 	    //Envoyer email
-	    
 	    return response;
 	}
 	

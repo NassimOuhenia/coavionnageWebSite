@@ -8,32 +8,14 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
-import com.example.jetty_jersey.model.Flight;
-import com.example.jetty_jersey.model.Passenger;
-import com.example.jetty_jersey.model.Pilot;
-import com.example.jetty_jersey.model.Plane;
 //classe d'instanciation de toute les dao et connection a la bdd
 public class DAOFactory {
 
 
-	private String url;
-	private String username;
-	private String password;
-	
-	private static TransportClient connexion;
+	public static TransportClient connexion;
 	
 	public DAOFactory() {
 		// TODO Auto-generated constructor stub
-	}
-
-	DAOFactory(String url, String username, String password) {
-
-		this.url = url;
-
-		this.username = username;
-
-		this.password = password;
-
 	}
 
 	/*
@@ -46,16 +28,14 @@ public class DAOFactory {
 
 	public static DAOFactory getInstance() {
 
-		
-
-		DAOFactory instance = new DAOFactory("ff", "ff", "ff");
-
+		DAOFactory instance = new DAOFactory();
 		return instance;
 
 	}
 
 	/* M�thode charg�e de fournir une connexion � la base de donn�es */
 
+	@SuppressWarnings({ "resource", "unchecked" })
 	public static TransportClient getConnextion() {
 		if(connexion == null) {
 			try {
