@@ -42,9 +42,10 @@ public class JettyMain {
 
 		// Add a handler for resources (/*)
 		ResourceHandler handlerPortal = new ResourceHandler();
-		handlerPortal.setResourceBase("src/main/webapp");
+		//handlerPortal.setResourceBase("src/main/webapp");
+		handlerPortal.setResourceBase("src/travello");
 		handlerPortal.setDirectoriesListed(false);
-		handlerPortal.setWelcomeFiles(new String[] { "homePage.html" });
+		handlerPortal.setWelcomeFiles(new String[] { "index.html" });
 		ContextHandler handlerPortalCtx = new ContextHandler();
 		handlerPortalCtx.setContextPath("/");
 		handlerPortalCtx.setHandler(handlerPortal);

@@ -1,10 +1,10 @@
 package com.example.jetty_jersey;
-
+/*
 import javax.mail.internet.*;
 import javax.mail.*;
 import java.util.*;
-
-public class TestMail {
+*/
+public class TestMail {/*
 	private final static String MAILER_VERSION = "Java";
 	public static boolean envoyerMailSMTP(String serveur,String from, String to, boolean debug) {
 		boolean result = false;
@@ -34,6 +34,6 @@ public class TestMail {
 	public static void main(String[] args) {
 		TestMail.envoyerMailSMTP("10.0.0.3", "nassim.ouhenia@gmail.com", "nassim.ouhenia@gmail.com", true);
 		
-	}
+	}*/
 
 }

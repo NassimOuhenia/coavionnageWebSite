@@ -1,5 +1,5 @@
 package com.example.jetty_jersey.ws;
-
+/*
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -22,8 +22,8 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
 
-@Path("/test")
-public class TestResource {
+@Path("/test")*/
+public class TestResource {/*
 	TransportClient client;
 
 	public TestResource() {
@@ -90,5 +90,5 @@ public class TestResource {
 		DeleteResponse deleteResponse = client.prepareDelete("pilote", "id", id).get();
 		return deleteResponse.getResult().toString();
 	}
-
+*/
 }
