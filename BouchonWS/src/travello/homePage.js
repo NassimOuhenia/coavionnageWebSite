@@ -158,7 +158,7 @@ $(function() {
 });
 
 function afterPostUser(user) {
-	jQuery.noConflict();
+	//jQuery.noConflict();
 	$('#signup').modal('hide');
 	$('#signin').modal('show');
 	$(".signup-sucess").fadeIn().text(
@@ -236,12 +236,15 @@ function afterLoginUser(user) {
 		// ////////////////////////////////////////////////////////////////////////
 		// achanger par session
 		profil = user;
-		if (type == "passenger")
-			$(".passenger").css("display", "inline");
-		else
-			$(".pilot").show();
+		if (type == "passenger"){
+            $("#lienRecherche").css("display", "inline");
+            $("#lienReservation").css("display", "inline");
+        }
+		else{
+            $("#lienpost").css("display", "inline"); 
+        }
 		$("#logOut").show();
-		$("#lin").hide();
+		$("#sup").hide();
 		$("#sin").hide();
 		// ///////////////////////////////////////////////////////////////////////
 	}
@@ -263,7 +266,7 @@ $(function() {
 	$("#logOut").click(function() {
 		$(".connected").hide();
 		$("#logOut").hide();
-		$("#lin").show();
+		$("#sup").show();
 		$("#sin").show();
 		profil = null;
 	});
@@ -272,7 +275,4 @@ $(function() {
 // reserver un vol par un passenger
 function bookFlight(val) {
 	alert(val);
-	$('#signin').modal('show');
-	alert("pasok");
-
 }
