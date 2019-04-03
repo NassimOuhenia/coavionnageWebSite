@@ -135,8 +135,8 @@ public class FlightDAO extends DAO<Flight> {
 		for (SearchHit sh : result) {
 			Map<String, Object> map = sh.getSourceAsMap();
 			System.out.println(map.get("typeFlight").equals(Integer.toString(typeFlight)));
-			if (map.get("typeFlight").equals(Integer.toString(typeFlight))
-				&& map.get("departureAirport").equals(r.getDeparture())
+			if (//map.get("typeFlight").equals(Integer.toString(typeFlight))
+				 map.get("departureAirport").equals(r.getDeparture())
 				&& map.get("arrivalAirport").equals(r.getArrival())
 				&& Integer.parseInt(map.get("seatLeft").toString()) > 0) {
 			    
@@ -154,6 +154,10 @@ public class FlightDAO extends DAO<Flight> {
 				Integer.parseInt(map.get("seatLeft").toString()));
 			    list.add(f);
 			}
+		}
+		System.out.println(list.size());
+		for(int i = 0; i < list.size(); i++) {
+		    System.out.println(list.get(i).getDepartureAirport());
 		}
 		return list;
 

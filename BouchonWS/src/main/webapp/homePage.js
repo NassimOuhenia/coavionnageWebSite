@@ -1,9 +1,9 @@
 var urlSearchFlight = 'http://localhost:8080/blablaplane/flights/search';
 var urlPostFlight = 'http://localhost:8080/blablaplane/flights/add';
-var urlPostPassenger = 'http://localhost:8080/blablaplane/user/passenger/signup';
-var urlLogPassenger = 'http://localhost:8080/blablaplane/user/passenger/signin';
-var urlPostPilot = 'http://localhost:8080/blablaplane/user/pilots/signup';
-var urlLogPilot = 'http://localhost:8080/blablaplane/user/pilots/signin';
+var urlPostPassenger = 'http://localhost:8080/blablaplane/passengers/signup';
+var urlLogPassenger = 'http://localhost:8080/blablaplane/passengers/signin';
+var urlPostPilot = 'http://localhost:8080/blablaplane/pilots/signup';
+var urlLogPilot = 'http://localhost:8080/blablaplane/pilots/signin';
 var profil = null;
 var type = "";
 
@@ -254,8 +254,6 @@ function afterLoginUser(user) {
 // return les infos du formulaire
 function formlogToJSON() {
 	var form = {
-		firstName : "",
-		lastName : "",
 		mail : $('#mailog').val(),
 		password : $('#logpass').val()
 	};

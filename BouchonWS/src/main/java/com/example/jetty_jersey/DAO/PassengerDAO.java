@@ -16,7 +16,6 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
-import org.mindrot.jbcrypt.BCrypt;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -114,7 +113,7 @@ public class PassengerDAO extends DAO<Passenger>{
 	}
 	
 	
-public Passenger SearchPassenger(Passenger p) {
+	public Passenger SearchPassenger(Passenger p) {
 		
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getMail().equals(p.getMail())&& list.get(i).getPassword().equals(p.getPassword())  ) {
@@ -131,13 +130,16 @@ public Passenger SearchPassenger(Passenger p) {
 	    SearchResponse response = client.prepareSearch("passenger").setTypes("_doc").setQuery(matchAllQuery()).setSize(10000).get();
 
 	    SearchHit[] result = response.getHits().getHits();
+	    System.out.println(c.getMail() + " " + c.getPassword());
 	    for (int i = 0; i < result.length; i++) {
 		Map<String, Object> map = result[i].getSourceAsMap();
 		if (map.get("mail").toString().equals(c.getMail())) {
-		    if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
+		    //if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
+		    if (map.get("password").toString().equals(c.getPassword())) {
+			System.out.println(map.get("mail"));
 			return "{" + "\"status\":\"200\"," +
 				// Mettre a la place le token
-				"\"id\":\"" + result[0].getId() + "\"" + "}";
+				"\"id\":\"" + result[i].getId() + "\"" + "}";
 		    }
 		    return "{" + "\"status\":\"400\"," + "\"error\":\"Wrong password\"" + "}";
 		}
@@ -155,15 +157,11 @@ public Passenger SearchPassenger(Passenger p) {
 		    .get();
 	    
 	    SearchHit[] result = response.getHits().getHits();
-	    System.out.println(response.status());
-	    System.out.println(result.length);
 	    for (int i = 0; i < result.length; i++) {
 		Map<String, Object> map = result[i].getSourceAsMap();
-		for (String key : map.keySet()) {
 		    if (map.get("mail").equals(mail)) {
 			return true;
 		    }
-		}
 	    }
 	    return false;
 	}
