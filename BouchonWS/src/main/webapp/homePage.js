@@ -274,6 +274,6 @@ $(function() {
 });
 
 // reserver un vol par un passenger
-function bookFlight(idflight) {
-	alert(idflight);
+function bookFlight(idf) {
+	alert(idf);
 }

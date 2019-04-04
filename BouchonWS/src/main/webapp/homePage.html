@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
 		<meta charset="utf-8">
 		<title>home page</title>
@@ -13,6 +13,7 @@
 		</script>
 		<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js">
 		</script>
+		
 		<script type="text/javascript"
 			src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js">
 		</script>
@@ -239,7 +240,7 @@
 					<div class="col-sm-4" align="center">
 						<h3><%=place%> seat left</h3>
 						<p><input  type="number" value="0" min="0" max=<%=place%>></p>
-						<p><button type="button" onclick="bookFlight(<%=idf%>)" 
+						<p><button type="button" onclick="bookFlight('<%=idf%>')" 
 							class="btn btn-primary btn-lg">book</button></p>
 					</div>
 				</div>
