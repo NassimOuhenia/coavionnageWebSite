@@ -12,7 +12,7 @@ input {
     display: none;
 }
 
-#listFlight{
+.listFlight{
 	background-color:white;
 	border-radius: 25px;
 	padding: 10px;

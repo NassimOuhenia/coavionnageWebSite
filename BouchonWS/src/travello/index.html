@@ -246,7 +246,7 @@
     <div id="resultsearch">
     </div>
 	<!-- Intro -->
-    <!--<script id="ajoutsearch" type="text/template">-->
+    <script id="ajoutsearch" type="text/template">
         <div class="intro">
             <div class="intro_background" style="background-image:url(images/intro.png)"></div>
             <div class="container">
@@ -254,20 +254,20 @@
                     <div class="col">
                         <div class="intro_container">
                             <div class="row">
-                                <div id ="listflight" class="col-sm-8 col-sm-offset-2" >
+                                <div class="listFlight col-sm-8 col-sm-offset-2">
                                     <div class="col-sm-8">
-                                        <h4>depart ▶ arrive</h4>
+                                        <h4><%=depart%> ▶ <%=arrive%></h4>
                                         <hr>
-                                        <h4>date time</h4>
+                                        <h4><%=date%> <%=time%></h4>
                                         <hr>
-                                        <h4>Pilot : with plane modele</h4>
+                                        <h4>Pilot : <%=pilote%> with plane modele:<%=modele%></h4>
                                         <hr>
-                                        <h4>Price :  €</h4>
+                                        <h4>Price : <%=price%> €</h4>
                                     </div>
                                     <div class="col-sm-4" align="center">
-                                        <h3> seat left</h3>
-                                        <p><input  type="number" value="0" min="0"></p>
-                                        <p><button type="button"
+                                        <h3><%=place%> seat left</h3>
+                                        <p><input  type="number" value="0" min="0" max=<%=place%>></p>
+                                        <p><button type="button" onclick="bookFlight(<%=idf%>)" 
                                             class="btn btn-primary btn-lg">book</button></p>
                                     </div>
                                 </div>
@@ -277,7 +277,7 @@
                 </div>
             </div>
         </div>
-    <!--</script>-->
+    </script>
 	<!-- Footer -->
 
 	<footer class="footer">
@@ -346,7 +346,7 @@
     
     
     
- <!-- Latest compiled and minified CSS -->
+<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> 
