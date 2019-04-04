@@ -4,7 +4,6 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -15,7 +14,7 @@ import com.example.jetty_jersey.model.Reservation;
 
 public class ReservationDAO extends DAO<Reservation> {
 	
-	private DAOFactory daofactory;
+	public DAOFactory daofactory;
 	
 	public ReservationDAO(DAOFactory f) {
 		daofactory = f;
@@ -24,7 +23,7 @@ public class ReservationDAO extends DAO<Reservation> {
 
 	@Override
 	public String put(Reservation r) {
-	    TransportClient  client = daofactory.getConnextion();
+	    TransportClient  client = DAOFactory.getConnextion();
 		try { 
 		    IndexResponse response = client.prepareIndex("book","_doc").setSource(
 			    jsonBuilder()
@@ -58,7 +57,7 @@ public class ReservationDAO extends DAO<Reservation> {
 
 	@Override
 	public boolean update(Reservation r, String idReservation) {
-	    TransportClient client = daofactory.getConnextion();
+	    TransportClient client = DAOFactory.getConnextion();
 		try {
 			UpdateResponse update = client.prepareUpdate("book", "_doc", idReservation)
 					.setDoc(jsonBuilder()

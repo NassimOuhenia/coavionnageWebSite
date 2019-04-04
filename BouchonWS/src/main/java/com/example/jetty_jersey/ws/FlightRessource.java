@@ -18,54 +18,57 @@ import com.example.jetty_jersey.model.ID;
 
 @Path("/flights")
 public class FlightRessource {
-	
+
 	private FlightDAO daoFlight = DAOFactory.getInstance().getFlightDAO();
 	private ReservationDAO daoReservation = DAOFactory.getInstance().getReservationDAO();
-	
-	
-	//planifié un vol
+
+	// planifié un vol
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/add")
 	public String postFlight(Flight f) {
-	    System.out.println(f.getDepartureAirport());
+		System.out.println(f.getDepartureAirport());
 		return daoFlight.put(f);
 	}
 
-	//Recuperer infos d'un vol
+	// Recuperer infos d'un vol
 	// reserver un vol
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get")
 	public List<Flight> get(ID identification) {
-	    return daoFlight.get(identification.getId());
+		return daoFlight.get(identification.getId());
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/book")
 	public String book(Reservation r) {
-	    String response = daoReservation.put(r);
-	    if (response.contains("400")) {
+		String response = daoReservation.put(r);
+		if (response.contains("400")) {
+			return response;
+		}
+		// Pilot pilot = daoFlight.get(r.getIdFlight()).get(0).getPilot();
+		// String emailPilot = pilot.getMail();
+		// Envoyer email
 		return response;
-	    }
-	   // Pilot pilot = daoFlight.get(r.getIdFlight()).get(0).getPilot();
-	    //String emailPilot = pilot.getMail();
-	    //Envoyer email
-	    return response;
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/search")
 	public List<Flight> search(Recherche r) {
-	    return daoFlight.get(r);
+		List<Flight> list =  daoFlight.get(r);
+		for(Flight f : list) {
+			System.out.println("ws merde "+f.getIdFlight());
+		}
+		return list;
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -73,6 +76,5 @@ public class FlightRessource {
 	public boolean confirm(ID idReservation) {
 		return daoReservation.update(null, idReservation.getId());
 	}
-	
 
 }

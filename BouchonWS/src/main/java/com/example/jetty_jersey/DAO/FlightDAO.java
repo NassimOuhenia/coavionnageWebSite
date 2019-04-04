@@ -24,8 +24,8 @@ public class FlightDAO extends DAO<Flight> {
 	public DAOFactory daofactory;
 
 	public FlightDAO(DAOFactory f) {
-		list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));
-		list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));
+		put(new Flight("1","2019-03-21", "orly", "CDG", 35, 2, "travel", "travel", null, null, 0));
+		put(new Flight("2","2019-03-21", "orly", "CDG", 35, 2, "travel", "travel", null, null, 0));
 		daofactory = f;
 	}
 
@@ -110,9 +110,7 @@ public class FlightDAO extends DAO<Flight> {
 		ArrayList<Flight> list = new ArrayList<Flight>();
 		for (SearchHit sh : result) {
 			Map<String, Object> map = sh.getSourceAsMap();
-			for (String key : map.keySet()) {
-				System.out.println(key + " " + map.get(key));
-			}
+			
 			System.out.println();
 			Flight f = new Flight(sh.getId(), map.get("date").toString(), map.get("departureAirport").toString(),
 					map.get("arrivalAirport").toString(), Double.valueOf(map.get("travelTime").toString()),
@@ -120,6 +118,9 @@ public class FlightDAO extends DAO<Flight> {
 					map.get("typeFlight").toString(), (Plane) map.get("plane"), (Pilot) map.get("pilot"),
 					Integer.parseInt(map.get("seatLeft").toString()));
 			list.add(f);
+		}
+		for(Flight f : list) {
+			System.out.println("arrivé => "+ f.getIdFlight());
 		}
 		return list;
 

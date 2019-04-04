@@ -8,25 +8,31 @@ var profil = null;
 var type = "";
 
 function afterSearch(listF) {
-	$("#resultsearch").text("");
+	
 	$("#notfound").hide();
+	
 	if (listF.length == 0) {
 		$("#notfound").show();
 		return;
 	}
+	
 	for (i = 0; i < listF.length; i++) {
+		
 		var templateExample = _.template($('#ajoutsearch').html());
+		console.log(listF[i].departureAirport);
 		var html = templateExample({
-			// "idf":listF[i].idFlight,
+			
+			"idf":listF[i].idFlight,
 			"depart" : listF[i].departureAirport,
 			"arrive" : listF[i].arrivalAirport,
 			"date" : listF[i].date,
 			"time" : listF[i].timep,
-			"pilote" : listF[i].pilot.firstName,
-			"modele" : listF[i].plane.modele,
+			//"pilote" : listF[i].pilot.firstName,
+			//"modele" : listF[i].plane.modele,
 			"price" : listF[i].price,
 			"place" : listF[i].seatLeft
 		});
+		
 		$("#resultsearch").append(html);
 	}
 }
@@ -268,8 +274,6 @@ $(function() {
 });
 
 // reserver un vol par un passenger
-function bookFlight() {
-	
-
-	
+function bookFlight(idflight) {
+	alert(idflight);
 }

@@ -39,7 +39,7 @@
 					<button class="btn navbar-btn passenger connected" id="lienRecherche">search flight</button>
 					<button class="btn navbar-btn passenger connected" id="lienReservation">my reservations</button>
 					<button class="btn navbar-btn pilot connected" data-toggle="modal"
-							data-target="#postFlight">post flight</button>
+							data-target="#postFlight">book flight</button>
 					<ul class="nav navbar-nav navbar-right">
 						<li id="sin"><a href="#" data-toggle="modal"
 							data-target="#signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
@@ -199,7 +199,7 @@
 			<br>
 			<div class="row" id="formsearch">
 				<div align="center">
-					<div class="form-inline" action="">
+					<div class="form-inline">
 						<div class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 							<input type="date" class="form-control" id="datesearch">
@@ -213,9 +213,9 @@
 							<input type="text" class="form-control" id="arrivalsearch" placeholder="arrival">
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" id="travelsearch" checked>travel</label>
+							<label><input type="checkbox" id="travelsearch">travel</label>
 							<br>
-							<label><input type="checkbox" id="localsearch" checked>local</label>
+							<label><input type="checkbox" id="localsearch">local</label>
 						</div>
 						<button id="search" class="btn btn-default">search</button>
 					</div> 
@@ -232,21 +232,20 @@
 						<hr>
 						<h4><%=date%> <%=time%></h4>
 						<hr>
-						<h4>Pilot : <%=pilot%> with plane modele:<%=modele%></h4>
+						
 						<hr>
 						<h4>Price : <%=price%> €</h4>
 					</div>
 					<div class="col-sm-4" align="center">
 						<h3><%=place%> seat left</h3>
-						<p><input  type="number" value="1"></p>
-						<p><button type="button" id="bookFlight" onclick="bookFlight()" 
+						<p><input  type="number" value="0" min="0" max=<%=place%>></p>
+						<p><button type="button" onclick="bookFlight(<%=idf%>)" 
 							class="btn btn-primary btn-lg">book</button></p>
 					</div>
 				</div>
 			</script>
-			<div id="resultsearch"></div>
+			<div id="resultsearch">	</div>
 		</div>
-		<div class="container-fluid" id="reservation"></div>
 		
 	</body>
 </html>

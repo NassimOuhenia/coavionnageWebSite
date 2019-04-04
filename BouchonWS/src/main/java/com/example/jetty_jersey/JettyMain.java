@@ -15,7 +15,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 
-import static sun.net.www.protocol.http.AuthCacheValue.Type.Server;
 
 public class JettyMain {
 

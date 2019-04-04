@@ -1,9 +1,6 @@
 package com.example.jetty_jersey.DAO;
 
 import java.util.List;
-import java.util.Map;
-
-import org.elasticsearch.action.index.IndexResponse;
 
 public abstract class DAO<T>{
 	  
