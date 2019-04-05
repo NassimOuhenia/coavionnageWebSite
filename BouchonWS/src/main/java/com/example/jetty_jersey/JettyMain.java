@@ -15,7 +15,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 
-
 public class JettyMain {
 
 	public static void main(String[] args) throws Exception {
@@ -43,9 +42,10 @@ public class JettyMain {
 
 		// Add a handler for resources (/*)
 		ResourceHandler handlerPortal = new ResourceHandler();
-		handlerPortal.setResourceBase("src/main/webapp");
+		//handlerPortal.setResourceBase("src/main/webapp");
+		handlerPortal.setResourceBase("src/travello");
 		handlerPortal.setDirectoriesListed(false);
-		handlerPortal.setWelcomeFiles(new String[] { "homePage.html" });
+		handlerPortal.setWelcomeFiles(new String[] { "index.html" });
 		ContextHandler handlerPortalCtx = new ContextHandler();
 		handlerPortalCtx.setContextPath("/");
 		handlerPortalCtx.setHandler(handlerPortal);

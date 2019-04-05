@@ -22,9 +22,9 @@ function afterSearch(listF) {
 			"arrive" : listF[i].arrivalAirport,
 			"date" : listF[i].date,
 			"time" : listF[i].timep,
-			"mail" : listF[i].pilot.mail,
-			"pilote" : listF[i].pilot.firstName,
-			"modele" : listF[i].plane.modele,
+			//"mail" : listF[i].pilot.mail,
+			//"pilote" : listF[i].pilot.firstName,
+			//"modele" : listF[i].plane.modele,
 			"price" : listF[i].price,
 			"place" : listF[i].seatLeft
 		});
