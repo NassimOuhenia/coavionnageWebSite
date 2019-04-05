@@ -17,11 +17,12 @@ function afterSearch(listF) {
 	for (i = 0; i < listF.length; i++) {
 		var templateExample = _.template($('#ajoutsearch').html());
 		var html = templateExample({
-			"idf":listF[i].idFlight,
+			"idf" : listF[i].idFlight,
 			"depart" : listF[i].departureAirport,
 			"arrive" : listF[i].arrivalAirport,
 			"date" : listF[i].date,
 			"time" : listF[i].timep,
+			"mail" : listF[i].pilot.mail,
 			"pilote" : listF[i].pilot.firstName,
 			"modele" : listF[i].plane.modele,
 			"price" : listF[i].price,
@@ -68,8 +69,8 @@ $(function() {
 			arrival : $("#arrivalsearch").val()
 		};
 		getServerData(urlSearchFlight, afterSearch, 'post', data);
-		 //alert(data.typeLocal+" "+data.typeTravel+" "+data.date+
-		 //" "+data.departure+" "+data.arrival);
+		// alert(data.typeLocal+" "+data.typeTravel+" "+data.date+
+		// " "+data.departure+" "+data.arrival);
 	});
 });
 
@@ -95,7 +96,8 @@ $(function() {
 			travelTime : $("#traveltimepost").val(),
 			price : $("#pricepost").val(),
 			seatLeft : $("#placepost").val(),
-			typeflight : typeVol
+			typeflight : typeVol,
+			pilot : profil
 		};
 		getServerData(urlPostFlight, afterPost, 'post', data);
 		// alert(data.typeflight+" "+data.departureAirport+"
@@ -158,7 +160,7 @@ $(function() {
 });
 
 function afterPostUser(user) {
-	//jQuery.noConflict();
+	// jQuery.noConflict();
 	$('#signup').modal('hide');
 	$('#signin').modal('show');
 	$(".signup-sucess").fadeIn().text(
@@ -236,13 +238,12 @@ function afterLoginUser(user) {
 		// ////////////////////////////////////////////////////////////////////////
 		// achanger par session
 		profil = user;
-		if (type == "passenger"){
-            $("#lienRecherche").css("display", "inline");
-            $("#lienReservation").css("display", "inline");
-        }
-		else{
-            $("#lienpost").css("display", "inline"); 
-        }
+		if (type == "passenger") {
+			$("#lienRecherche").show();
+			$("#lienReservation").show();
+		} else {
+			$("#lienpost").show();
+		}
 		$("#logOut").show();
 		$("#sup").hide();
 		$("#sin").hide();
@@ -265,14 +266,21 @@ function formlogToJSON() {
 $(function() {
 	$("#logOut").click(function() {
 		$(".connected").hide();
+		$("#lienRecherche").hide();
+		$("#lienReservation").hide();
 		$("#logOut").hide();
 		$("#sup").show();
 		$("#sin").show();
 		profil = null;
+		window.location.href = "http://localhost:8080/";
 	});
 });
 
 // reserver un vol par un passenger
-function bookFlight(val) {
-	alert(val);
+function bookFlight(val, mail) {
+	if (profil == null)
+		$('#signin').modal('show');
+	else {
+		alert(profil.mail+" idflight "+val+ " mail pilot "+mail+" nombre de place "+ $('#nbPlace').val());
+	}
 }

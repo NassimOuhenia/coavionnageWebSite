@@ -12,9 +12,9 @@ public class FlightDAO extends DAO<Flight> {
 
 	public FlightDAO(DAOFactory f) {
 		list.add(new Flight("1", "2019-03-07", "Orly", "CDG", 35, 3, "12:00", "travel", new Plane(),
-				new Pilot("Toto", "", "", "", 0, ""), 5));
+				new Pilot("Toto", "", "titi@yahoo.com", "", 0, ""), 5));
 		list.add(new Flight("2", "2019-03-07", "Orly", "CDG", 40, 2, "12:00", "travel", new Plane(),
-				new Pilot("Gerard", "", "", "", 0, ""), 6));
+				new Pilot("Gerard", "", "ger@yahoo.com", "", 0, ""), 6));
 		list.add(new Flight("3", "2019-12-07", "CDG", "Orly", 35, 2, "12:00", "travel", new Plane(),
 				new Pilot("Nassim", "", "", "", 0, ""), 5));
 		list.add(new Flight("4", "2019-03-23", "Orly", "CDG", 35, 2, "12:00", "travel", new Plane(),
@@ -25,7 +25,7 @@ public class FlightDAO extends DAO<Flight> {
 
 	@Override
 	public boolean put(Flight obj) {
-		obj.setPilot(new Pilot("a", "a", "a", "a", 0, "certifié"));
+		
 		obj.setPlane(new Plane(4, "modele", "avion", 2));
 		return list.add(obj);
 	}

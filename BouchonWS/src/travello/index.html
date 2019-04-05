@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Travello</title>
+<title>BLABLAPLANE</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Travello template project">
@@ -266,8 +266,8 @@
                                     </div>
                                     <div class="col-sm-4" align="center">
                                         <h3><%=place%> seat left</h3>
-                                        <p><input  type="number" value="0" min="0" max=<%=place%>></p>
-                                        <p><button type="button" onclick="bookFlight(<%=idf%>)" 
+                                        <p><input  type="number" id="nbPlace" value="0" min="0" max=<%=place%>></p>
+                                        <p><button type="button" onclick="bookFlight('<%=idf%>', '<%=mail%>')" 
                                             class="btn btn-primary btn-lg">book</button></p>
                                     </div>
                                 </div>
@@ -346,10 +346,7 @@
     
     
     
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> 
+
 
     
     
