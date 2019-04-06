@@ -16,6 +16,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
+import org.mindrot.jbcrypt.BCrypt;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -46,7 +47,7 @@ public class PassengerDAO extends DAO<Passenger>{
 					.field("firstName",obj.getFirstName())
 					.field("lastName",obj.getLastName())
 					.field("mail",obj.getMail())
-					.field("password",obj.getPassword())
+					.field("password",BCrypt.hashpw(obj.getPassword(), BCrypt.gensalt()))
 					.endObject()
 					).get(); 
 			if (response.status() == RestStatus.CREATED) {
@@ -135,7 +136,7 @@ public class PassengerDAO extends DAO<Passenger>{
 		Map<String, Object> map = result[i].getSourceAsMap();
 		if (map.get("mail").toString().equals(c.getMail())) {
 		    //if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
-		    if (map.get("password").toString().equals(c.getPassword())) {
+		    if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
 			System.out.println(map.get("mail"));
 			return "{" + "\"status\":\"200\"," +
 				// Mettre a la place le token

@@ -136,7 +136,8 @@ public class FlightDAO extends DAO<Flight> {
 			Map<String, Object> map = sh.getSourceAsMap();
 			System.out.println(map.get("typeFlight").equals(Integer.toString(typeFlight)));
 			if (//map.get("typeFlight").equals(Integer.toString(typeFlight))
-				 map.get("departureAirport").equals(r.getDeparture())
+				map.get("date").equals(r.getDate())
+				&& map.get("departureAirport").equals(r.getDeparture())
 				&& map.get("arrivalAirport").equals(r.getArrival())
 				&& Integer.parseInt(map.get("seatLeft").toString()) > 0) {
 			    

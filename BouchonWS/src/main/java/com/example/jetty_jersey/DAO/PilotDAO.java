@@ -13,6 +13,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
+import org.mindrot.jbcrypt.BCrypt;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
@@ -37,7 +38,7 @@ public class PilotDAO extends DAO<Pilot> {
 			IndexResponse response = client.prepareIndex("pilot", "_doc")
 					.setSource(jsonBuilder().startObject().field("lastName", obj.getLastName())
 							.field("firstName", obj.getFirstName()).field("mail", obj.getMail())
-							.field("password", obj.getPassword()).field("experience", obj.getExperience())
+							.field("password", BCrypt.hashpw(obj.getPassword(), BCrypt.gensalt())).field("experience", obj.getExperience())
 							.field("certificate", obj.getCertificate()).endObject())
 					.get();
 			if (response.status() == RestStatus.CREATED) {
@@ -106,8 +107,7 @@ public class PilotDAO extends DAO<Pilot> {
 		for (int i = 0; i < result.length; i++) {
 		    Map<String, Object> map = result[i].getSourceAsMap();
 		    if (map.get("mail").toString().equals(c.getMail())) {
-			//if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
-			if (map.get("password").toString().equals(c.getPassword())) {
+			if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
 			    return "{" + "\"status\":\"200\"," +
 				    // Mettre a la place le token
 				    "\"id\":\"" + result[i].getId() + "\"" + "}";
