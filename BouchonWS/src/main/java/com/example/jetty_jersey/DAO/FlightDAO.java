@@ -24,8 +24,8 @@ public class FlightDAO extends DAO<Flight> {
 	public DAOFactory daofactory;
 
 	public FlightDAO(DAOFactory f) {
-		list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));
-		list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));
+		/*list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));
+		list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));*/
 		daofactory = f;
 	}
 
@@ -45,8 +45,9 @@ public class FlightDAO extends DAO<Flight> {
 							.field("arrivalAirport", obj.getArrivalAirport())
 							.field("travelTime", obj.getTravelTime())
 							.field("price", obj.getPrice())
-							.field("time", obj.getTime())
+							.field("time", obj.getTimep())
 							.field("typeFlight", obj.getTypeFlight())
+							.field("modelePlane", obj.getModelePlane())
 							.field("pilot", obj.getPilot())
 							.field("seatLeft", obj.getSeatLeft())
 						.endObject())
@@ -99,7 +100,7 @@ public class FlightDAO extends DAO<Flight> {
 			Double.valueOf(map.get("price").toString()),
 			map.get("time").toString(),
 			map.get("typeFlight").toString(),
-			(Plane) map.get("plane"),
+			map.get("modelePlane").toString(),
 			(Pilot) map.get("pilot"),
 			Integer.parseInt(map.get("seatLeft").toString()));
 		list.add(f);
@@ -149,7 +150,7 @@ public class FlightDAO extends DAO<Flight> {
 				Double.valueOf(map.get("price").toString()),
 				map.get("time").toString(),
 				map.get("typeFlight").toString(),
-				(Plane) map.get("plane"),
+				map.get("modelePlane").toString(),
 				(Pilot) map.get("pilot"),
 				Integer.parseInt(map.get("seatLeft").toString()));
 			    list.add(f);

@@ -3,14 +3,18 @@ package com.example.jetty_jersey.ws;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import com.example.jetty_jersey.JwTokenHelper;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.PilotDAO;
 import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.Connection;
+import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.ID;
 
 @Path("/pilots/")
@@ -46,6 +50,18 @@ public class PilotRessource {
 	@Path("/signin")
 	public String signIn(Connection c) {
 		return daoPilot.connect(c);
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/myflights")
+	public List<Flight> getListFlights(@HeaderParam("token") String token) {
+	    	if (JwTokenHelper.getInstance().isTokenInvalid(token) ||
+	    		!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+	    	    return null;
+	    	}
+		return ;
 	}
 
 }

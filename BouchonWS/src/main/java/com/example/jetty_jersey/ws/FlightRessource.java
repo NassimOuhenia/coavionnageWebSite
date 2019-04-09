@@ -37,6 +37,8 @@ public class FlightRessource {
 		else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
 		    return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
+		String id = JwTokenHelper.getInstance().getIdFromToken(token);
+		f.setPilot(DAOFactory.getInstance().getPiloteDAO().get(id).get(0));
 		return daoFlight.put(f);
 	}
 

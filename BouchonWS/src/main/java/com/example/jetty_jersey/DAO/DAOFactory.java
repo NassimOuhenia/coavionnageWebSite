@@ -65,10 +65,6 @@ public class DAOFactory {
 		return new PilotDAO(this);
 	}
 	
-	public PlaneDAO getPlaneDAO() {
-		return new PlaneDAO(this);
-	}
-	
 	public PassengerDAO getPassengerDAO() {
 		return new PassengerDAO(this);
 	}
