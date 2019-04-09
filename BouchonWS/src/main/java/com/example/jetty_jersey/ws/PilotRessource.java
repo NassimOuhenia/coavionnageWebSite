@@ -13,7 +13,7 @@ import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.ID;
 
-@Path("/user/pilots/")
+@Path("/pilots/")
 public class PilotRessource {
 
 	private PilotDAO daoPilot = DAOFactory.getInstance().getPiloteDAO();
