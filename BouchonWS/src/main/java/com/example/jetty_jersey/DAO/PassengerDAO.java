@@ -22,6 +22,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
+import com.example.jetty_jersey.JwTokenHelper;
 import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.Passenger;
 import com.example.jetty_jersey.model.Pilot;
@@ -131,15 +132,17 @@ public class PassengerDAO extends DAO<Passenger>{
 	    SearchResponse response = client.prepareSearch("passenger").setTypes("_doc").setQuery(matchAllQuery()).setSize(10000).get();
 
 	    SearchHit[] result = response.getHits().getHits();
-	    System.out.println(c.getMail() + " " + c.getPassword());
 	    for (int i = 0; i < result.length; i++) {
 		Map<String, Object> map = result[i].getSourceAsMap();
 		if (map.get("mail").toString().equals(c.getMail())) {
-		    //if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
 		    if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
-			System.out.println(map.get("mail"));
+			
+			String privateKey = JwTokenHelper.getInstance().generatePrivateKey(c.getMail(), c.getPassword());
+			System.out.println(privateKey);
+			
 			return "{" + "\"status\":\"200\"," +
 				// Mettre a la place le token
+				//"\"id\":\"" + result[i].getId() + "\"" + "}";
 				"\"id\":\"" + result[i].getId() + "\"" + "}";
 		    }
 		    return "{" + "\"status\":\"400\"," + "\"error\":\"Wrong password\"" + "}";
