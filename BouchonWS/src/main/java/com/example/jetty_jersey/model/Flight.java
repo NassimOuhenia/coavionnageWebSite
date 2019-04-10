@@ -12,7 +12,6 @@ public class Flight {
 	private double price;
 	private String time;
 	private String typeFlight;
-	private Plane plane;
 	private Pilot pilot;
 	private int seatLeft;
 	private List<Passenger> passagers;
@@ -27,7 +26,7 @@ public class Flight {
 		this.price = price;
 		this.time = time;
 		this.typeFlight = typeFlight;
-		this.plane = plane;
+		
 		this.pilot = pilot;
 		this.seatLeft = seatLeft;
 		passagers = new ArrayList<Passenger>(); 
@@ -109,13 +108,6 @@ public class Flight {
 		this.typeFlight = typeFlight;
 	}
 
-	public Plane getPlane() {
-		return plane;
-	}
-
-	public void setPlane(Plane plane) {
-		this.plane = plane;
-	}
 
 	public Pilot getPilot() {
 		return pilot;

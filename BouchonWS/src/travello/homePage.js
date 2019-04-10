@@ -1,11 +1,12 @@
 var urlSearchFlight = 'http://localhost:8080/blablaplane/flights/search';
 var urlPostFlight = 'http://localhost:8080/blablaplane/flights/add';
-var urlPostPassenger = 'http://localhost:8080/blablaplane/user/passenger/signup';
-var urlLogPassenger = 'http://localhost:8080/blablaplane/user/passenger/signin';
-var urlPostPilot = 'http://localhost:8080/blablaplane/user/pilots/signup';
-var urlLogPilot = 'http://localhost:8080/blablaplane/user/pilots/signin';
+var urlPostPassenger = 'http://localhost:8080/blablaplane/passengers/signup';
+var urlLogPassenger = 'http://localhost:8080/blablaplane/passengers/signin';
+var urlPostPilot = 'http://localhost:8080/blablaplane/pilots/signup';
+var urlLogPilot = 'http://localhost:8080/blablaplane/pilots/signin';
 var profil = null;
 var type = "";
+var header = null; 
 
 function afterSearch(listF) {
 	$("#resultsearch").text("");
@@ -22,9 +23,9 @@ function afterSearch(listF) {
 			"arrive" : listF[i].arrivalAirport,
 			"date" : listF[i].date,
 			"time" : listF[i].timep,
-			//"mail" : listF[i].pilot.mail,
-			//"pilote" : listF[i].pilot.firstName,
-			//"modele" : listF[i].plane.modele,
+			"mail" : listF[i].pilot.mail,
+			"pilote" : listF[i].pilot.firstName,
+			"modele" : listF[i].modele,
 			"price" : listF[i].price,
 			"place" : listF[i].seatLeft
 		});
@@ -35,11 +36,12 @@ function afterSearch(listF) {
 }
 
 // fonction generique pour recuperer des donnes
-function getServerData(url, callBack, type, data) {
+function getServerData(url, callBack, type, data, header) {
 	$.ajax({
 		url : url,
 		type : type,
 		dataType : 'json',
+		headers : header,
 		contentType : 'application/json',
 		success : function(data) {
 			if (callBack)
@@ -68,7 +70,7 @@ $(function() {
 			departure : $("#departuresearch").val(),
 			arrival : $("#arrivalsearch").val()
 		};
-		getServerData(urlSearchFlight, afterSearch, 'post', data);
+		getServerData(urlSearchFlight, afterSearch, 'post', data, header);
 		// alert(data.typeLocal+" "+data.typeTravel+" "+data.date+
 		// " "+data.departure+" "+data.arrival);
 	});
@@ -97,9 +99,9 @@ $(function() {
 			price : $("#pricepost").val(),
 			seatLeft : $("#placepost").val(),
 			typeflight : typeVol,
-			pilot : profil
+			pilot : null
 		};
-		getServerData(urlPostFlight, afterPost, 'post', data);
+		getServerData(urlPostFlight, afterPost, 'post', data, header);
 		// alert(data.typeflight+" "+data.departureAirport+"
 		// "+data.arrivalAirport+" "+data.date+" "+data.timep+" "
 		// +data.travelTime+" "+data.price+" "+data.seatLeft+" "+typeVol);
@@ -142,13 +144,13 @@ $(function() {
 									.val() == "pilot") {
 								$("#formsignup .error-form").text("");
 								getServerData(urlPostPilot, afterPostUser,
-										'post', formsignupToJSON());
+										'post', formsignupToJSON(),header);
 							} else if ($(
 									'#formsignup input[name="type"]:checked')
 									.val() == "passenger") {
 								$("#formsignup .error-form").text("");
 								getServerData(urlPostPassenger, afterPostUser,
-										'post', formsignupToJSON());
+										'post', formsignupToJSON(),header);
 							} else {
 								$("#formsignup .error-form")
 										.fadeIn()
@@ -209,14 +211,14 @@ $(function() {
 								$("#formsignin .error-form").text("");
 								type = "pilot";
 								getServerData(urlLogPilot, afterLoginUser,
-										'post', formlogToJSON());
+										'post', formlogToJSON(), header);
 							} else if ($(
 									'#formsignin input[name="type"]:checked')
 									.val() == "passenger") {
 								$("#formsignin .error-form").text("");
 								type = "passenger";
 								getServerData(urlLogPassenger, afterLoginUser,
-										'post', formlogToJSON());
+										'post', formlogToJSON(), header);
 							} else {
 								$("#formsignin .error-form")
 										.fadeIn()
@@ -228,10 +230,11 @@ $(function() {
 });
 
 function afterLoginUser(user) {
-	if (!user) {
-		$("#formsignin .error-form").fadeIn().text(
-				"Votre email ou mot de passe sont incorrect");
-	} else {
+		
+		
+		header = new Headers();
+		header.append('token', user.id);
+
 		$('#signin').modal('hide');
 		$(".signup-sucess").text("");
 		$("#signin").removeData('bs.modal');
@@ -248,14 +251,12 @@ function afterLoginUser(user) {
 		$("#sup").hide();
 		$("#sin").hide();
 		// ///////////////////////////////////////////////////////////////////////
-	}
+	
 }
 
 // return les infos du formulaire
 function formlogToJSON() {
 	var form = {
-		firstName : "",
-		lastName : "",
 		mail : $('#mailog').val(),
 		password : $('#logpass').val()
 	};

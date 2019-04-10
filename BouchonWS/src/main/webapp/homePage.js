@@ -27,7 +27,7 @@ function afterSearch(listF) {
 			"arrive" : listF[i].arrivalAirport,
 			"date" : listF[i].date,
 			"time" : listF[i].timep,
-			//"pilote" : listF[i].pilot.firstName,
+			"pilote" : listF[i].pilot.firstName,
 			//"modele" : listF[i].plane.modele,
 			"price" : listF[i].price,
 			"place" : listF[i].seatLeft
@@ -230,10 +230,8 @@ $(function() {
 });
 
 function afterLoginUser(user) {
-	if (!user) {
-		$("#formsignin .error-form").fadeIn().text(
-				"Votre email ou mot de passe sont incorrect");
-	} else {
+	alert(user);
+
 		$('#signin').modal('hide');
 		$(".signup-sucess").text("");
 		$("#signin").removeData('bs.modal');
@@ -248,7 +246,7 @@ function afterLoginUser(user) {
 		$("#lin").hide();
 		$("#sin").hide();
 		
-	}
+	
 }
 
 // return les infos du formulaire

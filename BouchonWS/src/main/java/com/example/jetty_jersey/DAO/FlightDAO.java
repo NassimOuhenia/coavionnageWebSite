@@ -47,7 +47,6 @@ public class FlightDAO extends DAO<Flight> {
 							.field("price", obj.getPrice())
 							.field("time", obj.getTime())
 							.field("typeFlight", obj.getTypeFlight())
-							.field("plane", obj.getPlane())
 							.field("pilot", obj.getPilot())
 							.field("seatLeft", obj.getSeatLeft())
 						.endObject())
