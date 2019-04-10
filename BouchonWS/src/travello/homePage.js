@@ -4,7 +4,7 @@ var urlPostPassenger = 'http://localhost:8080/blablaplane/passengers/signup';
 var urlLogPassenger = 'http://localhost:8080/blablaplane/passengers/signin';
 var urlPostPilot = 'http://localhost:8080/blablaplane/pilots/signup';
 var urlLogPilot = 'http://localhost:8080/blablaplane/pilots/signin';
-var profil = null;
+
 var type = "";
 var header = null;
 
@@ -23,8 +23,8 @@ function afterSearch(listF) {
 			"arrive" : listF[i].arrivalAirport,
 			"date" : listF[i].date,
 			"time" : listF[i].timep,
-			"mail" : listF[i].pilot.mail,
-			"pilote" : listF[i].pilot.firstName,
+			// "mail" : listF[i].pilot.mail,
+			// "pilote" : listF[i].pilot.firstName,
 			"modele" : listF[i].modele,
 			"price" : listF[i].price,
 			"place" : listF[i].seatLeft
@@ -41,7 +41,10 @@ function getServerData(url, callBack, type, data, header) {
 		url : url,
 		type : type,
 		dataType : 'json',
-		headers : header,
+		beforeSend: function(request) {
+			if(header)
+				request.setRequestHeader("token", header.get('token'));
+		  },
 		contentType : 'application/json',
 		success : function(data) {
 			if (callBack)
@@ -98,9 +101,13 @@ $(function() {
 			travelTime : $("#traveltimepost").val(),
 			price : $("#pricepost").val(),
 			seatLeft : $("#placepost").val(),
-			typeflight : typeVol,
-			pilot : null
-		};
+			typeFlight : typeVol,
+			pilot : null,
+			idFlight : null,
+			modelePlane : null,
+			passagers : null
+		}
+		alert(header.get('token'));
 		getServerData(urlPostFlight, afterPost, 'post', data, header);
 		// alert(data.typeflight+" "+data.departureAirport+"
 		// "+data.arrivalAirport+" "+data.date+" "+data.timep+" "
@@ -243,7 +250,7 @@ function afterLoginUser(user) {
 		$("#signin").removeData('bs.modal');
 		// ////////////////////////////////////////////////////////////////////////
 		// achanger par session
-		profil = user;
+		
 		if (type == "passenger") {
 			$("#lienRecherche").show();
 			$("#lienReservation").show();
@@ -275,17 +282,18 @@ $(function() {
 		$("#logOut").hide();
 		$("#sup").show();
 		$("#sin").show();
-		profil = null;
+		header.delete('token');
+		header = null;
 		window.location.href = "http://localhost:8080/";
 	});
 });
 
 // reserver un vol par un passenger
 function bookFlight(val, mail) {
-	if (profil == null)
+	if (header == null)
 		$('#signin').modal('show');
 	else {
-		alert(profil.mail + " idflight " + val + " mail pilot " + mail
+		alert(header.get('token') + " idflight " + val + " mail pilot " + mail
 				+ " nombre de place " + $('#nbPlace').val());
 	}
 }

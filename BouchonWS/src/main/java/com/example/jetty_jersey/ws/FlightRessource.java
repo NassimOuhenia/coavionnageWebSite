@@ -31,6 +31,7 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/add")
 	public String postFlight(@HeaderParam("token") String token, Flight f) {
+		System.out.println("token : " +token);
 		if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
 		    return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
 		}
