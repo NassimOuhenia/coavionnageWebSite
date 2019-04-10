@@ -49,7 +49,9 @@ public class PilotRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signin")
 	public String signIn(Connection c) {
-		return daoPilot.connect(c);
+	    String token = daoPilot.connect(c);
+	    System.out.println(token);
+		return token;
 	}
 	
 	@POST

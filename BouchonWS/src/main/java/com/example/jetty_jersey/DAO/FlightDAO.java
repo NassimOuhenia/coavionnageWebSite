@@ -28,15 +28,21 @@ public class FlightDAO extends DAO<Flight> {
 		list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));*/
 		daofactory = f;
 	}
+	
 
 	/*
 	 * Ajoute un object vol dans la base de donnees
 	 */
 
-	@Override
+	
 	public String put(Flight obj) {
 		TransportClient client = DAOFactory.getConnextion();
 		try {
+		    String str = null;
+		    String modele = obj.getModelePlane();
+		    if (modele == null) {
+			modele = "avion";
+		    }
 			IndexResponse response = client.prepareIndex("flight", "_doc")
 					.setSource(jsonBuilder()
 						.startObject()
@@ -47,8 +53,8 @@ public class FlightDAO extends DAO<Flight> {
 							.field("price", obj.getPrice())
 							.field("time", obj.getTimep())
 							.field("typeFlight", obj.getTypeFlight())
-							.field("modelePlane", obj.getModelePlane())
-							.field("pilot", obj.getPilot())
+							.field("modelePlane", modele)
+							.field("pilot", obj.getPilot().getFirstName())
 							.field("seatLeft", obj.getSeatLeft())
 						.endObject())
 					.get();
@@ -101,7 +107,7 @@ public class FlightDAO extends DAO<Flight> {
 			map.get("time").toString(),
 			map.get("typeFlight").toString(),
 			map.get("modelePlane").toString(),
-			(Pilot) map.get("pilot"),
+			DAOFactory.getInstance().getPiloteDAO().get(map.get("pilot").toString()).get(0),
 			Integer.parseInt(map.get("seatLeft").toString()));
 		list.add(f);
 		return list;
@@ -151,7 +157,7 @@ public class FlightDAO extends DAO<Flight> {
 				map.get("time").toString(),
 				map.get("typeFlight").toString(),
 				map.get("modelePlane").toString(),
-				(Pilot) map.get("pilot"),
+				DAOFactory.getInstance().getPiloteDAO().get(map.get("pilot").toString()).get(0),
 				Integer.parseInt(map.get("seatLeft").toString()));
 			    list.add(f);
 			}

@@ -18,6 +18,7 @@ import com.example.jetty_jersey.model.Reservation;
 //import com.example.jetty_jersey.model.Pilot;
 
 import com.example.jetty_jersey.model.ID;
+import com.example.jetty_jersey.model.Pilot;
 
 @Path("/flights")
 public class FlightRessource {
@@ -31,7 +32,6 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/add")
 	public String postFlight(@HeaderParam("token") String token, Flight f) {
-		System.out.println("token : " +token);
 		if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
 		    return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
 		}
@@ -39,7 +39,7 @@ public class FlightRessource {
 		    return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
 		String id = JwTokenHelper.getInstance().getIdFromToken(token);
-		f.setPilot(DAOFactory.getInstance().getPiloteDAO().get(id).get(0));
+		f.setPilot(new Pilot(id, null, null, null, 0 ,null));
 		return daoFlight.put(f);
 	}
 
@@ -81,9 +81,6 @@ public class FlightRessource {
 	@Path("/search")
 	public List<Flight> search(Recherche r) {
 		List<Flight> list =  daoFlight.get(r);
-		for(Flight f : list) {
-			System.out.println("ws merde "+f.getIdFlight());
-		}
 		return list;
 	}
 

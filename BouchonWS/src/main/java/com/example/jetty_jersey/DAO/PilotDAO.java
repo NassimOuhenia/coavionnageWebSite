@@ -36,11 +36,14 @@ public class PilotDAO extends DAO<Pilot> {
 	public String put(Pilot obj) {
 		TransportClient client = DAOFactory.getConnextion();
 		try {
+		    String certificate = obj.getCertificate();
+		    if (obj.getCertificate() == null)
+			certificate = "aucune";
 			IndexResponse response = client.prepareIndex("pilot", "_doc")
 					.setSource(jsonBuilder().startObject().field("lastName", obj.getLastName())
 							.field("firstName", obj.getFirstName()).field("mail", obj.getMail())
 							.field("password", BCrypt.hashpw(obj.getPassword(), BCrypt.gensalt())).field("experience", obj.getExperience())
-							.field("certificate", obj.getCertificate()).endObject())
+							.field("certificate", certificate).endObject())
 					.get();
 			if (response.status() == RestStatus.CREATED) {
 				return "{" + "\"status\":\"201\"," + "\"id\":\"" + response.getId() + "\"" + "}";
