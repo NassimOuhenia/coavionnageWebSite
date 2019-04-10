@@ -6,7 +6,7 @@ var urlPostPilot = 'http://localhost:8080/blablaplane/pilots/signup';
 var urlLogPilot = 'http://localhost:8080/blablaplane/pilots/signin';
 var profil = null;
 var type = "";
-var header = null; 
+var header = null;
 
 function afterSearch(listF) {
 	$("#resultsearch").text("");
@@ -144,13 +144,13 @@ $(function() {
 									.val() == "pilot") {
 								$("#formsignup .error-form").text("");
 								getServerData(urlPostPilot, afterPostUser,
-										'post', formsignupToJSON(),header);
+										'post', formsignupToJSON(), header);
 							} else if ($(
 									'#formsignup input[name="type"]:checked')
 									.val() == "passenger") {
 								$("#formsignup .error-form").text("");
 								getServerData(urlPostPassenger, afterPostUser,
-										'post', formsignupToJSON(),header);
+										'post', formsignupToJSON(), header);
 							} else {
 								$("#formsignup .error-form")
 										.fadeIn()
@@ -230,8 +230,11 @@ $(function() {
 });
 
 function afterLoginUser(user) {
-		
-		
+
+	if (!user) {
+		$("#formsignin .error-form").fadeIn().text(
+				"Votre email ou mot de passe sont incorrect");
+	} else {
 		header = new Headers();
 		header.append('token', user.id);
 
@@ -251,7 +254,7 @@ function afterLoginUser(user) {
 		$("#sup").hide();
 		$("#sin").hide();
 		// ///////////////////////////////////////////////////////////////////////
-	
+	}
 }
 
 // return les infos du formulaire
@@ -282,6 +285,7 @@ function bookFlight(val, mail) {
 	if (profil == null)
 		$('#signin').modal('show');
 	else {
-		alert(profil.mail+" idflight "+val+ " mail pilot "+mail+" nombre de place "+ $('#nbPlace').val());
+		alert(profil.mail + " idflight " + val + " mail pilot " + mail
+				+ " nombre de place " + $('#nbPlace').val());
 	}
 }
