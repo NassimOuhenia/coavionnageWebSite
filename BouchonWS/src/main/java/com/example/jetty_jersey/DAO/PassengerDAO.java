@@ -137,13 +137,10 @@ public class PassengerDAO extends DAO<Passenger>{
 		if (map.get("mail").toString().equals(c.getMail())) {
 		    if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
 			
-			String privateKey = JwTokenHelper.getInstance().generatePrivateKey(c.getMail(), c.getPassword());
-			System.out.println(privateKey);
+			String token = JwTokenHelper.getInstance().generatePrivateKey(result[i].getId(), "passenger");
 			
 			return "{" + "\"status\":\"200\"," +
-				// Mettre a la place le token
-				//"\"id\":\"" + result[i].getId() + "\"" + "}";
-				"\"id\":\"" + result[i].getId() + "\"" + "}";
+				"\"id\":\"" + token + "\"" + "}";
 		    }
 		    return "{" + "\"status\":\"400\"," + "\"error\":\"Wrong password\"" + "}";
 		}

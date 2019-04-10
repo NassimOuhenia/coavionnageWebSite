@@ -18,6 +18,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
+import com.example.jetty_jersey.JwTokenHelper;
 import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.Pilot;
 
@@ -108,9 +109,9 @@ public class PilotDAO extends DAO<Pilot> {
 		    Map<String, Object> map = result[i].getSourceAsMap();
 		    if (map.get("mail").toString().equals(c.getMail())) {
 			if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
+			    String token = JwTokenHelper.getInstance().generatePrivateKey(result[i].getId(), "pilot");
 			    return "{" + "\"status\":\"200\"," +
-				    // Mettre a la place le token
-				    "\"id\":\"" + result[i].getId() + "\"" + "}";
+				    "\"id\":\"" + token + "\"" + "}";
 			}
 			return "{" + "\"status\":\"400\"," + "\"error\":\"Wrong password\"" + "}";
 		    }
