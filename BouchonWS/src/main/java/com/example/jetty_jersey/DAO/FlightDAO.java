@@ -24,8 +24,7 @@ public class FlightDAO extends DAO<Flight> {
 	public DAOFactory daofactory;
 
 	public FlightDAO(DAOFactory f) {
-		/*list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));
-		list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));*/
+	
 		daofactory = f;
 	}
 	

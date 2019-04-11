@@ -33,13 +33,12 @@ public class FlightRessource {
 	@Path("/add")
 	public String postFlight(@HeaderParam("token") String token, Flight f) {
 		if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
-		    return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
-		}
-		else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
-		    return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
+			return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
+		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+			return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
 		String id = JwTokenHelper.getInstance().getIdFromToken(token);
-		f.setPilot(new Pilot(id, null, null, null, 0 ,null));
+		f.setPilot(new Pilot(id, null, null, null, 0, null));
 		return daoFlight.put(f);
 	}
 
@@ -58,17 +57,14 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/book")
 	public String book(@HeaderParam("token") String token, Reservation r) {
-	    	if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
-		    return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
+		if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
+			return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
+		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+			return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
-		else if (!JwTokenHelper.getInstance().getUserType(token).equals("passenger")) {
-		    return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
-		}
-	    	
+
 		String response = daoReservation.put(r);
-		if (response.contains("400")) {
-			return response;
-		}
+	
 		// Pilot pilot = daoFlight.get(r.getIdFlight()).get(0).getPilot();
 		// String emailPilot = pilot.getMail();
 		// Envoyer email
@@ -80,7 +76,7 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/search")
 	public List<Flight> search(Recherche r) {
-		List<Flight> list =  daoFlight.get(r);
+		List<Flight> list = daoFlight.get(r);
 		return list;
 	}
 

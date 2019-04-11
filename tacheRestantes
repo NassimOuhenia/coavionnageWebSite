@@ -1,11 +1,5 @@
 
 
-Reservation:
-	envoyer idFlight, int nbPlace, token passager(Header)
-
-Confirmation Reservation
-	envoyer idReservation token pilot(Header)
-
 voir mes reservation /passengers/myflights
 	recevoir list des vols reservation confirmées,
 
