@@ -1,14 +1,4 @@
 
-var myHeaders = new Headers();
-myHeaders.append('token', user.id);
-
-headers: {
-        "My-First-Header":"first value",
-        "My-Second-Header":"second value"
-    }
-
-poster un vol :
-	envoyer pilot à null
 
 Reservation:
 	envoyer idFlight, int nbPlace, token passager(Header)
