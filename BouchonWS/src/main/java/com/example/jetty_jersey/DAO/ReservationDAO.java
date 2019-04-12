@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -57,8 +59,17 @@ public class ReservationDAO extends DAO<Reservation> {
 	}
 
 	@Override
-	public boolean delete(Reservation obj) {
-		// TODO Auto-generated method stub
+	public boolean delete(Reservation obj, String idReservation) {
+		TransportClient client = DAOFactory.getConnextion();
+		try {
+			DeleteResponse response = client.prepareDelete("book", "_doc", idReservation)
+					.execute()
+					.actionGet();
+			return true;
+		} catch(ElasticsearchException e) {
+			if (e.status() == RestStatus.CONFLICT)
+				e.printStackTrace();
+		}
 		return false;
 	}
 

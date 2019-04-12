@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -66,17 +68,44 @@ public class FlightDAO extends DAO<Flight> {
 		return "{" + "\"status\":\"500\"," + "\"error\":\"Flight couldnt be created \"" + "}";
 	}
 
-	@Override
-	public boolean delete(Flight obj) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	 @Override
+		public boolean delete(Flight obj, String idFlight) {
+			TransportClient client = DAOFactory.getConnextion();
+			try {
+				DeleteResponse response = client.prepareDelete("book", "_doc", idFlight)
+						.execute()
+						.actionGet();
+				return true;
+			} catch(ElasticsearchException e) {
+				if (e.status() == RestStatus.CONFLICT)
+					e.printStackTrace();
+			}
+			return false;
+		}
 
-	@Override
-	public boolean update(Flight obj, String idPassenger) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		@Override
+		public boolean update(Flight obj, String idFlight) {
+			TransportClient client = DAOFactory.getConnextion();
+			try {
+				client.prepareUpdate("flight", "_doc", idFlight)
+						.setDoc(jsonBuilder().startObject()
+								.field("date", obj.getDate())
+								.field("departureAirport", obj.getDepartureAirport())
+								.field("arrivalAirport", obj.getArrivalAirport())
+								.field("travelTime", obj.getTravelTime())
+								.field("price", obj.getPrice())
+								.field("time", obj.getTimep())
+								.field("typeFlight", obj.getTypeFlight())
+								.field("pilot", obj.getPilot())
+								.field("seatLeft", obj.getSeatLeft())
+							.endObject())
+						.get();
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
 
 	@Override
 	public List<Flight> get() {
