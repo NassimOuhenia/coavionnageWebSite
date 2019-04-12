@@ -197,5 +197,44 @@ public class FlightDAO extends DAO<Flight> {
 		return list;
 
 	}
+	
+
+	
+	
+	public List<Flight> getFlightsForPilots(String idPilot) {
+	    TransportClient client = daofactory.getConnextion();
+	    
+	    ArrayList<Flight> list = new ArrayList<Flight>();
+	    
+	    SearchResponse response = client.prepareSearch("flight")
+		    .setTypes("_doc")
+		    .setQuery(QueryBuilders.matchAllQuery())
+		    .setSize(10000)
+		    .get();
+	    
+	    SearchHit[] result = response.getHits().getHits();
+	    
+	    for (int i = 0; i < result.length; i++) {
+		Map<String, Object> map = result[i].getSourceAsMap();
+		
+		if (map.get("pilot").toString().equals(idPilot)) {
+		    	Flight f = new Flight(
+				result[i].getId(),
+				map.get("date").toString(),
+				map.get("departureAirport").toString(),
+				map.get("arrivalAirport").toString(),
+				Double.valueOf(map.get("travelTime").toString()),
+				Double.valueOf(map.get("price").toString()),
+				map.get("time").toString(),
+				map.get("typeFlight").toString(),
+				map.get("modelePlane").toString(),
+				DAOFactory.getInstance().getPiloteDAO().get(map.get("pilot").toString()).get(0),
+				Integer.parseInt(map.get("seatLeft").toString()));
+			    list.add(f);
+		}
+	    }
+	    
+	    return list;
+	}
 
 }
