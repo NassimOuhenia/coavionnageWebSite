@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -16,6 +18,7 @@ import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 
 import com.example.jetty_jersey.model.Flight;
+import com.example.jetty_jersey.model.Passenger;
 import com.example.jetty_jersey.model.Reservation;
 
 public class ReservationDAO extends DAO<Reservation> {
@@ -56,8 +59,17 @@ public class ReservationDAO extends DAO<Reservation> {
 	}
 
 	@Override
-	public boolean delete(Reservation obj) {
-		// TODO Auto-generated method stub
+	public boolean delete(Reservation obj, String idReservation) {
+		TransportClient client = DAOFactory.getConnextion();
+		try {
+			DeleteResponse response = client.prepareDelete("book", "_doc", idReservation)
+					.execute()
+					.actionGet();
+			return true;
+		} catch(ElasticsearchException e) {
+			if (e.status() == RestStatus.CONFLICT)
+				e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -91,39 +103,10 @@ public class ReservationDAO extends DAO<Reservation> {
 		return null;
 	}
 	
-	public List<Reservation> getListPassenger(String idPassenger) {
+	public List<Flight> getFlightForPassenger(String idPassenger) {
 	    TransportClient client = daofactory.getConnextion();
 	    
-	    ArrayList<Reservation> list = new ArrayList<Reservation>();
-	    
-	    SearchResponse response = client.prepareSearch("book")
-		    .setTypes("_doc")
-		    	.setQuery(QueryBuilders.matchAllQuery())
-		    	.setSize(10000)
-		    	.get();
-	    
-	    SearchHit[] result = response.getHits().getHits();
-	    
-	    for (int i = 0; i < result.length; i++) {
-		
-		Map<String, Object> map = result[i].getSourceAsMap();
-		
-		if (map.get("idPassenger").toString().equals(idPassenger) &&
-			map.get("confirmed").toString().equals("0")) {
-		    Reservation r = new Reservation(idPassenger,
-			    map.get("idFlight").toString(),
-			    Integer.parseInt(map.get("numberPlace").toString()));
-		    list.add(r);
-		}
-	    }
-	    
-	    return list;
-	}
-	
-	public List<Reservation> getListPassengerConfirmed(String idPassenger) {
-	    TransportClient client = daofactory.getConnextion();
-	    
-	    ArrayList<Reservation> list = new ArrayList<Reservation>();
+	    ArrayList<Flight> list = new ArrayList<Flight>();
 	    
 	    SearchResponse response = client.prepareSearch("book")
 		    .setTypes("_doc")
@@ -139,78 +122,57 @@ public class ReservationDAO extends DAO<Reservation> {
 		
 		if (map.get("idPassenger").toString().equals(idPassenger) &&
 			map.get("confirmed").toString().equals("1")) {
-		    Reservation r = new Reservation(idPassenger,
-			    map.get("idFlight").toString(),
-			    Integer.parseInt(map.get("numberPlace").toString()));
-		    list.add(r);
+		    Flight f = daofactory.getInstance().getFlightDAO().get(map.get("idFlight").toString()).get(0);
+		    list.add(f);
 		}
 	    }
 	    
 	    return list;
 	}
 	
-	public List<Reservation> getListPilot(String emailPilot) {
+	
+	public List<Flight> getFlightsForPilots(String idPilot) {
 	    TransportClient client = daofactory.getConnextion();
 	    
-	    ArrayList<Reservation> list = new ArrayList<Reservation>();
+	    ArrayList<Flight> list = new ArrayList<Flight>();
 	    
 	    SearchResponse response = client.prepareSearch("book")
 		    .setTypes("_doc")
-		    	.setQuery(QueryBuilders.matchAllQuery())
-		    	.setSize(10000)
-		    	.get();
+		    .setQuery(QueryBuilders.matchAllQuery())
+		    .setSize(10000)
+		    .get();
 	    
 	    SearchHit[] result = response.getHits().getHits();
 	    
 	    for (int i = 0; i < result.length; i++) {
-		
 		Map<String, Object> map = result[i].getSourceAsMap();
 		
-		FlightDAO daoflight = new FlightDAO(daofactory);
-		Flight f = daoflight.get(map.get("idFlight").toString()).get(0);
-		
-		String emailP = f.getPilot().getMail();
-		
-		if (emailP.equals(emailPilot) &&
-			map.get("confirmed").toString().equals("0")) {
-		    Reservation r = new Reservation(map.get("idPassenger").toString(),
-			    map.get("idFlight").toString(),
-			    Integer.parseInt(map.get("numberPlace").toString()));
-		    list.add(r);
+		if (map.get("pilot").toString().equals(idPilot)) {
+		    list.add(daofactory.getFlightDAO().get(map.get("idFlight").toString()).get(0));
 		}
 	    }
 	    
 	    return list;
 	}
 	
-	public List<Reservation> getListPilotConfirmed(String emailPilot) {
-	    TransportClient client = daofactory.getConnextion();
+	public List<Passenger> getPassengerForPilots(String idPilot, String idFlight) {
+	    TransportClient client = DAOFactory.getConnextion();
 	    
-	    ArrayList<Reservation> list = new ArrayList<Reservation>();
+	    ArrayList<Passenger> list = new ArrayList<Passenger>();
 	    
 	    SearchResponse response = client.prepareSearch("book")
 		    .setTypes("_doc")
-		    	.setQuery(QueryBuilders.matchAllQuery())
-		    	.setSize(10000)
-		    	.get();
+		    .setQuery(QueryBuilders.matchAllQuery())
+		    .setSize(10000)
+		    .get();
 	    
 	    SearchHit[] result = response.getHits().getHits();
 	    
 	    for (int i = 0; i < result.length; i++) {
-		
 		Map<String, Object> map = result[i].getSourceAsMap();
 		
-		FlightDAO daoflight = new FlightDAO(daofactory);
-		Flight f = daoflight.get(map.get("idFlight").toString()).get(0);
-		
-		String emailP = f.getPilot().getMail();
-		
-		if (emailP.equals(emailPilot) &&
-			map.get("confirmed").toString().equals("1")) {
-		    Reservation r = new Reservation(map.get("idPassenger").toString(),
-			    map.get("idFlight").toString(),
-			    Integer.parseInt(map.get("numberPlace").toString()));
-		    list.add(r);
+		if (result[i].getId().equals(idFlight)) {
+		    list.add(daofactory.getPassengerDAO().get(map.get("idPassenger").toString()).get(0));
 		}
 	    }
 	    

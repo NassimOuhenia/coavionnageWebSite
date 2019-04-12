@@ -3,20 +3,27 @@ package com.example.jetty_jersey.ws;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import com.example.jetty_jersey.JwTokenHelper;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.PilotDAO;
+import com.example.jetty_jersey.DAO.ReservationDAO;
 import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.Connection;
+import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.ID;
+import com.example.jetty_jersey.model.Passenger;
 
-@Path("/user/pilots/")
+@Path("/pilots/")
 public class PilotRessource {
 
 	private PilotDAO daoPilot = DAOFactory.getInstance().getPiloteDAO();
+	private ReservationDAO daoReservation = DAOFactory.getInstance().getReservationDAO();
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -45,7 +52,34 @@ public class PilotRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signin")
 	public String signIn(Connection c) {
-		return daoPilot.connect(c);
+	    String token = daoPilot.connect(c);
+	    return token;
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/myflights")
+	public List<Flight> getListFlights(@HeaderParam("token") String token) {
+	    	if (JwTokenHelper.getInstance().isTokenInvalid(token) ||
+	    		!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+	    	    return null;
+	    	}
+	    	String id = JwTokenHelper.getInstance().getIdFromToken(token);
+		return daoReservation.getFlightsForPilots(id);
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/myflights/passenger")
+	public List<Passenger> getListPassenger(@HeaderParam("token") String token, ID idFlight) {
+	    	if (JwTokenHelper.getInstance().isTokenInvalid(token) ||
+	    		!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+	    	    return null;
+	    	}
+	    	String id = JwTokenHelper.getInstance().getIdFromToken(token);
+		return daoReservation.getPassengerForPilots(id, idFlight.getId());
 	}
 
 }

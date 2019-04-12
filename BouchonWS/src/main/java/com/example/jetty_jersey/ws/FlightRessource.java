@@ -2,10 +2,13 @@ package com.example.jetty_jersey.ws;
 
 import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import com.example.jetty_jersey.JwTokenHelper;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.FlightDAO;
 import com.example.jetty_jersey.DAO.ReservationDAO;
@@ -15,6 +18,7 @@ import com.example.jetty_jersey.model.Reservation;
 //import com.example.jetty_jersey.model.Pilot;
 
 import com.example.jetty_jersey.model.ID;
+import com.example.jetty_jersey.model.Pilot;
 
 @Path("/flights")
 public class FlightRessource {
@@ -27,8 +31,14 @@ public class FlightRessource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/add")
-	public String postFlight(Flight f) {
-		System.out.println(f.getDepartureAirport());
+	public String postFlight(@HeaderParam("token") String token, Flight f) {
+		if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
+			return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
+		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+			return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
+		}
+		String id = JwTokenHelper.getInstance().getIdFromToken(token);
+		f.setPilot(new Pilot(id, null, null, null, 0, null));
 		return daoFlight.put(f);
 	}
 
@@ -46,11 +56,15 @@ public class FlightRessource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/book")
-	public String book(Reservation r) {
-		String response = daoReservation.put(r);
-		if (response.contains("400")) {
-			return response;
+	public String book(@HeaderParam("token") String token, Reservation r) {
+		if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
+			return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
+		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+			return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
+
+		String response = daoReservation.put(r);
+	
 		// Pilot pilot = daoFlight.get(r.getIdFlight()).get(0).getPilot();
 		// String emailPilot = pilot.getMail();
 		// Envoyer email
@@ -62,10 +76,7 @@ public class FlightRessource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/search")
 	public List<Flight> search(Recherche r) {
-		List<Flight> list =  daoFlight.get(r);
-		for(Flight f : list) {
-			System.out.println("ws merde "+f.getIdFlight());
-		}
+		List<Flight> list = daoFlight.get(r);
 		return list;
 	}
 

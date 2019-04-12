@@ -1,11 +1,14 @@
-var urlSearchFlight = 'http://localhost:8080/blablaplane/flights/search';
-var urlPostFlight = 'http://localhost:8080/blablaplane/flights/add';
-var urlPostPassenger = 'http://localhost:8080/blablaplane/user/passenger/signup';
-var urlLogPassenger = 'http://localhost:8080/blablaplane/user/passenger/signin';
-var urlPostPilot = 'http://localhost:8080/blablaplane/user/pilots/signup';
-var urlLogPilot = 'http://localhost:8080/blablaplane/user/pilots/signin';
-var profil = null;
+var urlSearchFlight = '/blablaplane/flights/search';
+var urlPostFlight = '/blablaplane/flights/add';
+var urlPostPassenger = '/blablaplane/passengers/signup';
+var urlLogPassenger = '/blablaplane/passengers/signin';
+var urlPostPilot = '/blablaplane/pilots/signup';
+var urlLogPilot = '/blablaplane/pilots/signin';
+var urlBook = '/blablaplane/flights/book';
+
+
 var type = "";
+var header = null;
 
 function afterSearch(listF) {
 	$("#resultsearch").text("");
@@ -22,24 +25,27 @@ function afterSearch(listF) {
 			"arrive" : listF[i].arrivalAirport,
 			"date" : listF[i].date,
 			"time" : listF[i].timep,
-			//"mail" : listF[i].pilot.mail,
-			//"pilote" : listF[i].pilot.firstName,
-			//"modele" : listF[i].plane.modele,
+			"mail" : listF[i].pilot.mail,
+			"pilote" : listF[i].pilot.firstName,
+			"modele" : listF[i].modelePlane,
 			"price" : listF[i].price,
 			"place" : listF[i].seatLeft
 		});
 		$("#resultsearch").append(html);
-		// alert(listF[0].departureAirport+" "+listF[0].arrivalAirport+"
-		// "+listF[0].price);
+	
 	}
 }
 
 // fonction generique pour recuperer des donnes
-function getServerData(url, callBack, type, data) {
+function getServerData(url, callBack, type, data, header) {
 	$.ajax({
 		url : url,
 		type : type,
 		dataType : 'json',
+		beforeSend: function(request) {
+			if(header)
+				request.setRequestHeader("token", header.get('token'));
+		  },
 		contentType : 'application/json',
 		success : function(data) {
 			if (callBack)
@@ -68,7 +74,7 @@ $(function() {
 			departure : $("#departuresearch").val(),
 			arrival : $("#arrivalsearch").val()
 		};
-		getServerData(urlSearchFlight, afterSearch, 'post', data);
+		getServerData(urlSearchFlight, afterSearch, 'post', data, header);
 		// alert(data.typeLocal+" "+data.typeTravel+" "+data.date+
 		// " "+data.departure+" "+data.arrival);
 	});
@@ -96,13 +102,15 @@ $(function() {
 			travelTime : $("#traveltimepost").val(),
 			price : $("#pricepost").val(),
 			seatLeft : $("#placepost").val(),
-			typeflight : typeVol,
-			pilot : profil
-		};
-		getServerData(urlPostFlight, afterPost, 'post', data);
-		// alert(data.typeflight+" "+data.departureAirport+"
-		// "+data.arrivalAirport+" "+data.date+" "+data.timep+" "
-		// +data.travelTime+" "+data.price+" "+data.seatLeft+" "+typeVol);
+			typeFlight : typeVol,
+			pilot : null,
+			idFlight : null,
+			modelePlane : null,
+			passagers : null
+		}
+		
+		getServerData(urlPostFlight, afterPost, 'post', data, header);
+		
 	});
 });
 
@@ -142,13 +150,13 @@ $(function() {
 									.val() == "pilot") {
 								$("#formsignup .error-form").text("");
 								getServerData(urlPostPilot, afterPostUser,
-										'post', formsignupToJSON());
+										'post', formsignupToJSON(), header);
 							} else if ($(
 									'#formsignup input[name="type"]:checked')
 									.val() == "passenger") {
 								$("#formsignup .error-form").text("");
 								getServerData(urlPostPassenger, afterPostUser,
-										'post', formsignupToJSON());
+										'post', formsignupToJSON(), header);
 							} else {
 								$("#formsignup .error-form")
 										.fadeIn()
@@ -209,14 +217,14 @@ $(function() {
 								$("#formsignin .error-form").text("");
 								type = "pilot";
 								getServerData(urlLogPilot, afterLoginUser,
-										'post', formlogToJSON());
+										'post', formlogToJSON(), header);
 							} else if ($(
 									'#formsignin input[name="type"]:checked')
 									.val() == "passenger") {
 								$("#formsignin .error-form").text("");
 								type = "passenger";
 								getServerData(urlLogPassenger, afterLoginUser,
-										'post', formlogToJSON());
+										'post', formlogToJSON(), header);
 							} else {
 								$("#formsignin .error-form")
 										.fadeIn()
@@ -228,16 +236,20 @@ $(function() {
 });
 
 function afterLoginUser(user) {
-	if (!user) {
+	
+	if (user.error) {
 		$("#formsignin .error-form").fadeIn().text(
 				"Votre email ou mot de passe sont incorrect");
 	} else {
+		header = new Headers();
+		header.append('token', user.id);
+
 		$('#signin').modal('hide');
 		$(".signup-sucess").text("");
 		$("#signin").removeData('bs.modal');
 		// ////////////////////////////////////////////////////////////////////////
 		// achanger par session
-		profil = user;
+		
 		if (type == "passenger") {
 			$("#lienRecherche").show();
 			$("#lienReservation").show();
@@ -254,8 +266,6 @@ function afterLoginUser(user) {
 // return les infos du formulaire
 function formlogToJSON() {
 	var form = {
-		firstName : "",
-		lastName : "",
 		mail : $('#mailog').val(),
 		password : $('#logpass').val()
 	};
@@ -271,16 +281,28 @@ $(function() {
 		$("#logOut").hide();
 		$("#sup").show();
 		$("#sin").show();
-		profil = null;
-		window.location.href = "http://localhost:8080/";
+		header.delete('token');
+		header = null;
 	});
 });
 
+function afterBook(response) {
+	if(response.error)
+		alert(response.error);
+	else 
+		alert(response.message);
+}
+
 // reserver un vol par un passenger
-function bookFlight(val, mail) {
-	if (profil == null)
+function bookFlight(idflight) {
+	if (header == null)
 		$('#signin').modal('show');
 	else {
-		alert(profil.mail+" idflight "+val+ " mail pilot "+mail+" nombre de place "+ $('#nbPlace').val());
+		var data = {
+				idPassenger : null,
+				idFlight : idflight,
+				numberPlace : $('#nbPlace').val()
+			}
+		getServerData(urlBook, afterBook, 'post', data, header);
 	}
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -24,19 +26,24 @@ public class FlightDAO extends DAO<Flight> {
 	public DAOFactory daofactory;
 
 	public FlightDAO(DAOFactory f) {
-		list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));
-		list.add(new Flight("2019-03-21", "orly", "CDG", null, 35, 2, "travel", null, new Plane(), new Pilot(), 0));
+	
 		daofactory = f;
 	}
+	
 
 	/*
 	 * Ajoute un object vol dans la base de donnees
 	 */
 
-	@Override
+	
 	public String put(Flight obj) {
 		TransportClient client = DAOFactory.getConnextion();
 		try {
+		    String str = null;
+		    String modele = obj.getModelePlane();
+		    if (modele == null) {
+			modele = "avion";
+		    }
 			IndexResponse response = client.prepareIndex("flight", "_doc")
 					.setSource(jsonBuilder()
 						.startObject()
@@ -45,10 +52,10 @@ public class FlightDAO extends DAO<Flight> {
 							.field("arrivalAirport", obj.getArrivalAirport())
 							.field("travelTime", obj.getTravelTime())
 							.field("price", obj.getPrice())
-							.field("time", obj.getTime())
+							.field("time", obj.getTimep())
 							.field("typeFlight", obj.getTypeFlight())
-							.field("plane", obj.getPlane())
-							.field("pilot", obj.getPilot())
+							.field("modelePlane", modele)
+							.field("pilot", obj.getPilot().getFirstName())
 							.field("seatLeft", obj.getSeatLeft())
 						.endObject())
 					.get();
@@ -61,17 +68,44 @@ public class FlightDAO extends DAO<Flight> {
 		return "{" + "\"status\":\"500\"," + "\"error\":\"Flight couldnt be created \"" + "}";
 	}
 
-	@Override
-	public boolean delete(Flight obj) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	 @Override
+		public boolean delete(Flight obj, String idFlight) {
+			TransportClient client = DAOFactory.getConnextion();
+			try {
+				DeleteResponse response = client.prepareDelete("book", "_doc", idFlight)
+						.execute()
+						.actionGet();
+				return true;
+			} catch(ElasticsearchException e) {
+				if (e.status() == RestStatus.CONFLICT)
+					e.printStackTrace();
+			}
+			return false;
+		}
 
-	@Override
-	public boolean update(Flight obj, String idPassenger) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		@Override
+		public boolean update(Flight obj, String idFlight) {
+			TransportClient client = DAOFactory.getConnextion();
+			try {
+				client.prepareUpdate("flight", "_doc", idFlight)
+						.setDoc(jsonBuilder().startObject()
+								.field("date", obj.getDate())
+								.field("departureAirport", obj.getDepartureAirport())
+								.field("arrivalAirport", obj.getArrivalAirport())
+								.field("travelTime", obj.getTravelTime())
+								.field("price", obj.getPrice())
+								.field("time", obj.getTimep())
+								.field("typeFlight", obj.getTypeFlight())
+								.field("pilot", obj.getPilot())
+								.field("seatLeft", obj.getSeatLeft())
+							.endObject())
+						.get();
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
 
 	@Override
 	public List<Flight> get() {
@@ -100,8 +134,8 @@ public class FlightDAO extends DAO<Flight> {
 			Double.valueOf(map.get("price").toString()),
 			map.get("time").toString(),
 			map.get("typeFlight").toString(),
-			(Plane) map.get("plane"),
-			(Pilot) map.get("pilot"),
+			map.get("modelePlane").toString(),
+			DAOFactory.getInstance().getPiloteDAO().get(map.get("pilot").toString()).get(0),
 			Integer.parseInt(map.get("seatLeft").toString()));
 		list.add(f);
 		return list;
@@ -150,8 +184,8 @@ public class FlightDAO extends DAO<Flight> {
 				Double.valueOf(map.get("price").toString()),
 				map.get("time").toString(),
 				map.get("typeFlight").toString(),
-				(Plane) map.get("plane"),
-				(Pilot) map.get("pilot"),
+				map.get("modelePlane").toString(),
+				DAOFactory.getInstance().getPiloteDAO().get(map.get("pilot").toString()).get(0),
 				Integer.parseInt(map.get("seatLeft").toString()));
 			    list.add(f);
 			}

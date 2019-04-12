@@ -10,24 +10,24 @@ public class Flight {
 	private String arrivalAirport;
 	private double travelTime;
 	private double price;
-	private String time;
+	private String timep;
 	private String typeFlight;
-	private Plane plane;
+	private String modelePlane;
 	private Pilot pilot;
 	private int seatLeft;
 	private List<Passenger> passagers;
 	
 	public Flight(String idFlight, String date, String departureAirport, String arrivalAirport, double travelTime,
-			double price, String time, String typeFlight, Plane plane, Pilot pilot, int seatLeft) {
+			double price, String timep, String typeFlight, String modelePlane, Pilot pilot, int seatLeft) {
 		this.idFlight = idFlight;
 		this.date = date;
 		this.departureAirport = departureAirport;
 		this.arrivalAirport = arrivalAirport;
 		this.travelTime = travelTime;
 		this.price = price;
-		this.time = time;
+		this.timep = timep;
 		this.typeFlight = typeFlight;
-		this.plane = plane;
+		this.modelePlane = modelePlane;
 		this.pilot = pilot;
 		this.seatLeft = seatLeft;
 		passagers = new ArrayList<Passenger>(); 
@@ -37,12 +37,12 @@ public class Flight {
 	}
 
 	
-	public String getTime() {
-		return time;
+	public String getTimep() {
+		return timep;
 	}
 
-	public void setTime(String time) {
-		this.time = time;
+	public void setTimep(String timep) {
+		this.timep = timep;
 	}
 
 	public int getSeatLeft() {
@@ -108,13 +108,13 @@ public class Flight {
 	public void setTypeFlight(String typeFlight) {
 		this.typeFlight = typeFlight;
 	}
-
-	public Plane getPlane() {
-		return plane;
+	
+	public void setModelePlane(String modelePlane) {
+	    this.modelePlane = modelePlane;
 	}
-
-	public void setPlane(Plane plane) {
-		this.plane = plane;
+	
+	public String getModelePlane() {
+	    return modelePlane;
 	}
 
 	public Pilot getPilot() {

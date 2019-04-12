@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.mindrot.jbcrypt.BCrypt;
@@ -18,6 +18,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
+import com.example.jetty_jersey.JwTokenHelper;
 import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.Pilot;
 
@@ -35,11 +36,14 @@ public class PilotDAO extends DAO<Pilot> {
 	public String put(Pilot obj) {
 		TransportClient client = DAOFactory.getConnextion();
 		try {
+		    String certificate = obj.getCertificate();
+		    if (obj.getCertificate() == null)
+			certificate = "aucune";
 			IndexResponse response = client.prepareIndex("pilot", "_doc")
 					.setSource(jsonBuilder().startObject().field("lastName", obj.getLastName())
 							.field("firstName", obj.getFirstName()).field("mail", obj.getMail())
 							.field("password", BCrypt.hashpw(obj.getPassword(), BCrypt.gensalt())).field("experience", obj.getExperience())
-							.field("certificate", obj.getCertificate()).endObject())
+							.field("certificate", certificate).endObject())
 					.get();
 			if (response.status() == RestStatus.CREATED) {
 				return "{" + "\"status\":\"201\"," + "\"id\":\"" + response.getId() + "\"" + "}";
@@ -51,9 +55,19 @@ public class PilotDAO extends DAO<Pilot> {
 	}
 
 	@Override
-	public boolean delete(Pilot obj) {
-		// TODO Auto-generated method stub
+	public boolean delete(Pilot obj, String idPilot) {
+		TransportClient client = DAOFactory.getConnextion();
+		try {
+			DeleteResponse response = client.prepareDelete("book", "_doc", idPilot)
+					.execute()
+					.actionGet();
+			return true;
+		} catch(ElasticsearchException e) {
+			if (e.status() == RestStatus.CONFLICT)
+				e.printStackTrace();
+		}
 		return false;
+		
 	}
 
 	@Override
@@ -108,9 +122,9 @@ public class PilotDAO extends DAO<Pilot> {
 		    Map<String, Object> map = result[i].getSourceAsMap();
 		    if (map.get("mail").toString().equals(c.getMail())) {
 			if (BCrypt.checkpw(c.getPassword(), map.get("password").toString())) {
+			    String token = JwTokenHelper.getInstance().generatePrivateKey(result[i].getId(), "pilot");
 			    return "{" + "\"status\":\"200\"," +
-				    // Mettre a la place le token
-				    "\"id\":\"" + result[i].getId() + "\"" + "}";
+				    "\"id\":\"" + token + "\"" + "}";
 			}
 			return "{" + "\"status\":\"400\"," + "\"error\":\"Wrong password\"" + "}";
 		    }

@@ -33,6 +33,9 @@ public class JettyMain {
 		rc.packages(true, "com.example.jetty_jersey.ws");
 		rc.register(JacksonFeature.class);
 		rc.register(LoggingFilter.class);
+		
+		//Register Auth Filter here
+	        //rc.register(AuthenticationFilter.class);
 
 		// Add a servlet handler for web services (/blablapane/*)
 		ServletHolder servletHolder = new ServletHolder(new ServletContainer(rc));
