@@ -12,15 +12,18 @@ import javax.ws.rs.core.MediaType;
 import com.example.jetty_jersey.JwTokenHelper;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.PilotDAO;
+import com.example.jetty_jersey.DAO.ReservationDAO;
 import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.ID;
+import com.example.jetty_jersey.model.Passenger;
 
 @Path("/pilots/")
 public class PilotRessource {
 
 	private PilotDAO daoPilot = DAOFactory.getInstance().getPiloteDAO();
+	private ReservationDAO daoReservation = DAOFactory.getInstance().getReservationDAO();
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -50,8 +53,7 @@ public class PilotRessource {
 	@Path("/signin")
 	public String signIn(Connection c) {
 	    String token = daoPilot.connect(c);
-	    System.out.println(token);
-		return token;
+	    return token;
 	}
 	
 	@POST
@@ -63,7 +65,21 @@ public class PilotRessource {
 	    		!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
 	    	    return null;
 	    	}
-		return null;
+	    	String id = JwTokenHelper.getInstance().getIdFromToken(token);
+		return daoReservation.getFlightsForPilots(id);
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/myflights/passenger")
+	public List<Passenger> getListPassenger(@HeaderParam("token") String token, ID idFlight) {
+	    	if (JwTokenHelper.getInstance().isTokenInvalid(token) ||
+	    		!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+	    	    return null;
+	    	}
+	    	String id = JwTokenHelper.getInstance().getIdFromToken(token);
+		return daoReservation.getPassengerForPilots(id, idFlight.getId());
 	}
 
 }
