@@ -198,9 +198,6 @@ public class FlightDAO extends DAO<Flight> {
 
 	}
 	
-
-	
-	
 	public List<Flight> getFlightsForPilots(String idPilot) {
 	    TransportClient client = daofactory.getConnextion();
 	    
