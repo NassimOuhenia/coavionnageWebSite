@@ -4,14 +4,18 @@ package com.example.jetty_jersey.ws;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.example.jetty_jersey.JwTokenHelper;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.PassengerDAO;
+import com.example.jetty_jersey.DAO.ReservationDAO;
 import com.example.jetty_jersey.model.Connection;
+import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.ID;
 import com.example.jetty_jersey.model.Passenger;
 
@@ -19,6 +23,7 @@ import com.example.jetty_jersey.model.Passenger;
 public class UserRessource {
 
 	private PassengerDAO daoPassenger = DAOFactory.getInstance().getPassengerDAO();
+	private ReservationDAO daoReservation = DAOFactory.getInstance().getReservationDAO();
 
 	@POST
 	@Path("/get")
@@ -46,6 +51,19 @@ public class UserRessource {
 	@Path("/signin")
 	public String signin(Connection c) {
 	    return daoPassenger.connect(c);
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/myflight")
+	public List<Flight> getFlightReservation(@HeaderParam("token") String token) {
+	    if (JwTokenHelper.getInstance().isTokenInvalid(token) ||
+	    		!JwTokenHelper.getInstance().getUserType(token).equals("passenger")) {
+	    	    return null;
+	    	}
+	    String id = JwTokenHelper.getInstance().getIdFromToken(token);
+	    return daoReservation.getFlightForPassenger(id);
 	}
 
 }

@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.example.jetty_jersey.JwTokenHelper;
 import com.example.jetty_jersey.DAO.DAOFactory;
+import com.example.jetty_jersey.DAO.FlightDAO;
 import com.example.jetty_jersey.DAO.PilotDAO;
 import com.example.jetty_jersey.DAO.ReservationDAO;
 import com.example.jetty_jersey.model.Pilot;
@@ -24,6 +25,7 @@ public class PilotRessource {
 
 	private PilotDAO daoPilot = DAOFactory.getInstance().getPiloteDAO();
 	private ReservationDAO daoReservation = DAOFactory.getInstance().getReservationDAO();
+	private FlightDAO daoFlight = DAOFactory.getInstance().getFlightDAO();
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -66,7 +68,7 @@ public class PilotRessource {
 	    	    return null;
 	    	}
 	    	String id = JwTokenHelper.getInstance().getIdFromToken(token);
-		return daoReservation.getFlightsForPilots(id);
+		return daoFlight.getFlightsForPilots(id);
 	}
 	
 	@POST

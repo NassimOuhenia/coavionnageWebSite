@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -53,9 +55,19 @@ public class PilotDAO extends DAO<Pilot> {
 	}
 
 	@Override
-	public boolean delete(Pilot obj) {
-		// TODO Auto-generated method stub
+	public boolean delete(Pilot obj, String idPilot) {
+		TransportClient client = DAOFactory.getConnextion();
+		try {
+			DeleteResponse response = client.prepareDelete("book", "_doc", idPilot)
+					.execute()
+					.actionGet();
+			return true;
+		} catch(ElasticsearchException e) {
+			if (e.status() == RestStatus.CONFLICT)
+				e.printStackTrace();
+		}
 		return false;
+		
 	}
 
 	@Override
@@ -74,7 +86,7 @@ public class PilotDAO extends DAO<Pilot> {
 					.get();
 			return true;
 		} catch (IOException e) {
-			
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}

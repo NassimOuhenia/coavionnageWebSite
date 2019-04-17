@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -56,9 +58,19 @@ public class PassengerDAO extends DAO<Passenger> {
 	}
 
 	@Override
-	public boolean delete(Passenger obj) {
-		// TODO Auto-generated method stub
+	public boolean delete(Passenger obj, String idPassenger) {
+		TransportClient client = DAOFactory.getConnextion();
+		try {
+			DeleteResponse response = client.prepareDelete("book", "_doc", idPassenger)
+					.execute()
+					.actionGet();
+			return true;
+		} catch(ElasticsearchException e) {
+			if (e.status() == RestStatus.CONFLICT)
+				e.printStackTrace();
+		}
 		return false;
+		
 	}
 
 	@Override
@@ -66,10 +78,13 @@ public class PassengerDAO extends DAO<Passenger> {
 		TransportClient client = daofactory.getConnextion();
 		try {
 			UpdateResponse update = client.prepareUpdate("passenger", "_doc", idPassenger)
-					.setDoc(jsonBuilder().startObject().field("firstName", obj.getFirstName())
-							.field("lastName", obj.getLastName()).field("mail", obj.getMail())
-							.field("password", obj.getPassword()).endObject())
-					.get();
+					.setDoc(jsonBuilder()
+							.startObject()
+							.field("firstName",obj.getFirstName())
+							.field("lastName",obj.getLastName())
+							.field("mail",obj.getMail())
+							.field("password",obj.getPassword())
+							.endObject()).get();
 			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
