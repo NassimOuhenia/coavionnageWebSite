@@ -5,6 +5,7 @@ var urlLogPassenger = '/blablaplane/passengers/signin';
 var urlPostPilot = '/blablaplane/pilots/signup';
 var urlLogPilot = '/blablaplane/pilots/signin';
 var urlBook = '/blablaplane/flights/book';
+var urlGetFlights = '/blablaplane/passengers/myflights';
 
 
 var type = "";
@@ -272,8 +273,38 @@ function formlogToJSON() {
 	return form;
 }
 
+function mesReservation() {
+	getServerData(urlGetFlights, reservationResponse, 'post', null, header);
+}
+
+function reservationResponse(listF) {
+	$("#resultsearch").text("");
+	$("#notfound").hide();
+	if (listF.length == 0) {
+		$("#notfound").show();
+		return;
+	}
+	for (i = 0; i < listF.length; i++) {
+		var templateExample = _.template($('#ajoutReservation').html());
+		var html = templateExample({
+			"idf" : listF[i].idFlight,
+			"depart" : listF[i].departureAirport,
+			"arrive" : listF[i].arrivalAirport,
+			"date" : listF[i].date,
+			"time" : listF[i].timep,
+			"mail" : listF[i].pilot.mail,
+			"pilote" : listF[i].pilot.firstName,
+			"modele" : listF[i].modelePlane,
+			"price" : listF[i].price,
+			"place" : listF[i].seatLeft
+		});
+		$("#mesReservation").append(html);
+	
+	}
+}
+
 // se deconnecter
-$(function() {
+$(function() 
 	$("#logOut").click(function() {
 		$(".connected").hide();
 		$("#lienRecherche").hide();
