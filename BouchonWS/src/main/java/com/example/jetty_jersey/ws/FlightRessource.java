@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.example.jetty_jersey.JwTokenHelper;
+import com.example.jetty_jersey.SendEmailTLS;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.FlightDAO;
 import com.example.jetty_jersey.DAO.ReservationDAO;
@@ -62,12 +63,14 @@ public class FlightRessource {
 		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
-
-		String response = daoReservation.put(r);
 	
-		// Pilot pilot = daoFlight.get(r.getIdFlight()).get(0).getPilot();
-		// String emailPilot = pilot.getMail();
-		// Envoyer email
+		Pilot pilot = daoFlight.get(r.getIdFlight()).get(0).getPilot();
+		String to = pilot.getMail();
+		
+		// SendEmailTLS.envoyerMail(from, to, subject, text);
+			
+			
+		String response = daoReservation.put(r);
 		return response;
 	}
 

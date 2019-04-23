@@ -3,12 +3,8 @@ package com.example.jetty_jersey;
 import java.security.Key;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 
 public class JwTokenHelper {
@@ -16,7 +12,7 @@ public class JwTokenHelper {
     private static JwTokenHelper jwTokenHelper = null;
     
     private static final long EXPIRATION_LIMIT = 30;
-    private static final String generateKey = "eR!W/2Wg76~my7+Z";
+    
     
     private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private JwTokenHelper() {

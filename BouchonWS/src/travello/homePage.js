@@ -7,9 +7,41 @@ var urlLogPilot = '/blablaplane/pilots/signin';
 var urlBook = '/blablaplane/flights/book';
 var urlGetFlights = '/blablaplane/passengers/myflights';
 
-
 var type = "";
 var header = null;
+
+$( document ).ready(function() {
+	
+	
+	if(window.localStorage.getItem('token')) {
+		
+		if (window.localStorage.getItem('type') == "passenger") {
+			
+			$("#lienRecherche").show();
+			$("#lienReservation").show();
+			
+		} else {
+			$("#lienpost").show();
+		}
+		
+		header = new Headers();
+		header.append('token', window.localStorage.getItem('token'));
+		
+		$("#logOut").show();
+		$("#sup").hide();
+		$("#sin").hide();
+		
+	} else {
+		
+		$(".connected").hide();
+		$("#lienRecherche").hide();
+		$("#lienReservation").hide();
+		$("#logOut").hide();
+		$("#sup").show();
+		$("#sin").show();
+	}
+	
+});
 
 function afterSearch(listF) {
 	$("#resultsearch").text("");
@@ -76,8 +108,7 @@ $(function() {
 			arrival : $("#arrivalsearch").val()
 		};
 		getServerData(urlSearchFlight, afterSearch, 'post', data, header);
-		// alert(data.typeLocal+" "+data.typeTravel+" "+data.date+
-		// " "+data.departure+" "+data.arrival);
+	
 	});
 });
 
@@ -197,7 +228,6 @@ function VerifFormSingin() {
 		$("#formsignin .error-form").fadeIn().text(
 				"veuillez remplir tout les champs");
 	} else if (!regex.test($('#mailog').val())) {
-		console.log("jjjjjj");
 		$("#formsignin .error-form").fadeIn().text("Format email incorrect");
 		valid = false;
 	} else {
@@ -210,30 +240,26 @@ function VerifFormSingin() {
 // connection pilote ou passager
 $(function() {
 	$("#connectuser")
-			.click(
-					function() {
-						if (VerifFormSingin()) {
-							if ($('#formsignin input[name="type"]:checked')
-									.val() == "pilot") {
-								$("#formsignin .error-form").text("");
-								type = "pilot";
-								getServerData(urlLogPilot, afterLoginUser,
-										'post', formlogToJSON(), header);
-							} else if ($(
-									'#formsignin input[name="type"]:checked')
-									.val() == "passenger") {
-								$("#formsignin .error-form").text("");
-								type = "passenger";
-								getServerData(urlLogPassenger, afterLoginUser,
-										'post', formlogToJSON(), header);
-							} else {
-								$("#formsignin .error-form")
-										.fadeIn()
-										.text(
-												"veuillez cocher la case pilote ou passager");
-							}
-						}
-					});
+			.click(function() {
+				if (VerifFormSingin()) {
+					if ($('#formsignin input[name="type"]:checked').val() == "pilot") {
+						$("#formsignin .error-form").text("");
+						type = "pilot";
+						getServerData(urlLogPilot, afterLoginUser,
+								'post', formlogToJSON(), header);
+					} else if ($('#formsignin input[name="type"]:checked')
+								.val() == "passenger") {
+						$("#formsignin .error-form").text("");
+						type = "passenger";
+						getServerData(urlLogPassenger, afterLoginUser,
+							'post', formlogToJSON(), header);
+					} else {
+						$("#formsignin .error-form")
+							.fadeIn()
+							.text("veuillez cocher la case pilote ou passager");
+					}
+				}
+			});
 });
 
 function afterLoginUser(user) {
@@ -242,25 +268,16 @@ function afterLoginUser(user) {
 		$("#formsignin .error-form").fadeIn().text(
 				"Votre email ou mot de passe sont incorrect");
 	} else {
-		header = new Headers();
-		header.append('token', user.id);
-
+		
+		window.localStorage.setItem('type', type);
+		window.localStorage.setItem('token', user.id);
+		
 		$('#signin').modal('hide');
 		$(".signup-sucess").text("");
 		$("#signin").removeData('bs.modal');
-		// ////////////////////////////////////////////////////////////////////////
-		// achanger par session
 		
-		if (type == "passenger") {
-			$("#lienRecherche").show();
-			$("#lienReservation").show();
-		} else {
-			$("#lienpost").show();
-		}
-		$("#logOut").show();
-		$("#sup").hide();
-		$("#sin").hide();
-		// ///////////////////////////////////////////////////////////////////////
+		window.location.href = "http://localhost:8080";
+
 	}
 }
 
@@ -281,7 +298,6 @@ function reservationResponse(listF) {
 	$("#resultsearch").text("");
 	$("#notfound").hide();
 	if (listF.length == 0) {
-		$("#notfound").show();
 		return;
 	}
 	for (i = 0; i < listF.length; i++) {
@@ -304,16 +320,17 @@ function reservationResponse(listF) {
 }
 
 // se deconnecter
-$(function() 
+$(function() {
 	$("#logOut").click(function() {
-		$(".connected").hide();
-		$("#lienRecherche").hide();
-		$("#lienReservation").hide();
-		$("#logOut").hide();
-		$("#sup").show();
-		$("#sin").show();
+		
+		window.localStorage.removeItem('token');
+		window.localStorage.removeItem('type');
+		window.localStorage.clear();
+				
 		header.delete('token');
 		header = null;
+		type = "";		
+		window.location.href = "http://localhost:8080";
 	});
 });
 
