@@ -55,6 +55,7 @@ public class PilotRessource {
 	@Path("/signin")
 	public String signIn(Connection c) {
 	    String token = daoPilot.connect(c);
+	    System.out.println("reponse"+token);
 	    return token;
 	}
 	

@@ -23,7 +23,7 @@ public class JettyMain {
 		// Add a connector
 		ServerConnector connector = new ServerConnector(server);
 		connector.setHost("0.0.0.0");
-		connector.setPort(8080);
+		connector.setPort(8000);
 		connector.setIdleTimeout(30000);
 		server.addConnector(connector);
 		
@@ -46,7 +46,7 @@ public class JettyMain {
 		// Add a handler for resources (/*)
 		ResourceHandler handlerPortal = new ResourceHandler();
 		//handlerPortal.setResourceBase("src/main/webapp");
-		handlerPortal.setResourceBase("src/travello");
+		handlerPortal.setResourceBase("src/interface");
 		handlerPortal.setDirectoriesListed(false);
 		handlerPortal.setWelcomeFiles(new String[] { "index.html" });
 		ContextHandler handlerPortalCtx = new ContextHandler();
