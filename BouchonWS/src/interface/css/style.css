@@ -8967,3 +8967,17 @@ width: 100%;
     color: #fff;
 
 }
+.block-5 .text .price {
+
+    color: #fff;
+    display: none;
+
+}
+
+.block-5 .text .star-rate {
+
+    font-size: 12px;
+    color: white;
+    display: none;
+
+}
