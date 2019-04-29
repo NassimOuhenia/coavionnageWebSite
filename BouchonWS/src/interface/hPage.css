@@ -7,10 +7,6 @@
   padding-left: 3%;
 }
 
-.intro{
-    background-color: lightgrey;
-}
-
 #lienRecherche,#logOut,#lienReservation,#lienpost{
     display: none;
 }

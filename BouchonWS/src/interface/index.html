@@ -101,7 +101,7 @@
             <div class="element-animate">
               <div class="nav nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link p-3 active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><span> My Flight</span> </a>
-
+<a class="nav-link p-3" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><span>Reservation</span> </a>
               </div>
             </div>
 
@@ -133,26 +133,7 @@
               </div>
               <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                 <div class="block-17">
-                  <form action="" method="post" class="d-block d-lg-flex">
-                    <div class="fields d-block d-lg-flex">
-                      <div class="textfield-search one-third"><input type="text" class="form-control" placeholder="Search Hotel"></div>
-
-                      <div class="check-in one-third"><input type="text" id="checkin_date" class="form-control" placeholder="Check-in date"></div>
-
-                      <div class="check-out one-third"><input type="text" id="checkout_date" class="form-control" placeholder="Check-out date"></div>
-                      <div class="select-wrap one-third">
-                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                        <select name="" id="" class="form-control">
-                          <option value="">Guest</option>
-                          <option value="">1</option>
-                          <option value="">2</option>
-                          <option value="">3</option>
-                          <option value="">4+</option>
-                        </select>
-                      </div>
-                    </div>
-                    <input type="submit" class="search-submit btn btn-primary" value="Find Hotels">
-                  </form>
+                  fff
                 </div>
               </div>
               <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
@@ -499,38 +480,30 @@
     <section class="ftco-section-2">
       <div id="resultsearch">
    </div>
- <!-- Intro -->
+ <!-- template -->
    <script id="ajoutsearch" type="text/template">
-       <div class="intro">
-           <div class="intro_background" style="background-image:url(images/intro.png)"></div>
-           <div class="container">
-               <div class="row">
-                   <div class="col">
-                       <div class="intro_container">
-                           <div class="row">
-                               <div class="listFlight col-sm-8 col-sm-offset-2">
-                                   <div class="col-sm-8">
-                                       <h4><%=depart%> ▶ <%=arrive%></h4>
-                                       <hr>
-                                       <h4><%=date%> <%=time%></h4>
+           <div class="listFlight">
+               <div class="listFlight col-sm-8 col-sm-offset-2">
+                   <div class="col-sm-8">
+                       <h4><%=depart%> ▶ <%=arrive%></h4>
+                       <hr>
+                       <h4><%=date%> <%=time%></h4>
 
-                                       <hr>
-                                       <h4>Price : <%=price%> €</h4>
-                                   </div>
-                                   <div class="col-sm-4" align="center">
-                                       <h3><%=place%> seat left</h3>
-                                       <p><input  type="number" id="nbPlace" value="0" min="0" max=<%=place%>></p>
-                                       <p><button type="button" onclick="bookFlight('<%=idf%>')"
-                                           class="btn btn-primary btn-lg">book</button></p>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                     </div>
+                       <hr>
+                       <h4>Price : <%=price%> €</h4>
+                   </div>
+                   <div class="col-sm-4" align="center">
+                       <h3><%=place%> seat left</h3>
+                       <p><input  type="number" id="nbPlace" value="0" min="0" max=<%=place%>></p>
+                       <p><button type="button" onclick="bookFlight('<%=idf%>')"
+                           class="btn btn-primary btn-lg">book</button></p>
+                   </div>
                </div>
            </div>
-       </div>
    </script>
+
+
+
     </section>
 
 
