@@ -15,10 +15,12 @@ public class SendEmailTLS {
 	public static String subjectReservation = "Confirm Your Blablaplane Reservation";
 	public static String subjectConfirmation = "Confirmation Reply";
 	
-	public static boolean envoyerMail(String from, String to, String subject, String msg) {
+	
+	public static boolean envoyerMail(String to, String subject, String msg) {
 		
 		final String username = "blablaplanes@gmail.com";
 		final String password = "blablaplanes2019";
+		 
 		
 		Properties prop = new Properties();
 		prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -36,7 +38,7 @@ public class SendEmailTLS {
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(from));
+			message.setFrom(new InternetAddress("blablaplanes@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 			message.setSubject(subject);
 			message.setText(msg);

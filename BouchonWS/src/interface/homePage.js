@@ -257,7 +257,7 @@ $(function() {
 					} else {
 						$("#formsignin .error-form")
 							.fadeIn()
-							.text("veuillez cocher la case pilote ou passager");
+							.text("Please check the Pilot or Passenger box");
 					}
 				}
 			});
@@ -292,7 +292,7 @@ function formlogToJSON() {
 }
 
 function mesReservation() {
-	getServerData(urlGetFlights, reservationResponse, 'post', null, header);
+	getServerData(urlFlightsWaiting, reservationResponse, 'post', null, header);
 }
 
 function reservationWaiting() {
@@ -300,16 +300,19 @@ function reservationWaiting() {
 }
 
 function reservationResponse(listF) {
+	
 	if(!listF) {
 		alert("null");
 	}
+	
 	$("#resultsearch").text("");
 	$("#notfound").hide();
 	if (listF.length == 0) {
+		alert('pas de reservations');
 		return;
 	}
 	for (i = 0; i < listF.length; i++) {
-		var templateExample = _.template($('#ajoutReservation').html());
+		var templateExample = _.template($('#ajoutsearch').html());
 		var html = templateExample({
 			"idf" : listF[i].idFlight,
 			"depart" : listF[i].departureAirport,
@@ -322,7 +325,7 @@ function reservationResponse(listF) {
 			"price" : listF[i].price,
 			"place" : listF[i].seatLeft
 		});
-		$("#mesReservation").append(html);
+		$("#resultsearch").append(html);
 	
 	}
 }

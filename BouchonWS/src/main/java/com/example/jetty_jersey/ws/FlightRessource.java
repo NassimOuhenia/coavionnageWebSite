@@ -63,15 +63,23 @@ public class FlightRessource {
 		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("passenger")) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
-	
-		Pilot pilot = daoFlight.get(r.getIdFlight()).get(0).getPilot();
-		String to = pilot.getMail();
 		
-		// SendEmailTLS.envoyerMail(from, to, subject, text);
+	
+		Flight f = daoFlight.get(r.getIdFlight()).get(0);
+		String to = f.getPilot().getMail();
+		
+		String text = "Hello " + f.getPilot().getFirstName() + " " + f.getPilot().getLastName() +"! \n"
+				+ "A new passenger booked a flight with you the "+f.getDate()+". \n"
+				+"Departure: "+f.getDepartureAirport()+"\n"
+				+"Arrival: "+f.getArrivalAirport()+"\n"
+				+"To confirm the booking, go to blablaplane.com \n"
+				+"Please sign in to approve or refuse the reservation from 'My Flights' section \n\n"
+				+"The Blablaplane team hope to see you soon";
+		
+		SendEmailTLS.envoyerMail(to, SendEmailTLS.subjectReservation, text);
 		
 		r.setIdPassenger(JwTokenHelper.getInstance().getIdFromToken(token));
-			
-			
+				
 		String response = daoReservation.put(r);
 		return response;
 	}
