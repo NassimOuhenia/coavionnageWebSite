@@ -68,6 +68,8 @@ public class FlightRessource {
 		String to = pilot.getMail();
 		
 		// SendEmailTLS.envoyerMail(from, to, subject, text);
+		
+		r.setIdPassenger(JwTokenHelper.getInstance().getIdFromToken(token));
 			
 			
 		String response = daoReservation.put(r);
