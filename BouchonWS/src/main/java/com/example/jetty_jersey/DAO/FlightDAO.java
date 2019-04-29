@@ -233,5 +233,23 @@ public class FlightDAO extends DAO<Flight> {
 	    
 	    return list;
 	}
+	
+	
+	public void reductionNumberPlace(String idFlight, int numberPlace) {
+	    Flight f = get(idFlight).get(0);
+	    
+	    TransportClient client = DAOFactory.getConnextion();
+	    try {
+		client.prepareUpdate("flight", "_doc", idFlight)
+			.setDoc(jsonBuilder()
+				.startObject()
+					.field("seatLeft", f.getSeatLeft()-numberPlace)
+				.endObject())
+			.get();
+	    }
+	    catch(Exception e) {
+		e.printStackTrace();
+	    }
+	}
 
 }

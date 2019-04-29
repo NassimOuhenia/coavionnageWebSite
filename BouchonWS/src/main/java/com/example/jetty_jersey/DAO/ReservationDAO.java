@@ -53,6 +53,7 @@ public class ReservationDAO extends DAO<Reservation> {
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
+		DAOFactory.getInstance().getFlightDAO().reductionNumberPlace(r.getIdFlight(), r.getNumberPlace());
 		return "{" + "\"status\":\"400\"," + "\"error\":\"Can not book the flight\"" + "}";
 	    }
 	}
@@ -63,6 +64,7 @@ public class ReservationDAO extends DAO<Reservation> {
 			    .field("confirmed", "0").endObject())
 		    .get();
 	    if (response.status() == RestStatus.CREATED) {
+		DAOFactory.getInstance().getFlightDAO().reductionNumberPlace(r.getIdFlight(), r.getNumberPlace());
 		return "{" + "\"status\":\"201\"," + "\"message\":\"Well booked\"" + "}";
 	    }
 	} catch (IOException e) {
