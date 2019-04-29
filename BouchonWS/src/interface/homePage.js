@@ -162,9 +162,9 @@ function VerifFormSingup() {
 			|| $("#mail").val() == "" || $("#password").val() == "") {
 		valid = false;
 		$("#formsignup .error-form").fadeIn().text(
-				"veuillez remplir tout les champs");
+				"You are required to complete all fields");
 	} else if (!regex.test($('#mail').val())) {
-		$("#formsignup .error-form").fadeIn().text("Format email incorrect");
+		$("#formsignup .error-form").fadeIn().text("Inc");
 		valid = false;
 	} else {
 		$("#formsignup .error-form").fadeIn().text("");
@@ -194,7 +194,7 @@ $(function() {
 								$("#formsignup .error-form")
 										.fadeIn()
 										.text(
-												"veuillez cocher la case pilote ou passager");
+												"Please check the Pilot or Passenger box.");
 							}
 						}
 					});
@@ -205,7 +205,7 @@ function afterPostUser(user) {
 	$('#signup').modal('hide');
 	$('#signin').modal('show');
 	$(".signup-sucess").fadeIn().text(
-			"Inscription reussie vous pouvez vous connecter");
+			"You have successfuly signed up to BlablPlane");
 }
 
 // return les info du formulaire d'inscription
@@ -227,9 +227,9 @@ function VerifFormSingin() {
 	if ($("#mailog").val() == "" || $('#logpass').val() == "") {
 		valid = false;
 		$("#formsignin .error-form").fadeIn().text(
-				"veuillez remplir tout les champs");
+				"You are required to complete all fields");
 	} else if (!regex.test($('#mailog').val())) {
-		$("#formsignin .error-form").fadeIn().text("Format email incorrect");
+		$("#formsignin .error-form").fadeIn().text("Incorrect email format.");
 		valid = false;
 	} else {
 		$("#formsignin .error-form").fadeIn().text("");
@@ -257,7 +257,7 @@ $(function() {
 					} else {
 						$("#formsignin .error-form")
 							.fadeIn()
-							.text("Please check the Pilot or Passenger box");
+							.text("Please check the Pilot or Passenger box.");
 					}
 				}
 			});
@@ -267,7 +267,7 @@ function afterLoginUser(user) {
 	
 	if (user.error) {
 		$("#formsignin .error-form").fadeIn().text(
-				"Votre email ou mot de passe sont incorrect"+user.id);
+				"The email and password do not match. Please try again."+user.id);
 	} else {
 		
 		window.localStorage.setItem('type', type);
