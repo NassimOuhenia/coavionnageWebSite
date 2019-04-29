@@ -96,9 +96,37 @@ public class FlightRessource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/book/confirm")
-	public boolean confirm(ID idReservation) {
+	@Path("/book/confirm/yes")
+	public boolean confirmYes(ID idReservation) {
+//		String text = "Hello " + f.getPilot().getFirstName() + " " + f.getPilot().getLastName() +"! \n"
+//		+ "A new passenger booked a flight with you the "+f.getDate()+". \n"
+//		+"Departure: "+f.getDepartureAirport()+"\n"
+//		+"Arrival: "+f.getArrivalAirport()+"\n"
+//		+"To confirm the booking, go to blablaplane.com \n"
+//		+"Please sign in to approve or refuse the reservation from 'My Flights' section \n\n"
+//		+"The Blablaplane team hope to see you soon";
+//
+//		SendEmailTLS.envoyerMail(to, SendEmailTLS.subjectReservation, text);
+		
 		return daoReservation.update(null, idReservation.getId());
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/book/confirm/no")
+	public boolean confirmNo(String idReservation) {
+		
+//		String text = "Hello " + f.getPilot().getFirstName() + " " + f.getPilot().getLastName() +"! \n"
+//				+ "A new passenger booked a flight with you the "+f.getDate()+". \n"
+//				+"Departure: "+f.getDepartureAirport()+"\n"
+//				+"Arrival: "+f.getArrivalAirport()+"\n"
+//				+"To confirm the booking, go to blablaplane.com \n"
+//				+"Please sign in to approve or refuse the reservation from 'My Flights' section \n\n"
+//				+"The Blablaplane team hope to see you soon";
+//		
+		//SendEmailTLS.envoyerMail(to, SendEmailTLS.subjectReservation, text);
+		return daoReservation.delete(null, idReservation);
 	}
 
 }

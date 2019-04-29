@@ -48,12 +48,12 @@ public class ReservationDAO extends DAO<Reservation> {
 					UpdateResponse update = client.prepareUpdate("book", "_doc", result[i].getId())
 							.setDoc(jsonBuilder().startObject().field("numberPlace", np).endObject()).get();
 					if (update.status() == RestStatus.OK) {
-						
 						return "{" + "\"status\":\"201\"," + "\"message\":\"Well booked\"" + "}";
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				DAOFactory.getInstance().getFlightDAO().reductionNumberPlace(r.getIdFlight(), r.getNumberPlace());
 				return "{" + "\"status\":\"400\"," + "\"error\":\"Can not book the flight\"" + "}";
 			}
 		}
@@ -64,25 +64,26 @@ public class ReservationDAO extends DAO<Reservation> {
 							.field("confirmed", "0").endObject())
 					.get();
 			if (response.status() == RestStatus.CREATED) {
+				DAOFactory.getInstance().getFlightDAO().reductionNumberPlace(r.getIdFlight(), r.getNumberPlace());
 				return "{" + "\"status\":\"201\"," + "\"message\":\"Well booked\"" + "}";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		DAOFactory.getInstance().getFlightDAO().reductionNumberPlace(r.getIdFlight(), r.getNumberPlace());
 		return "{" + "\"status\":\"400\"," + "\"error\":\"Can not book the flight\"" + "}";
 	}
-	try {
-	    IndexResponse response = client.prepareIndex("book", "_doc")
-		    .setSource(jsonBuilder().startObject().field("idFlight", r.getIdFlight())
-			    .field("idPassenger", r.getIdPassenger()).field("numberPlace", r.getNumberPlace())
-			    .field("confirmed", "0").endObject())
-		    .get();
-	    if (response.status() == RestStatus.CREATED) {
-		return "{" + "\"status\":\"201\"," + "\"message\":\"Well booked\"" + "}";
-	    }
-	} catch (IOException e) {
-	    e.printStackTrace();
+
+	@Override
+	public boolean delete(Reservation obj, String idReservation) {
+		TransportClient client = DAOFactory.getConnextion();
+		try {
+			DeleteResponse response = client.prepareDelete("book", "_doc", idReservation).execute().actionGet();
+			return true;
+		} catch (ElasticsearchException e) {
+			if (e.status() == RestStatus.CONFLICT)
+				e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override
@@ -108,7 +109,7 @@ public class ReservationDAO extends DAO<Reservation> {
 
 	@Override
 	public List<Reservation> get(String id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -140,7 +141,6 @@ public class ReservationDAO extends DAO<Reservation> {
 		TransportClient client = DAOFactory.getConnextion();
 
 		ArrayList<Passenger> list = new ArrayList<Passenger>();
-
 		SearchResponse response = client.prepareSearch("book").setTypes("_doc").setQuery(QueryBuilders.matchAllQuery())
 				.setSize(10000).get();
 

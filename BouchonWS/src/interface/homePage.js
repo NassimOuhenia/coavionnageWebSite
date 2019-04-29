@@ -7,12 +7,16 @@ var urlLogPilot = '/blablaplane/pilots/signin';
 var urlBook = '/blablaplane/flights/book';
 var urlGetFlights = '/blablaplane/passengers/myflight/confirmed';
 var urlFlightsWaiting = '/blablaplane/passengers/myflight/waiting';
+var urlFlightsPilots = '/blablaplane/pilots/myflights';
+var urlMyPassengers = '/blablaplane/pilots/myflights/passenger';
+var urlConfirmYes = '/blablaplane/flights/book/confirm/yes';
+var urlConfirmNo = '/blablaplane/flights/book/confirm/no';
+
 
 var type = "";
 var header = null;
 
 $( document ).ready(function() {
-	
 	
 	if(window.localStorage.getItem('token')) {
 		
@@ -292,11 +296,24 @@ function formlogToJSON() {
 }
 
 function mesReservation() {
-	getServerData(urlFlightsWaiting, reservationResponse, 'post', null, header);
+	getServerData(urlGetFlights, reservationResponse, 'post', null, header);
 }
 
 function reservationWaiting() {
 	getServerData(urlFlightsWaiting, reservationResponse, 'post', null, header);
+}
+
+function myFlightsPilots() {
+	getServerData(urlFlightsPilots, reservationResponse, 'post', null, header);
+}
+
+
+//get list passenger for a flight
+function getMyPassengers(idFlight) {
+	var data = {
+			idFlight : idflight
+		}
+	getServerData(urlFlightsPilots, null, 'post', data, header);
 }
 
 function reservationResponse(listF) {
