@@ -56,14 +56,27 @@ public class UserRessource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/myflight")
+	@Path("/myflight/confirmed")
+	public List<Flight> getFlightReservationConfirmed(@HeaderParam("token") String token) {
+	    if (JwTokenHelper.getInstance().isTokenInvalid(token) ||
+	    		!JwTokenHelper.getInstance().getUserType(token).equals("passenger")) {
+	    	    return null;
+	    	}
+	    String id = JwTokenHelper.getInstance().getIdFromToken(token);
+	    return daoReservation.getFlightForPassenger(id, "1");
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/myflight/waiting")
 	public List<Flight> getFlightReservation(@HeaderParam("token") String token) {
 	    if (JwTokenHelper.getInstance().isTokenInvalid(token) ||
 	    		!JwTokenHelper.getInstance().getUserType(token).equals("passenger")) {
 	    	    return null;
 	    	}
 	    String id = JwTokenHelper.getInstance().getIdFromToken(token);
-	    return daoReservation.getFlightForPassenger(id);
+	    return daoReservation.getFlightForPassenger(id, "0");
 	}
-
+	
 }

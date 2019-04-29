@@ -110,7 +110,7 @@ public class ReservationDAO extends DAO<Reservation> {
 	return null;
     }
 
-    public List<Flight> getFlightForPassenger(String idPassenger) {
+    public List<Flight> getFlightForPassenger(String idPassenger, String status) {
 	TransportClient client = daofactory.getConnextion();
 
 	ArrayList<Flight> list = new ArrayList<Flight>();
@@ -124,8 +124,8 @@ public class ReservationDAO extends DAO<Reservation> {
 
 	    Map<String, Object> map = result[i].getSourceAsMap();
 
-	    if (map.get("idPassenger").toString().equals(idPassenger) && map.get("confirmed").toString().equals("1")) {
-		Flight f = daofactory.getInstance().getFlightDAO().get(map.get("idFlight").toString()).get(0);
+	    if (map.get("idPassenger").toString().equals(idPassenger) && map.get("confirmed").toString().equals(status)) {
+		Flight f = DAOFactory.getInstance().getFlightDAO().get(map.get("idFlight").toString()).get(0);
 		list.add(f);
 	    }
 	}
