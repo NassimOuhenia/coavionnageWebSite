@@ -60,7 +60,7 @@ public class FlightRessource {
 	public String book(@HeaderParam("token") String token, Reservation r) {
 		if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
-		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("passenger")) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
 	

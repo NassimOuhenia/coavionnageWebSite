@@ -40,6 +40,7 @@ public class ReservationDAO extends DAO<Reservation> {
 
 	for (int i = 0; i < result.length; i++) {
 	    Map<String, Object> map = result[i].getSourceAsMap();
+	    System.out.println(map.get("idPassenger").toString());
 	    if (map.get("idFlight").toString().equals(r.getIdFlight())
 		    && map.get("idPassenger").toString().equals(r.getIdPassenger())) {
 		int np = Integer.parseInt(map.get("numberPlace").toString()) + r.getNumberPlace();

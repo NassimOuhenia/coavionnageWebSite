@@ -5,7 +5,8 @@ var urlLogPassenger = '/blablaplane/passengers/signin';
 var urlPostPilot = '/blablaplane/pilots/signup';
 var urlLogPilot = '/blablaplane/pilots/signin';
 var urlBook = '/blablaplane/flights/book';
-var urlGetFlights = '/blablaplane/passengers/myflights';
+var urlGetFlights = '/blablaplane/passengers/myflight/confirmed';
+var urlFlightsWaiting = '/blablaplane/passengers/myflight/waiting';
 
 var type = "";
 var header = null;
@@ -294,7 +295,14 @@ function mesReservation() {
 	getServerData(urlGetFlights, reservationResponse, 'post', null, header);
 }
 
+function reservationWaiting() {
+	getServerData(urlFlightsWaiting, reservationResponse, 'post', null, header);
+}
+
 function reservationResponse(listF) {
+	if(!listF) {
+		alert("null");
+	}
 	$("#resultsearch").text("");
 	$("#notfound").hide();
 	if (listF.length == 0) {
