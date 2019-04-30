@@ -101,7 +101,7 @@
             <div class="element-animate">
               <div class="nav nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link p-3 active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><span> My Flight</span> </a>
-<a class="nav-link p-3" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><span>Reservation</span> </a>
+                <a class="nav-link p-3" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><span>Reservation</span> </a>
               </div>
             </div>
 
@@ -116,24 +116,35 @@
 
                       <div class="textfield-search one-third champ-acceuil1" ><input id="departuresearch" type="text" class="search_input search_input_3"    placeholder="    Departure"></div>
                         <div class="textfield-search one-third champ-acceuil1">  <input id="arrivalsearch" type="text" class="search_input search_input_4"  placeholder="     Arrival"></div>
-
-
-
-							         <div class="check-in one-third champ-acceuil"> <label><input type="checkbox" id="travelsearch">travel</label></div>
-							         <div class="check-in one-third champ-acceuil"><label><input type="checkbox" id="localsearch">local</label></div>
-
-
-
                     </div>
 
-                    <button id="search" class="home_search_button search-submit btn btn-primary">search</button>
+                    <button id="search" class="btn btn-default">search</button>
 
                   </div>
                 </div>
+                  <div class="block-17">
+                      <div id="resultsearch"></div>
+                      <script id="ajoutsearch" type="text/template">
+                        <div class="row listFlight">
+                            <div class="col-sm-3" id="lieu"><%=depart%><br>▶ <%=arrive%></div>
+                            <div class="col-sm-2" id="temps"><%=date%><br><%=time%></div>
+                            <div class="col-sm-1" id="leprix"><%=price%></div>
+                            <div class="col-sm-2" id="lesplaces"><%=place%> places restants</div>
+                            <div class="col-sm-2"><input id="nbPlace" value="0" min="0" max=<%=place%> type="number"></div>
+                            <div class="col-sm-2"><button type="button" onclick="bookFlight('<%=idf%>')" class="info">reserver</button></div>
+                        </div>
+                      </script>      
+                  </div>
               </div>
               <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                 <div class="block-17">
-                  fff
+                    <div class="row listFlight">
+                        <div class="col-sm-3" id="">depart<br>-> arrivée</div>
+                        <div class="col-sm-2" id="">date<br>heure</div>
+                        <div class="col-sm-3" id="">nb places reserver</div>
+                        <div class="col-sm-2" id="">status</div>
+                        <div class="col-sm-2"><button type="button" class="">maps</button></div>
+                    </div>
                 </div>
               </div>
               <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
@@ -157,31 +168,6 @@
                       </div>
                     </div>
                     <input type="submit" class="search-submit btn btn-primary" value="Find Car">
-                  </form>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                <div class="block-17">
-                  <form action="" method="post" class="d-block d-lg-flex">
-                    <div class="fields d-block d-lg-flex">
-                      <div class="textfield-search one-third one-third-1"><input type="text" class="form-control" placeholder="Search Location"></div>
-
-
-                      <div class="check-out one-third one-third-1"><input type="text" id="start_date" class="form-control" placeholder="Check-out date"></div>
-
-                      <div class="select-wrap one-third one-third-1">
-                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                        <select name="" id="" class="form-control">
-                          <option value="">Categories</option>
-                          <option value="">Suite</option>
-                          <option value="">Super Deluxe</option>
-                          <option value="">Balcony</option>
-                          <option value="">Economy</option>
-                          <option value="">Luxury</option>
-                        </select>
-                      </div>
-                    </div>
-                    <input type="submit" class="search-submit btn btn-primary" value="Find Cruise">
                   </form>
                 </div>
               </div>
@@ -476,11 +462,10 @@
 		</div>
 
 
+<!--
+    <section>
+      <div id="resultsearch"></div>
 
-    <section class="ftco-section-2">
-      <div id="resultsearch">
-   </div>
- <!-- template -->
    <script id="ajoutsearch" type="text/template">
            <div class="listFlight">
                <div class="listFlight col-sm-8 col-sm-offset-2">
@@ -501,12 +486,9 @@
                </div>
            </div>
    </script>
-
-
-
     </section>
 
-
+-->
 
 
     <section class="ftco-section">
