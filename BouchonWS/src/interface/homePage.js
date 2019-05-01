@@ -16,6 +16,14 @@ var urlConfirmNo = '/blablaplane/flights/book/confirm/no';
 var type = "";
 var header = null;
 
+$(function () {
+	  $(document).scroll(function () {
+	    var $nav = $(".navbar-default");
+	    var $search = $(".ftco-section-search");
+	    $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height() + $search.height()+100);
+	  });
+	});
+
 $( document ).ready(function() {
 	
 	if(window.localStorage.getItem('token')) {

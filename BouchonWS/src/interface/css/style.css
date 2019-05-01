@@ -452,7 +452,8 @@ pre {
 
 .pre-scrollable {
   max-height: 340px;
-  overflow-y: scroll; }
+  overflow-y: scroll;
+ }
 
 .container {
   width: 100%;
@@ -3251,6 +3252,7 @@ input[type="button"].btn-block {
   -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 0.5rem 1rem; }
+  
   .navbar > .container,
   .navbar > .container-fluid {
     display: -webkit-box;
@@ -3283,7 +3285,7 @@ input[type="button"].btn-block {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
-  flex-direction: column;
+  flex-direction: row;
   padding-left: 0;
   margin-bottom: 0;
   list-style: none; }
@@ -8883,7 +8885,7 @@ owl-carousel.home-slider .slider-item .slider-text h1 {
 }
 
 .logo-image{
-  width: 30%;
+  width: 18%;
     margin-right: 5%;
 
 
@@ -8954,7 +8956,7 @@ width: 100%;
 .navbar-brand {
 
     font-weight: 700;
-
+    padding-left:30px;
 }
 .buttonreser{
   margin-top: 25%;
