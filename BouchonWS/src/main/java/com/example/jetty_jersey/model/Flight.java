@@ -1,113 +1,138 @@
 package com.example.jetty_jersey.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+/*
+ * Class qui parse les information pour les flights
+ */
 public class Flight {
-	
-	private String idFlight;
-	private String date;
-	private String departure_airport;
-	private String arrival_airport;
-	private double travelTime;
-	private double price;
-	private String typeflight;
-	private Plane plane;
-	private Pilot pilot;
-	private List<Passenger> passagers;
-	
-	public Flight(String idFlight, String date, String departure_airport, String arrival_airport, double travelTime,
-			double price, String typeflight, Plane plane, Pilot pilot) {
-		super();
-		this.idFlight = idFlight;
-		this.date = date;
-		this.departure_airport = departure_airport;
-		this.arrival_airport = arrival_airport;
-		this.travelTime = travelTime;
-		this.price = price;
-		this.typeflight = typeflight;
-		this.plane = plane;
-		this.pilot = pilot;
-		passagers = new ArrayList<Passenger>();
-	}
+    private String idFlight;
+    private String date;
+    private String departureAirport;
+    private String arrivalAirport;
+    private double travelTime;
+    private double price;
+    private String timep;
+    private String typeFlight;
+    private String modelePlane;
+    private Pilot pilot;
+    private int seatLeft;
+    private List<Passenger> passagers;
 
-	public String getDate() {
-		return date;
-	}
+    public Flight(String idFlight, String date, String departureAirport, String arrivalAirport, double travelTime,
+	    double price, String timep, String typeFlight, String modelePlane, Pilot pilot, int seatLeft) {
+	this.idFlight = idFlight;
+	this.date = date;
+	this.departureAirport = departureAirport;
+	this.arrivalAirport = arrivalAirport;
+	this.travelTime = travelTime;
+	this.price = price;
+	this.timep = timep;
+	this.typeFlight = typeFlight;
+	this.modelePlane = modelePlane;
+	this.pilot = pilot;
+	this.seatLeft = seatLeft;
+	passagers = new ArrayList<Passenger>();
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public Flight() {
+    }
 
-	public String getDeparture_airport() {
-		return departure_airport;
-	}
+    public String getTimep() {
+	return timep;
+    }
 
-	public void setDeparture_airport(String departure_airport) {
-		this.departure_airport = departure_airport;
-	}
+    public void setTimep(String timep) {
+	this.timep = timep;
+    }
 
-	public String getArrival_airport() {
-		return arrival_airport;
-	}
+    public int getSeatLeft() {
+	return seatLeft;
+    }
 
-	public void setArrival_airport(String arrival_airport) {
-		this.arrival_airport = arrival_airport;
-	}
+    public void setSeatLeft(int seatLeft) {
+	this.seatLeft = seatLeft;
+    }
 
-	public double getTravelTime() {
-		return travelTime;
-	}
+    public String getIdFlight() {
+	return idFlight;
+    }
 
-	public void setTravelTime(double travelTime) {
-		this.travelTime = travelTime;
-	}
+    public void setIdFlight(String idFlight) {
+	this.idFlight = idFlight;
+    }
 
-	public double getPrice() {
-		return price;
-	}
+    public String getDate() {
+	return date;
+    }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+    public void setDate(String date) {
+	this.date = date;
+    }
 
-	public String getTypeflight() {
-		return typeflight;
-	}
+    public String getDepartureAirport() {
+	return departureAirport;
+    }
 
-	public void setTypeflight(String typeflight) {
-		this.typeflight = typeflight;
-	}
+    public void setDepartureAirport(String departureAirport) {
+	this.departureAirport = departureAirport;
+    }
 
-	public Plane getPlane() {
-		return plane;
-	}
+    public String getArrivalAirport() {
+	return arrivalAirport;
+    }
 
-	public void setPlane(Plane plane) {
-		this.plane = plane;
-	}
+    public void setArrivalAirport(String arrivalAirport) {
+	this.arrivalAirport = arrivalAirport;
+    }
 
-	public Pilot getPilot() {
-		return pilot;
-	}
+    public double getTravelTime() {
+	return travelTime;
+    }
 
-	public void setPilot(Pilot pilot) {
-		this.pilot = pilot;
-	}
+    public void setTravelTime(double travelTime) {
+	this.travelTime = travelTime;
+    }
 
-	public List<Passenger> getPassagers() {
-		return passagers;
-	}
+    public double getPrice() {
+	return price;
+    }
 
-	public void setPassagers(List<Passenger> passagers) {
-		this.passagers = passagers;
-	}
+    public void setPrice(double price) {
+	this.price = price;
+    }
 
-	public String getIdFlight() {
-		return idFlight;
-	}
+    public String getTypeFlight() {
+	return typeFlight;
+    }
 
-	
+    public void setTypeFlight(String typeFlight) {
+	this.typeFlight = typeFlight;
+    }
+
+    public void setModelePlane(String modelePlane) {
+	this.modelePlane = modelePlane;
+    }
+
+    public String getModelePlane() {
+	return modelePlane;
+    }
+
+    public Pilot getPilot() {
+	return pilot;
+    }
+
+    public void setPilot(Pilot pilot) {
+	this.pilot = pilot;
+    }
+
+    public List<Passenger> getPassagers() {
+	return passagers;
+    }
+
+    public void setPassagers(List<Passenger> passagers) {
+	this.passagers = passagers;
+    }
 
 }
