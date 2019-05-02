@@ -24,17 +24,16 @@ $(function () {
 	  });
 	});
 
-$( document ).ready(function() {
+$(document).ready(function() {
 	
 	if(window.localStorage.getItem('token')) {
 		
 		if (window.localStorage.getItem('type') == "passenger") {
-			
-			$("#lienRecherche").show();
-			$("#lienReservation").show();
-			
+			$("#myPost").hide();
+            $("#myReservation").show();
 		} else {
 			$("#lienpost").show();
+            $("#myPost").show();
 		}
 		
 		header = new Headers();
@@ -45,10 +44,9 @@ $( document ).ready(function() {
 		$("#sin").hide();
 		
 	} else {
-		
-		$(".connected").hide();
-		$("#lienRecherche").hide();
-		$("#lienReservation").hide();
+        //$("#myReservation").hide();
+        //$("#myPost").hide();
+		//$("#lienpost").hide();
 		$("#logOut").hide();
 		$("#sup").show();
 		$("#sin").show();
@@ -311,8 +309,38 @@ function reservationWaiting() {
 	getServerData(urlFlightsWaiting, reservationResponse, 'post', null, header);
 }
 
+//click sur lien pour avoir les vol poster par un pilote
+$(function() {
+	$("#myPost").click(function() {
+		myFlightsPilots();
+	});
+});
+
 function myFlightsPilots() {
-	getServerData(urlFlightsPilots, reservationResponse, 'post', null, header);
+	getServerData(urlFlightsPilots, ajoutPost, 'post', null, header);
+}
+
+function ajoutPost(listF) {
+	$("#resultspost").text("");
+	$("#nopost").hide();
+	if (listF.length == 0) {
+		$("#nopost").show();
+		return;
+	}
+	for (i = 0; i < listF.length; i++) {
+		var templateExample = _.template($('#ajoutpost').html());
+		var html = templateExample({
+			"depart" : listF[i].departureAirport,
+			"arrive" : listF[i].arrivalAirport,
+			"date" : listF[i].date,
+			"time" : listF[i].timep,
+			"modele" : listF[i].modelePlane,
+			"price" : listF[i].price,
+			"place" : listF[i].seatLeft
+		});
+		$("#resultspost").append(html);
+	
+	}
 }
 
 
