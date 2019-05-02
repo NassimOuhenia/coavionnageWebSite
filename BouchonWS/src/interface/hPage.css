@@ -4,17 +4,13 @@ html{
 
 .champs {
  height: 40px;
-  width: 250px;
+  width: 400px;
   border-radius: 5px;
   border-width: medium;
   padding-left: 3%;
 }
 
-#lienRecherche,#logOut,#lienReservation,#lienpost{
-    ;
-}
-
-notfound,noreservation,nopost{
+#notfound,#noreservation,#nopost{
     display: none;
 }
 

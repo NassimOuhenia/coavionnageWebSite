@@ -31,6 +31,7 @@ $(document).ready(function() {
 		if (window.localStorage.getItem('type') == "passenger") {
 			$("#myPost").hide();
             $("#myReservation").show();
+            $("#lienpost").hide();
 		} else {
 			$("#lienpost").show();
             $("#myPost").show();
@@ -44,9 +45,9 @@ $(document).ready(function() {
 		$("#sin").hide();
 		
 	} else {
-        //$("#myReservation").hide();
-        //$("#myPost").hide();
-		//$("#lienpost").hide();
+        $("#myReservation").hide();
+        $("#myPost").hide();
+		$("#lienpost").hide();
 		$("#logOut").hide();
 		$("#sup").show();
 		$("#sin").show();
@@ -142,6 +143,7 @@ $(function() {
 			timep : $("#timepost").val(),
 			departureAirport : $("#departurepost").val(),
 			arrivalAirport : $("#arrivalpost").val(),
+            rdv : $("#rdvpost").val(),
 			travelTime : $("#traveltimepost").val(),
 			price : $("#pricepost").val(),
 			seatLeft : $("#placepost").val(),
@@ -390,6 +392,7 @@ $(function() {
 		window.localStorage.removeItem('token');
 		window.localStorage.removeItem('type');
 		window.localStorage.clear();
+		
 				
 		header.delete('token');
 		header = null;
