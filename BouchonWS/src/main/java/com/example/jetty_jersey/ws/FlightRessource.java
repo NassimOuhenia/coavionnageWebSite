@@ -124,6 +124,9 @@ public class FlightRessource {
 	return "{" + "\"status\":\"404\"," + "\"error\":\"Reservation couldnt be found\"" + "}";
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/book/confirm")
     public String confirm(@HeaderParam("token") String token, ID idReservation) {
 	if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
