@@ -329,10 +329,11 @@ function formlogToJSON() {
 
 function mesReservation() {
 	getServerData(urlGetFlights, reservationResponse, 'post', null, header);
+	getServerData(urlFlightsWaiting, reservationResponse, 'post', null, header);
 }
 
 function reservationWaiting() {
-	getServerData(urlFlightsWaiting, reservationResponse, 'post', null, header);
+	
 }
 
 //click sur lien pour avoir les vol poster par un pilote
@@ -395,7 +396,7 @@ function reservationResponse(listR) {
 				"arrive" : listR[i].arrivalAirport,
 				"date" : listR[i].date,
 				"place" : listR[i].numberPlace,
-				"idReservation": listR[i].idReservation // à envoyer sur les fonction de confiramtion yes / no
+				"idr": listR[i].idReservation // à envoyer sur les fonction de confiramtion yes / no
 			});
 			$("#resultReservation").append(html);
 		}
