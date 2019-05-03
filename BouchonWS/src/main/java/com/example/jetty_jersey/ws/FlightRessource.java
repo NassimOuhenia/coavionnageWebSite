@@ -114,11 +114,10 @@ public class FlightRessource {
 		Passenger p = daoPassenger.get(daoReservation.getIdPassenger(idR)).get(0);
 		
 		// text à changer
-		String text = "Hello " + f.getPilot().getFirstName() + " " + f.getPilot().getLastName() + "! \n"
-				+ "A new passenger booked a flight with you the " + f.getDate() + ". \n" + "Departure: "
+		String text = "Hello " + p.getFirstName() + " " + p.getLastName() + "! \n"
+				+ "The pilot confirmed the booking.\n"+"Date:" + f.getDate() + ". \n" + "Departure: "
 				+ f.getDepartureAirport() + "\n" + "Arrival: " + f.getArrivalAirport() + "\n"
-				+ "To confirm the booking, go to blablaplane.com \n"
-				+ "Please sign in to approve or refuse the reservation from 'My Flights' section \n\n"
+				+ "You can go to the 'My Flights' section to access to all of the information of your flight \n\n"
 				+ "The Blablaplane team hope to see you soon";
 
 		SendEmailTLS.envoyerMail(p.getMail(), SendEmailTLS.subjectConfirmation, text);
@@ -144,11 +143,10 @@ public class FlightRessource {
 		Passenger p = daoPassenger.get(daoReservation.getIdPassenger(idR)).get(0);
 		
 		//text à changer
-		String text = "Hello " + f.getPilot().getFirstName() + " " + f.getPilot().getLastName() + "! \n"
-				+ "A new passenger booked a flight with you the " + f.getDate() + ". \n" + "Departure: "
+		String text = "Hello " + p.getFirstName() + " " + p.getLastName() + "! \n"
+				+ "The pilot refused the booking of your flight:\n"+"Date: " + f.getDate() + ". \n" + "Departure: "
 				+ f.getDepartureAirport() + "\n" + "Arrival: " + f.getArrivalAirport() + "\n"
-				+ "To confirm the booking, go to blablaplane.com \n"
-				+ "Please sign in to approve or refuse the reservation from 'My Flights' section \n\n"
+				+ "If you want to book another flight, go to blablaplane.com \n"
 				+ "The Blablaplane team hope to see you soon";
 
 		SendEmailTLS.envoyerMail(p.getMail(), SendEmailTLS.subjectConfirmation, text);
