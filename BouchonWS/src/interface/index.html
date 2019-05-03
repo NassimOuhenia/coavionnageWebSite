@@ -151,9 +151,9 @@
           <div class="col-md-12 tabulation-search">
             <div class="element-animate">
               <div class="nav nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link p-3 active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><span> My Flight</span> </a>
-                <a class="nav-link p-3" id="myReservation" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><span>Reservation</span> </a>
-                  <a class="nav-link p-3" id="myPost" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-profile" aria-selected="false"><span>vol poster</span> </a>
+                <a class="nav-link p-3 active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><span> Search</span> </a>
+                <a class="nav-link p-3" id="myReservation" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><span>Reservations</span> </a>
+                  <a class="nav-link p-3" id="myPost" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-profile" aria-selected="false"><span>My Flight</span> </a>
               </div>
             </div>
 
@@ -175,7 +175,7 @@
                   </div>
                 </div>
                   <div class="block-17">
-                      <div id="notfound"><h3>No flight found !!</h3></div>
+                      <div id="notfound"><h3>Sorry, no flight found </h3></div>
                       <div id="mapid"></div>
                       <div id="resultsearch"></div>
                       <script id="ajoutsearch" type="text/template">
@@ -529,9 +529,9 @@
 
     <section class="ftco-section">
       <div class="container-fluid">
-        <div class="row no-gutters justify-content-center mb-5 pb-5 ftco-animate">
+        <div class="row no-gutters justify-content-center mb-5 pb-4 ftco-animate">
           <div class="col-md-7 text-center heading-section">
-            <h2>Most Popular Destination</h2>
+            <h2 style="padding:1rem!important;">Most Popular Destination</h2>
           </div>
         </div>
         <div class="row no-gutters">
@@ -641,31 +641,35 @@
 
 
 
-    <footer class="ftco-footer ftco-bg-dark ftco-section">
-      <div class="container">
-        <div class="row mb-5">
-          <div class="col-md">
-             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Contact Information</h2>
-              <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">5 rue Thomas Mann, 75013 Paris France</a></li>
-                <li><a href="#" class="py-2 d-block">+336 06 06 06 06</a></li>
-                <li><a href="#" class="py-2 d-block">team_support@blablaplae.com</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md">
-            <div class="ftco-footer-widget mb-4">
-              <ul class="ftco-footer-social list-unstyled float-md-right float-lft">
-                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+   
+	<footer class="ftco-footer ftco-bg-dark ftco-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<p>
+						Copyright &copy;
+						<script>
+							document.write(new Date().getFullYear());
+						</script>
+						All rights reserved | Contact us : Contact@blablaplane.com
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<ul
+						class="ftco-footer-social list-unstyled float-md-center float-lft">
+						<li class="ftco-animate"><a href="#"><span
+								class="icon-twitter"></span></a></li>
+						<li class="ftco-animate"><a href="#"><span
+								class="icon-facebook"></span></a></li>
+						<li class="ftco-animate"><a href="#"><span
+								class="icon-instagram"></span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
 
 
 
@@ -692,4 +696,3 @@
   <script type="text/javascript" src="homePage.js"></script>
   </body>
 </html>
->>>>>>> Stashed changes
