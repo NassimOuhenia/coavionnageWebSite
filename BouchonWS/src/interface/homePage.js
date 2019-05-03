@@ -580,13 +580,3 @@ $(function() {
 	});
 });
 
-function confirmyesAfter(data){
-	alert("ca marche");
-	
-};
-
-
-function confirmReser(id){
-	console.log("confirmationnnn");
-    getServerData(urlConfirmYes, confirmyesAfter, 'post', id, header);
-}
