@@ -16,7 +16,6 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
-
 import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.InformationReservation;
 import com.example.jetty_jersey.model.Passenger;
@@ -246,5 +245,41 @@ public class ReservationDAO extends DAO<Reservation> {
 	// TODO Auto-generated method stub
 	return null;
     }
+    
+	public String getIdPassenger(String idReservation) {
+		TransportClient client = DAOFactory.getConnextion();
 
+		GetResponse get = client.prepareGet("book", "_doc", idReservation).get();
+
+		Map<String, Object> map = get.getSource();
+
+		return map.get("passenger").toString();
+	}
+	
+	public List<InformationReservation> getReservationForPassenger(String idFromToken, String status) {
+		
+		TransportClient client = DAOFactory.getConnextion();
+
+		ArrayList<InformationReservation> list = new ArrayList<InformationReservation>();
+
+		SearchResponse response = client.prepareSearch("book").setTypes("_doc").setQuery(QueryBuilders.matchAllQuery())
+				.setSize(10000).get();
+
+		SearchHit[] result = response.getHits().getHits();
+
+		for (int i = 0; i < result.length; i++) {
+			Map<String, Object> map = result[i].getSourceAsMap();
+			String idFlight = map.get("idFlight").toString();
+			if (getIdPassenger(result[i].getId()).equals(idFromToken)) {
+				Passenger p = DAOFactory.getInstance().getPassengerDAO().get(map.get("idPassenger").toString()).get(0);
+				Flight f = DAOFactory.getInstance().getFlightDAO().get(idFlight).get(0);
+				list.add(new InformationReservation(p.getFirstName(), p.getLastName(), f.getDepartureAirport(),
+						f.getArrivalAirport(), f.getDate(), map.get("numberPlace").toString(), result[i].getId(),
+						map.get("confirmed").toString().equals(status)));
+			}
+		}
+		return list;
+	}
+
+    
 }
