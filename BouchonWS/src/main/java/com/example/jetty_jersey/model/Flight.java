@@ -14,14 +14,14 @@ public class Flight {
     private double travelTime;
     private double price;
     private String timep;
-    private String typeFlight;
     private String modelePlane;
     private Pilot pilot;
     private int seatLeft;
-    private List<Passenger> passagers;
+    private String rdv;
+    
 
     public Flight(String idFlight, String date, String departureAirport, String arrivalAirport, double travelTime,
-	    double price, String timep, String typeFlight, String modelePlane, Pilot pilot, int seatLeft) {
+	    double price, String timep, String modelePlane, Pilot pilot, int seatLeft, String rdv) {
 	this.idFlight = idFlight;
 	this.date = date;
 	this.departureAirport = departureAirport;
@@ -29,11 +29,10 @@ public class Flight {
 	this.travelTime = travelTime;
 	this.price = price;
 	this.timep = timep;
-	this.typeFlight = typeFlight;
 	this.modelePlane = modelePlane;
 	this.pilot = pilot;
 	this.seatLeft = seatLeft;
-	passagers = new ArrayList<Passenger>();
+	this.rdv = rdv;
     }
 
     public Flight() {
@@ -103,14 +102,6 @@ public class Flight {
 	this.price = price;
     }
 
-    public String getTypeFlight() {
-	return typeFlight;
-    }
-
-    public void setTypeFlight(String typeFlight) {
-	this.typeFlight = typeFlight;
-    }
-
     public void setModelePlane(String modelePlane) {
 	this.modelePlane = modelePlane;
     }
@@ -126,13 +117,13 @@ public class Flight {
     public void setPilot(Pilot pilot) {
 	this.pilot = pilot;
     }
-
-    public List<Passenger> getPassagers() {
-	return passagers;
+    
+    public String getRdv() {
+	return rdv;
     }
-
-    public void setPassagers(List<Passenger> passagers) {
-	this.passagers = passagers;
+    
+    public void setRdv(String rdv) {
+	this.rdv = rdv;
     }
 
 }

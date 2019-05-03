@@ -44,12 +44,13 @@ public class FlightDAO extends DAO<Flight> {
 	    if (modele == null) {
 		modele = "avion";
 	    }
-	    IndexResponse response = client.prepareIndex("flight", "_doc").setSource(jsonBuilder().startObject()
-		    .field("date", obj.getDate()).field("departureAirport", obj.getDepartureAirport())
-		    .field("arrivalAirport", obj.getArrivalAirport()).field("travelTime", obj.getTravelTime())
-		    .field("price", obj.getPrice()).field("time", obj.getTimep())
-		    .field("typeFlight", obj.getTypeFlight()).field("modelePlane", modele)
-		    .field("pilot", obj.getPilot().getFirstName()).field("seatLeft", obj.getSeatLeft()).endObject())
+	    IndexResponse response = client.prepareIndex("flight", "_doc")
+		    .setSource(jsonBuilder().startObject().field("date", obj.getDate())
+			    .field("departureAirport", obj.getDepartureAirport())
+			    .field("arrivalAirport", obj.getArrivalAirport()).field("travelTime", obj.getTravelTime())
+			    .field("price", obj.getPrice()).field("time", obj.getTimep()).field("rdv", obj.getRdv())
+			    .field("modelePlane", modele).field("pilot", obj.getPilot().getFirstName())
+			    .field("seatLeft", obj.getSeatLeft()).endObject())
 		    .get();
 	    if (response.status() == RestStatus.CREATED) {
 		return "{" + "\"status\":\"201\"," + "\"id\":\"" + response.getId() + "\"" + "}";
@@ -99,9 +100,8 @@ public class FlightDAO extends DAO<Flight> {
 		    .setDoc(jsonBuilder().startObject().field("date", obj.getDate())
 			    .field("departureAirport", obj.getDepartureAirport())
 			    .field("arrivalAirport", obj.getArrivalAirport()).field("travelTime", obj.getTravelTime())
-			    .field("price", obj.getPrice()).field("time", obj.getTimep())
-			    .field("typeFlight", obj.getTypeFlight()).field("pilot", obj.getPilot())
-			    .field("seatLeft", obj.getSeatLeft()).endObject())
+			    .field("price", obj.getPrice()).field("time", obj.getTimep()).field("rdv", obj.getRdv())
+			    .field("pilot", obj.getPilot()).field("seatLeft", obj.getSeatLeft()).endObject())
 		    .get();
 	    return true;
 	} catch (IOException e) {
@@ -136,9 +136,9 @@ public class FlightDAO extends DAO<Flight> {
 	Flight f = new Flight(get.getId(), map.get("date").toString(), map.get("departureAirport").toString(),
 		map.get("arrivalAirport").toString(), Double.valueOf(map.get("travelTime").toString()),
 		Double.valueOf(map.get("price").toString()), map.get("time").toString(),
-		map.get("typeFlight").toString(), map.get("modelePlane").toString(),
+		map.get("modelePlane").toString(),
 		DAOFactory.getInstance().getPiloteDAO().get(map.get("pilot").toString()).get(0),
-		Integer.parseInt(map.get("seatLeft").toString()));
+		Integer.parseInt(map.get("seatLeft").toString()), map.get("rdv").toString());
 	list.add(f);
 	return list;
     }
@@ -175,9 +175,9 @@ public class FlightDAO extends DAO<Flight> {
 		Flight f = new Flight(sh.getId(), map.get("date").toString(), map.get("departureAirport").toString(),
 			map.get("arrivalAirport").toString(), Double.valueOf(map.get("travelTime").toString()),
 			Double.valueOf(map.get("price").toString()), map.get("time").toString(),
-			map.get("typeFlight").toString(), map.get("modelePlane").toString(),
+			map.get("modelePlane").toString(),
 			DAOFactory.getInstance().getPiloteDAO().get(map.get("pilot").toString()).get(0),
-			Integer.parseInt(map.get("seatLeft").toString()));
+			Integer.parseInt(map.get("seatLeft").toString()), map.get("rdv").toString());
 		list.add(f);
 	    }
 	}
@@ -214,9 +214,9 @@ public class FlightDAO extends DAO<Flight> {
 		Flight f = new Flight(result[i].getId(), map.get("date").toString(),
 			map.get("departureAirport").toString(), map.get("arrivalAirport").toString(),
 			Double.valueOf(map.get("travelTime").toString()), Double.valueOf(map.get("price").toString()),
-			map.get("time").toString(), map.get("typeFlight").toString(), map.get("modelePlane").toString(),
+			map.get("time").toString(), map.get("modelePlane").toString(),
 			DAOFactory.getInstance().getPiloteDAO().get(map.get("pilot").toString()).get(0),
-			Integer.parseInt(map.get("seatLeft").toString()));
+			Integer.parseInt(map.get("seatLeft").toString()), map.get("rdv").toString());
 
 		list.add(f);
 	    }
@@ -247,12 +247,12 @@ public class FlightDAO extends DAO<Flight> {
 	    e.printStackTrace();
 	}
     }
-    
+
     public String getIdPilot(String idFlight) {
 	TransportClient client = DAOFactory.getConnextion();
-	
+
 	GetResponse get = client.prepareGet("flight", "_doc", idFlight).get();
-	
+
 	Map<String, Object> map = get.getSource();
 
 	return map.get("pilot").toString();
