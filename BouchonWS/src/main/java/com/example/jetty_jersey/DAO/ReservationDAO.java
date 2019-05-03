@@ -263,32 +263,6 @@ public class ReservationDAO extends DAO<Reservation> {
 	return list;
     }
 
-    /*
-     * Retourne la liste des passagers ou
-     */
-    public List<Reservation> getPassengerReservationForPilots(String idPilot) {
-	TransportClient client = DAOFactory.getConnextion();
-
-	ArrayList<Reservation> list = new ArrayList<Reservation>();
-
-	SearchResponse response = client.prepareSearch("book").setTypes("_doc").setQuery(QueryBuilders.matchAllQuery())
-		.setSize(10000).get();
-
-	SearchHit[] result = response.getHits().getHits();
-
-	for (int i = 0; i < result.length; i++) {
-	    Map<String, Object> map = result[i].getSourceAsMap();
-
-	    String idFlight = map.get("idFlight").toString();
-
-	    if (DAOFactory.getInstance().getFlightDAO().getIdPilot(idFlight).equals(idPilot)) {
-		list.add(new Reservation(map.get("idPassenger").toString(), map.get("idFlight").toString(),
-			Integer.parseInt(map.get("numberPlace").toString())));
-	    }
-	}
-	return list;
-    }
-
     @Override
     public List<Reservation> get() {
 	// TODO Auto-generated method stub

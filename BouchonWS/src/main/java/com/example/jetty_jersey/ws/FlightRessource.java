@@ -13,6 +13,7 @@ import com.example.jetty_jersey.SendEmailTLS;
 import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.FlightDAO;
 import com.example.jetty_jersey.DAO.ReservationDAO;
+import com.example.jetty_jersey.DAO.ReservationDAO.InformationReservation;
 import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.Recherche;
 import com.example.jetty_jersey.model.Reservation;
@@ -164,6 +165,17 @@ public class FlightRessource {
 	    return "{" + "\"status\":\"200\"," + "\"error\":\"Booking well confirmed\"" + "}";
 	}
 	return "{" + "\"status\":\"404\"," + "\"error\":\"Reservation couldnt be found\"" + "}";
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/book/pilot")
+    public List<InformationReservation> getBookingForPilot(@HeaderParam("token") String token, ID idReservation) {
+	if (JwTokenHelper.getInstance().isTokenInvalid(token) || !JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+	    return null;
+	}
+	return daoReservation.getReservationForPilots(JwTokenHelper.getInstance().getIdFromToken(token));
     }
 
 }
