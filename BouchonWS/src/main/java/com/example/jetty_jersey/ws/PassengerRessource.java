@@ -63,7 +63,9 @@ public class PassengerRessource {
 			return null;
 		}
 		String id = JwTokenHelper.getInstance().getIdFromToken(token);
-		return daoReservation.getReservationForPassenger(id, "1");
+		List<InformationReservation> l = daoReservation.getReservationForPassenger(id, "1");
+		System.out.println(l.size());
+		return l;
 	}
 
 	// Retourne la liste des vols dont la reservation en attente de confirmation

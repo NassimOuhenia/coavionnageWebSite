@@ -258,16 +258,10 @@ public class ReservationDAO extends DAO<Reservation> {
     }
 
     public String getIdPassenger(String idReservation) {
-	TransportClient client = DAOFactory.getConnextion();
-
-	GetResponse get = client.prepareGet("book", "_doc", idReservation).get();
-
-	Map<String, Object> map = get.getSource();
-
-	return map.get("passenger").toString();
+	return get(idReservation).get(0).getIdPassenger();
     }
 
-    public List<InformationReservation> getReservationForPassenger(String idFromToken, String status) {
+    public List<InformationReservation> getReservationForPassenger(String idPassenger, String status) {
 
 	TransportClient client = DAOFactory.getConnextion();
 
@@ -281,9 +275,12 @@ public class ReservationDAO extends DAO<Reservation> {
 	for (int i = 0; i < result.length; i++) {
 	    Map<String, Object> map = result[i].getSourceAsMap();
 	    String idFlight = map.get("idFlight").toString();
-	    if (getIdPassenger(result[i].getId()).equals(idFromToken)) {
+	    if (getIdPassenger(result[i].getId()).equals(idPassenger)) {
+		
 		Passenger p = DAOFactory.getInstance().getPassengerDAO().get(map.get("idPassenger").toString()).get(0);
+		
 		Flight f = DAOFactory.getInstance().getFlightDAO().get(idFlight).get(0);
+		
 		list.add(new InformationReservation(p.getFirstName(), p.getLastName(), f.getDepartureAirport(),
 			f.getArrivalAirport(), f.getDate(), map.get("numberPlace").toString(), result[i].getId(),
 			map.get("confirmed").toString().equals(status)));
