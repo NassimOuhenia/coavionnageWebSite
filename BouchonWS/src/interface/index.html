@@ -200,14 +200,17 @@
 
 <script id="affichereservation" type="text/template">
                     <div class="row listFlight">
-                        <div class="col-sm-2">depart<br>▶ arrive</div>
-                        <div class="col-sm-2">by pilote<br>in modele</div>
-                        <div class="col-sm-2">the date<br>at time</div>
-                        <div class="col-sm-2">places reserver : 1</div>
-                        <div class="col-sm-2">status</div>
-                        <div class="col-sm-2"><button type="button" class="maps"
-                            onclick="essai()">maps</button></div>
-                    </div>
+                        <div class="col-sm-2" id="first"><%=first%></div>
+                        <div class="col-sm-2" id="last"><%=last%></div>
+                        <div class="col-sm-2" id="depart"><%=depart%></div>
+                        <div class="col-sm-2" id="arrival"><%=arrival%></div>
+                        <div class="col-sm-2" id="dater"><%=dater%></div>
+                        <div class="col-sm-2" id="nbplace"><%=nbplace%></div>
+  <div class="col-sm-2" id="statuvol"><%=statu%></div>
+                        <button class="col-sm-2" onclick="confirmReser('<%=idr%>')" id="statu">Confirm</button>
+<button class="col-sm-2" onclick="confirmReser('<%=idr%>')" id="statufalse">Refuse</button>
+
+
 </script> 
 
 

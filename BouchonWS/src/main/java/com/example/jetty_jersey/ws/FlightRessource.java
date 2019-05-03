@@ -106,7 +106,7 @@ public class FlightRessource {
 	public String confirmYes(@HeaderParam("token") String token, String idR) {
 		if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
-		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("passenger")) {
+		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
 		Reservation r = daoReservation.get(idR).get(0);
@@ -134,7 +134,7 @@ public class FlightRessource {
 	public String confirmNo(@HeaderParam("token") String token, String idR) {
 		if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
-		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("passenger")) {
+		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
 
