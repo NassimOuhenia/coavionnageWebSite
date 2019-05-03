@@ -187,7 +187,7 @@
                                 <br>price : <%=price%>€ / pers</div>
                             <div class="col-sm-2" style="padding-top:10px !important">
                                 <input id="nbPlace" value="1" min="1" max=<%=place%> type="number">
-                                <button type="button" onclick="bookFlight('<%=idf%>')" class="reserver">Book Flight</button
+                                <button type="button" onclick="bookFlight('<%=idf%>')" class="reserver">Book</button
                             </div>
                         </div>
                       </script>
@@ -196,24 +196,17 @@
               <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                 <div class="block-17">
                     <div id="noreservation"><h3>you don't have reservations</h3></div>
-<div id="resultReservationWait"></div>
-
-<script id="affichereservation" type="text/template">
+                    <div id="resultReservation"></div>
+                    <script id="demandereservation" type="text/template">
                     <div class="row listFlight">
-                        <div class="col-sm-2" id="first"><%=first%></div>
-                        <div class="col-sm-2" id="last"><%=last%></div>
-                        <div class="col-sm-2" id="depart"><%=depart%></div>
-                        <div class="col-sm-2" id="arrival"><%=arrival%></div>
-                        <div class="col-sm-2" id="dater"><%=dater%></div>
-                        <div class="col-sm-2" id="nbplace"><%=nbplace%></div>
-  						<div class="col-sm-2" id="statuvol"><%=statu%></div>
-                        <button class="col-sm-2" onclick="confirmer('<%=idr%>')" id="statu">Confirm</button>
-						<button class="col-sm-2" onclick="refuser('<%=idr%>')" id="statufalse">Refuse</button>
-
-
-</script> 
-
-
+                        <div class="col-sm-4"><%=depart%> The <%=dater%> To <%=arrival%></div>
+                        <div class="col-sm-3">Client : <%=first%> <%=last%></div>
+                        <div class="col-sm-2">Need : <%=nbplace%> seat</div>
+                        <div class="col-sm-1" id="statuvol"><%=statu%></div>
+                        <div class="col-sm-1"><button  onclick="confirmer('<%=idr%>')" id="statu">Confirm</button></div>
+                        <div class="col-sm-1"><button  onclick="refuser('<%=idr%>')" id="statufalse">Refuse</button></div>
+                    </div>
+                    </script> 
                </div>
 
               </div>

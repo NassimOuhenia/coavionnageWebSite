@@ -380,16 +380,16 @@ function getMyPassengers(idFlight) {
 
 function reservationResponse(listR) {
 	
-	$("#resultsearch").text("");
-	$("#notfound").hide();
+	$("#resultReservation").text("");
+	$("#noreservation").hide();
 	if (listR.length == 0) {
-		alert('pas de reservations');
+		$("#noreservation").show();
 		return;
 	}
 	
 	if(type == "passenger") {
 		for (i = 0; i < listR.length; i++) {
-			var templateExample = _.template($('#ajoutsearch').html());
+			var templateExample = _.template($('#demandereservation').html());
 			var html = templateExample({
 				"depart" : listR[i].departureAirport,
 				"arrive" : listR[i].arrivalAirport,
@@ -397,10 +397,34 @@ function reservationResponse(listR) {
 				"place" : listR[i].numberPlace,
 				"idReservation": listR[i].idReservation // à envoyer sur les fonction de confiramtion yes / no
 			});
-			$("#resultsearch").append(html);
+			$("#resultReservation").append(html);
 		}
 	} else {
-		//pilote JO
+        console.log("pilote");
+		for (i = 0; i < listR.length; i++) {
+            console.log(listR[i].fistNamePassenger);
+            var templateExample = _.template($('#demandereservation').html());
+            console.log(listR[i].idReservation);
+            var html = templateExample({
+
+                "idr" : listR[i].idReservation,
+                "first" : listR[i].fistNamePassenger,
+                "last" : listR[i].lastNamePassenger,
+                "depart" : listR[i].departureAirport,
+                "arrival" : listR[i].arrivalAirport,
+                "dater" : listR[i].date,
+                "nbplace" : listR[i].numberPlace,
+                "statu" : listR[i].statut
+            });
+            $("#resultReservation").append(html);
+        }
+        if(listF[i].statut="true"){
+            $("#statu").hide();
+            $("#statufalse").hide();	
+        }else{
+            $("#statu").show();
+            $("#statufalse").show();
+        }
 	}	
 }
 
@@ -527,7 +551,7 @@ function ess(o){
 //----------ajout de la liste des reservation----
 
 var urlreservationwaiting='/blablaplane/pilots/book/';
-
+/*
 function reservationWaitingResponse(listF) {
 	
 	if(!listF) {
@@ -574,12 +598,12 @@ $("#statufalse").show();
 	}
 	
 }
-
+*/
 $(function() {
 	$("#myReservation").click(function() {
 		console.log("cliqueeee");
-		
-	getServerData(urlreservationwaiting, reservationWaitingResponse, 'post', null, header);	
+		/*reservationWaitingResponse*/
+	getServerData(urlreservationwaiting, reservationResponse, 'post', null, header);	
 	});
 });
 
