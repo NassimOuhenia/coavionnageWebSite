@@ -110,12 +110,7 @@ function reservationWaitingResponse(listF) {
 	}
 }
 
-$(function() {
-	$("#myReservation").click(function() {
-		
-	getServerData(urlreservationwaiting, reservationWaitingResponse, 'post', data, header);	
-	});
-});
+
 
 // fonction generique pour recuperer des donnes
 function getServerData(url, callBack, type, data, header) {
@@ -530,7 +525,7 @@ function ess(o){
 
 //----------ajout de la liste des reservation----
 
-var urlreservationwaiting='/blablaplane/flights/book/';
+var urlreservationwaiting='/blablaplane/pilots/book/';
 
 function reservationWaitingResponse(listF) {
 	
@@ -538,6 +533,7 @@ function reservationWaitingResponse(listF) {
 		alert("null");
 	}
 	
+	console.log("reponsee"+listF.length);
 	$("#noreservation").text("");
 	//$("#notfound").hide();
 	if (listF.length == 0) {
@@ -547,17 +543,50 @@ function reservationWaitingResponse(listF) {
 	for (i = 0; i < listF.length; i++) {
 		var templateExample = _.template($('#affichereservation').html());
 		var html = templateExample({
+			"idr" : listF[i].idReservation,
+			"first" : listF[i].fistNamePassenger,
+			"last" : listF[i].lastNamePassenger,
+			"depart" : listF[i].departureAirport,
+			"arrival" : listF[i].arrivalAirport,
+			"dater" : listF[i].date,
+			"nbplace" : listF[i].numberPlace,
+			"statu" : listF[i].statut
+		
+			
+
 			
 		});
 		$("#resultReservationWait").append(html);
 	
 	}
+	
+	if(listF[i].statut="true"){
+		$("#statu").hide();
+		$("#statufalse").hide();
+
+		
+	}else{
+		$("#statu").show();
+$("#statufalse").show();
+	}
+	
 }
 
 $(function() {
 	$("#myReservation").click(function() {
+		console.log("cliqueeee");
 		
-	getServerData(urlreservationwaiting, reservationWaitingResponse, 'post', data, header);	
+	getServerData(urlreservationwaiting, reservationWaitingResponse, 'post', null, header);	
 	});
 });
 
+function confirmyesAfter(data){
+	alert("ca marche");
+	
+};
+
+
+function confirmReser(id){
+	console.log("confirmationnnn");
+    getServerData(urlConfirmYes, confirmyesAfter, 'post', id, header);
+}
