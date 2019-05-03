@@ -247,5 +247,15 @@ public class FlightDAO extends DAO<Flight> {
 	    e.printStackTrace();
 	}
     }
+    
+    public String getIdPilot(String idFlight) {
+	TransportClient client = DAOFactory.getConnextion();
+	
+	GetResponse get = client.prepareGet("flight", "_doc", idFlight).get();
+	
+	Map<String, Object> map = get.getSource();
+
+	return map.get("pilot").toString();
+    }
 
 }

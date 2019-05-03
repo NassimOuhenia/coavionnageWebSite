@@ -82,8 +82,7 @@ public class PilotRessource {
 		|| !JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
 	    return null;
 	}
-	String id = JwTokenHelper.getInstance().getIdFromToken(token);
-	return daoReservation.getPassengerForPilots(id, idFlight.getId());
+	return daoReservation.getPassengerForPilots(idFlight.getId());
     }
 
 }

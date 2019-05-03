@@ -156,7 +156,7 @@ public class ReservationDAO extends DAO<Reservation> {
     /*
      * Retourne la liste des passagers qui ont reserve pour le vol idFlight
      */
-    public List<Passenger> getPassengerForPilots(String idPilot, String idFlight) {
+    public List<Passenger> getPassengerForPilots(String idFlight) {
 	TransportClient client = DAOFactory.getConnextion();
 
 	ArrayList<Passenger> list = new ArrayList<Passenger>();
@@ -174,6 +174,90 @@ public class ReservationDAO extends DAO<Reservation> {
 	    }
 	}
 
+	return list;
+    }
+    
+    /*
+     * Retourne la liste de vols qu'a creer le pilot ou il y a au moins une reservation
+     */
+    public List<Flight> getFlightForPilots(String idPilot) {
+	TransportClient client = DAOFactory.getConnextion();
+	
+	ArrayList<Flight> list = new ArrayList<Flight>();
+	
+	SearchResponse response = client.prepareSearch("book").setTypes("_doc").setQuery(QueryBuilders.matchAllQuery())
+		.setSize(10000).get();
+	
+	SearchHit[] result = response.getHits().getHits();
+	
+	for (int i = 0; i < result.length; i++) {
+	    Map<String, Object> map = result[i].getSourceAsMap();
+	    
+	    String idFlight = map.get("idFlight").toString();
+	    
+	    if (DAOFactory.getInstance().getFlightDAO().getIdPilot(idFlight).equals(idPilot)) {
+		boolean b = true;
+		for (int j = 0; j < list.size(); j++) {
+		    if (list.get(j).getIdFlight().equals(idFlight)) {
+			b = false;
+			break;
+		    }
+		}
+		if (b) {
+		    list.add(DAOFactory.getInstance().getFlightDAO().get(idFlight).get(0));
+		}
+	    }
+	}
+	return list;
+    }
+    
+    /*
+     * Retourne la liste  des passagers ou
+     */
+    public List<Passenger> getReservationForPilots(String idPilot) {
+	TransportClient client = DAOFactory.getConnextion();
+	
+	ArrayList<Passenger> list = new ArrayList<Passenger>();
+	
+	SearchResponse response = client.prepareSearch("book").setTypes("_doc").setQuery(QueryBuilders.matchAllQuery())
+		.setSize(10000).get();
+	
+	SearchHit[] result = response.getHits().getHits();
+	
+	for (int i = 0; i < result.length; i++) {
+	    Map<String, Object> map = result[i].getSourceAsMap();
+	    
+	    String idFlight = map.get("idFlight").toString();
+	    
+	    if (DAOFactory.getInstance().getFlightDAO().getIdPilot(idFlight).equals(idPilot)) {
+		list.add(DAOFactory.getInstance().getPassengerDAO().get(map.get("idPassenger").toString()).get(0));
+	    }
+	}
+	return list;
+    }
+    
+    /*
+     * Retourne la liste  des passagers ou
+     */
+    public List<Reservation> getPassengerReservationForPilots(String idPilot) {
+	TransportClient client = DAOFactory.getConnextion();
+	
+	ArrayList<Reservation> list = new ArrayList<Reservation>();
+	
+	SearchResponse response = client.prepareSearch("book").setTypes("_doc").setQuery(QueryBuilders.matchAllQuery())
+		.setSize(10000).get();
+	
+	SearchHit[] result = response.getHits().getHits();
+	
+	for (int i = 0; i < result.length; i++) {
+	    Map<String, Object> map = result[i].getSourceAsMap();
+	    
+	    String idFlight = map.get("idFlight").toString();
+	    
+	    if (DAOFactory.getInstance().getFlightDAO().getIdPilot(idFlight).equals(idPilot)) {
+		list.add(new Reservation(map.get("idPassenger").toString(), map.get("idFlight").toString(), Integer.parseInt(map.get("numberPlace").toString())));
+	    }
+	}
 	return list;
     }
 
