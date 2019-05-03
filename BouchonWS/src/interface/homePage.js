@@ -12,7 +12,6 @@ var urlMyPassengers = '/blablaplane/pilots/myflights/passenger';
 var urlConfirmYes = '/blablaplane/flights/book/confirm/yes';
 var urlConfirmNo = '/blablaplane/flights/book/confirm/no';
 
-
 var type = "";
 var header = null;
 var mymap;
@@ -400,17 +399,31 @@ function reservationResponse(listR) {
 				"depart" : listR[i].departureAirport,
 				"arrive" : listR[i].arrivalAirport,
 				"date" : listR[i].date,
-				"place" : listR[i].numberPlace
+				"place" : listR[i].numberPlace,
+				"idReservation": listR[i].idReservation // à envoyer sur les fonction de confiramtion yes / no
 			});
 			$("#resultsearch").append(html);
 		}
 	} else {
 		//pilote JO
-	}
-	
-	
-	
+	}	
 }
+
+// fonction accepter reservation
+function confirmer(idReservation) {
+	var data = {
+			idR: idReservation
+		}
+	getServerData(urlConfirmYes, afterBook, 'post', data, header);
+} 
+
+// fonction refuser reservation
+function refuser(idReservation) {
+	var data = {
+			idR: idReservation
+		}
+	getServerData(urlConfirmNo, afterBook, 'post', data, header);
+} 
 
 // se deconnecter
 $(function() {

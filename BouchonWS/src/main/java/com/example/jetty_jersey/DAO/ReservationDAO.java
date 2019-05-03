@@ -279,6 +279,7 @@ public class ReservationDAO extends DAO<Reservation> {
 						map.get("confirmed").toString().equals(status)));
 			}
 		}
+		
 		return list;
 	}
 
