@@ -1,5 +1,9 @@
 package com.example.jetty_jersey.model;
 
+/*
+ * Class qui donne les informations complete des reservations
+ * Elle  n'est seulement utilise pour renvoyer ces informations au FrontEnd
+ */
 public class InformationReservation {
 	String fistNamePassenger;
 	String lastNamePassenger;

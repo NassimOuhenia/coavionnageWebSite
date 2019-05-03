@@ -99,19 +99,23 @@ public class FlightRessource {
 		return list;
 	}
 
+	//Accepte la reservation
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/book/confirm/yes")
-	public String confirmYes(@HeaderParam("token") String token, String idR) {
+	public String confirmYes(@HeaderParam("token") String token, ID id) {
 		if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
 		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
+		
+		String idR = id.getId();
+		//Preparation pour l'envoie de mail
 		Reservation r = daoReservation.get(idR).get(0);
 		Flight f = daoFlight.get(r.getIdFlight()).get(0);
-		Passenger p = daoPassenger.get(daoReservation.getIdPassenger(idR)).get(0);
+		Passenger p = daoPassenger.get(r.getIdPassenger()).get(0);
 		
 		// text à changer
 		String text = "Hello " + f.getPilot().getFirstName() + " " + f.getPilot().getLastName() + "! \n"
@@ -122,26 +126,31 @@ public class FlightRessource {
 				+ "The Blablaplane team hope to see you soon";
 
 		SendEmailTLS.envoyerMail(p.getMail(), SendEmailTLS.subjectConfirmation, text);
+		
+		//Confirme la reservation dans la base
 		if (daoReservation.update(null,idR)) {
 			return "{" + "\"status\":\"200\"," + "\"error\":\"Booking well confirmed\"" + "}";
 		}
 		return "{" + "\"status\":\"404\"," + "\"error\":\"Reservation couldnt be found\"" + "}";
 	}
 
+	//Refuse la presentation
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/book/confirm/no")
-	public String confirmNo(@HeaderParam("token") String token, String idR) {
+	public String confirmNo(@HeaderParam("token") String token, ID id) {
 		if (JwTokenHelper.getInstance().isTokenInvalid(token)) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"Your token is not valid. Try to reconnect.\"" + "}";
 		} else if (!JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
 			return "{" + "\"status\":\"403\"," + "\"error\":\"You dont have the permission\"" + "}";
 		}
 
+		String idR = id.getId();
+		//Preparation de l'envoie de mail
 		Reservation r = daoReservation.get(idR).get(0);
 		Flight f = daoFlight.get(r.getIdFlight()).get(0);
-		Passenger p = daoPassenger.get(daoReservation.getIdPassenger(idR)).get(0);
+		Passenger p = daoPassenger.get(r.getIdPassenger()).get(0);
 		
 		//text à changer
 		String text = "Hello " + f.getPilot().getFirstName() + " " + f.getPilot().getLastName() + "! \n"
@@ -153,8 +162,9 @@ public class FlightRessource {
 
 		SendEmailTLS.envoyerMail(p.getMail(), SendEmailTLS.subjectConfirmation, text);
 
+		//Suppression de la reservation
 		if (daoReservation.delete(null, idR)) {
-			return "{" + "\"status\":\"200\"," + "\"error\":\"Booking well confirmed\"" + "}";
+			return "{" + "\"status\":\"200\"," + "\"error\":\"Booking well refused\"" + "}";
 		}
 		return "{" + "\"status\":\"404\"," + "\"error\":\"Reservation couldnt be found\"" + "}";
 	}
