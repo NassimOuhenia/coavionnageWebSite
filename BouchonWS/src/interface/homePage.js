@@ -15,6 +15,7 @@ var urlConfirmNo = '/blablaplane/flights/book/confirm/no';
 
 var type = "";
 var header = null;
+var mymap;
 
 $(function () {
 	  $(document).scroll(function () {
@@ -58,10 +59,13 @@ $(document).ready(function() {
 function afterSearch(listF) {
 	$("#resultsearch").text("");
 	$("#notfound").hide();
+    $("#mapid").css("display","none");
 	if (listF.length == 0) {
 		$("#notfound").show();
 		return;
 	}
+    $("#mapid").css("display","block");
+    showMap($("#departuresearch").val(),$("#arrivalsearch").val());
 	for (i = 0; i < listF.length; i++) {
 		var templateExample = _.template($('#ajoutsearch').html());
 		var html = templateExample({
@@ -150,7 +154,7 @@ $(function() {
 			typeFlight : typeVol,
 			pilot : null,
 			idFlight : null,
-			modelePlane : null,
+			modelePlane : $("#modelepost").val(),
 			passagers : null
 		}
 		
@@ -420,4 +424,58 @@ function bookFlight(idflight) {
 			}
 		getServerData(urlBook, afterBook, 'post', data, header);
 	}
+}
+
+//fonction d,'affichage de la map
+function showMap(depart,arrive){
+    var nom1="",nom2="";
+	var coord1=[],coord2=[];
+	var p1=false,p2=false;
+	
+	//recupere coordonnee addresse 1;
+	//je prend le 1er resultat, limit=1
+	$.getJSON('http://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + depart, function(data) {
+		//var items = [];
+		
+		$.each(data, function(key, val) {
+			coord1[0]=val.lat;
+			coord1[1]=val.lon;
+			nom1=val.display_name;
+			//alert(coord1[0]+" "+coord1[1]+"\n"+nom1);
+		});
+		//traiter le resultat
+		if(nom1=="")
+			alert(depart+" pas trouver");
+		else{
+			//recupere coordonnee addresse 2;
+			//je prend le 1er resultat, limit=1
+			$.getJSON('http://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + arrive, function(data) {
+				//var items = [];
+				$.each(data, function(key, val) {
+					coord2[0]=val.lat;
+					coord2[1]=val.lon;
+					nom2=val.display_name;
+					//alert(coord2[0]+" "+coord2[1]+"\n"+nom2);
+				});
+				//traiter le resultat
+				if(nom2=="")
+					alert(arrive+" pas trouver");
+				else{
+                    mymap = L.map('mapid').setView([48.8534, 2.3488], 13);
+                    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    maxZoom: 18,
+                    id: 'mapbox.streets',
+                    accessToken: 'pk.eyJ1Ijoia2l6eXgiLCJhIjoiY2pzenNub2RhMHA2ZDQ0cGhpejFjMjI1aiJ9.WKv99B76fpwk-VIz9LNbIA'
+                    }).addTo(mymap);
+					var latlngs = [coord1,coord2];
+					var polyline = L.polyline(latlngs, {color: 'red'}).addTo(mymap);
+					var marker1 = L.marker(coord1, {draggable: true}).addTo(mymap);
+					var marker2 = L.marker(coord2, {draggable: true}).addTo(mymap);
+				  	marker1.bindPopup(nom1).openPopup();
+				  	marker2.bindPopup(nom2).openPopup();
+				}
+			});
+		}
+	});
 }
