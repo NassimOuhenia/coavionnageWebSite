@@ -14,6 +14,7 @@ import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.FlightDAO;
 import com.example.jetty_jersey.DAO.PilotDAO;
 import com.example.jetty_jersey.DAO.ReservationDAO;
+import com.example.jetty_jersey.DAO.ReservationDAO.InformationReservation;
 import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.Flight;
@@ -83,6 +84,19 @@ public class PilotRessource {
 	    return null;
 	}
 	return daoReservation.getPassengerForPilots(idFlight.getId());
+    }
+    
+
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/book/")
+    public List<InformationReservation> getBookingForPilot(@HeaderParam("token") String token) {
+	if (JwTokenHelper.getInstance().isTokenInvalid(token) || !JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+	    return null;
+	}
+	return daoReservation.getReservationForPilots(JwTokenHelper.getInstance().getIdFromToken(token));
     }
 
 }
