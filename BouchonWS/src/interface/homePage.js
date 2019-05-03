@@ -137,11 +137,6 @@ function afterPost(flight) {
 $(function() {
 	$("#postflight").click(function() {
 		// construction des donne du vol
-		var typeVol = "";
-		if ($('#travelpost').is(':checked'))
-			typeVol = "travel";
-		else
-			typeVol = "local";
 		var data = {
 			date : $("#datepost").val(),
 			timep : $("#timepost").val(),
@@ -151,11 +146,9 @@ $(function() {
 			travelTime : $("#traveltimepost").val(),
 			price : $("#pricepost").val(),
 			seatLeft : $("#placepost").val(),
-			typeFlight : typeVol,
 			pilot : null,
 			idFlight : null,
-			modelePlane : $("#modelepost").val(),
-			passagers : null
+			modelePlane : $("#modelepost").val()
 		}
 		
 		getServerData(urlPostFlight, afterPost, 'post', data, header);
