@@ -92,7 +92,7 @@ public class PilotRessource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/book/")
-    public List<InformationReservation> getBookingForPilot(@HeaderParam("token") String token, ID idReservation) {
+    public List<InformationReservation> getBookingForPilot(@HeaderParam("token") String token) {
 	if (JwTokenHelper.getInstance().isTokenInvalid(token) || !JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
 	    return null;
 	}
