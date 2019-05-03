@@ -12,7 +12,7 @@ var urlMyPassengers = '/blablaplane/pilots/myflights/passenger';
 var urlConfirmYes = '/blablaplane/flights/book/confirm/yes';
 var urlConfirmNo = '/blablaplane/flights/book/confirm/no';
 
-
+/*
 var type = "";
 var header = null;
 var mymap;
@@ -507,28 +507,10 @@ function showMap(depart,arrive){
 }
 
 function essai(){
-    alert("maps");
-    /*$.ajax({
-		url : '/blablaplane/pilots/book',
-		type : 'post"',
-		dataType : 'json',
-		beforeSend: function(request) {
-			if(header)
-				request.setRequestHeader("token", header.get('token'));
-		  },
-		contentType : 'application/json',
-		success : function(data) {
-			alert(data);
-		},
-		//data : JSON.stringify(null),
-		error : function(jqXHR, textStatus, errorThrown) {
-			alert("pas ok " + textStatus + " "+errorThrown);
-		}
-	});*/
     getServerData('/blablaplane/pilots/book', ess, 'post', null, header);
 }
 
 function ess(o){
     alert(o[0].fistNamePassenger +" "+o[0].lastNamePassenger+" "+o[0].departureAirport+" "+o[0].arrivalAirport
           +" "+o[0].date +" "+o[0].numberPlace +" "+o[0].idReservation +" "+o[0].statut);
-}
+}*/
