@@ -14,11 +14,11 @@ import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.FlightDAO;
 import com.example.jetty_jersey.DAO.PilotDAO;
 import com.example.jetty_jersey.DAO.ReservationDAO;
-import com.example.jetty_jersey.DAO.ReservationDAO.InformationReservation;
 import com.example.jetty_jersey.model.Pilot;
 import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.ID;
+import com.example.jetty_jersey.model.InformationReservation;
 import com.example.jetty_jersey.model.Passenger;
 
 @Path("/pilots/")
