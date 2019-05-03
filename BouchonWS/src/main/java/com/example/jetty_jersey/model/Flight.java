@@ -1,8 +1,5 @@
 package com.example.jetty_jersey.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /*
  * Class qui parse les information pour les flights
  */

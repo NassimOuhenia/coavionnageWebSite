@@ -28,8 +28,8 @@ $(function () {
 $(document).ready(function() {
 	
 	if(window.localStorage.getItem('token')) {
-		
-		if (window.localStorage.getItem('type') == "passenger") {
+		type = window.localStorage.getItem('type');
+		if (type == "passenger") {
 			$("#myPost").hide();
             $("#myReservation").show();
             $("#lienpost").hide();
@@ -384,35 +384,32 @@ function getMyPassengers(idFlight) {
 	getServerData(urlFlightsPilots, null, 'post', data, header);
 }
 
-function reservationResponse(listF) {
-	
-	if(!listF) {
-		alert("null");
-	}
+function reservationResponse(listR) {
 	
 	$("#resultsearch").text("");
 	$("#notfound").hide();
-	if (listF.length == 0) {
+	if (listR.length == 0) {
 		alert('pas de reservations');
 		return;
 	}
-	for (i = 0; i < listF.length; i++) {
-		var templateExample = _.template($('#ajoutsearch').html());
-		var html = templateExample({
-			"idf" : listF[i].idFlight,
-			"depart" : listF[i].departureAirport,
-			"arrive" : listF[i].arrivalAirport,
-			"date" : listF[i].date,
-			"time" : listF[i].timep,
-			"mail" : listF[i].pilot.mail,
-			"pilote" : listF[i].pilot.firstName,
-			"modele" : listF[i].modelePlane,
-			"price" : listF[i].price,
-			"place" : listF[i].seatLeft
-		});
-		$("#resultsearch").append(html);
 	
+	if(type == "passenger") {
+		for (i = 0; i < listR.length; i++) {
+			var templateExample = _.template($('#ajoutsearch').html());
+			var html = templateExample({
+				"depart" : listR[i].departureAirport,
+				"arrive" : listR[i].arrivalAirport,
+				"date" : listR[i].date,
+				"place" : listR[i].numberPlace
+			});
+			$("#resultsearch").append(html);
+		}
+	} else {
+		//pilote JO
 	}
+	
+	
+	
 }
 
 // se deconnecter

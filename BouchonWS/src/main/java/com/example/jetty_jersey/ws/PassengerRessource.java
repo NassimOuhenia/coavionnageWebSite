@@ -16,6 +16,7 @@ import com.example.jetty_jersey.DAO.ReservationDAO;
 import com.example.jetty_jersey.model.Connection;
 import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.ID;
+import com.example.jetty_jersey.model.InformationReservation;
 import com.example.jetty_jersey.model.Passenger;
 
 @Path("/passengers")
@@ -56,13 +57,13 @@ public class PassengerRessource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/myflight/confirmed")
-	public List<Flight> getFlightReservationConfirmed(@HeaderParam("token") String token) {
+	public List<InformationReservation> getFlightReservationConfirmed(@HeaderParam("token") String token) {
 		if (JwTokenHelper.getInstance().isTokenInvalid(token)
 				|| !JwTokenHelper.getInstance().getUserType(token).equals("passenger")) {
 			return null;
 		}
 		String id = JwTokenHelper.getInstance().getIdFromToken(token);
-		return daoReservation.getFlightForPassenger(id, "1");
+		return daoReservation.getReservationForPassenger(id, "1");
 	}
 
 	// Retourne la liste des vols dont la reservation en attente de confirmation
@@ -70,13 +71,13 @@ public class PassengerRessource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/myflight/waiting")
-	public List<Flight> getFlightReservation(@HeaderParam("token") String token) {
+	public List<InformationReservation> getFlightReservation(@HeaderParam("token") String token) {
 		if (JwTokenHelper.getInstance().isTokenInvalid(token)
 				|| !JwTokenHelper.getInstance().getUserType(token).equals("passenger")) {
 			return null;
 		}
 		String id = JwTokenHelper.getInstance().getIdFromToken(token);
-		return daoReservation.getFlightForPassenger(id, "0");
+		return daoReservation.getReservationForPassenger(id, "0");
 	}
 
 }
