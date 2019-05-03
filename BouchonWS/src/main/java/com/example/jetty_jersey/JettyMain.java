@@ -16,8 +16,10 @@ import org.glassfish.jersey.servlet.ServletContainer;
 public class JettyMain {
 
     public static void main(String[] args) throws Exception {
+	
 	// Initialize the server
 	Server server = new Server();
+	
 	// Add a connector
 	ServerConnector connector = new ServerConnector(server);
 	connector.setHost("0.0.0.0");

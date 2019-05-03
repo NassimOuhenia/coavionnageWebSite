@@ -406,8 +406,9 @@ function reservationResponse(listR) {
 
 // fonction accepter reservation
 function confirmer(idReservation) {
+	console.log(idReservation);
 	var data = {
-			idR: idReservation
+			id: idReservation
 		}
 	getServerData(urlConfirmYes, afterBook, 'post', data, header);
 } 
@@ -415,7 +416,7 @@ function confirmer(idReservation) {
 // fonction refuser reservation
 function refuser(idReservation) {
 	var data = {
-			idR: idReservation
+			id: idReservation
 		}
 	getServerData(urlConfirmNo, afterBook, 'post', data, header);
 } 
@@ -542,7 +543,9 @@ function reservationWaitingResponse(listF) {
 	}
 	for (i = 0; i < listF.length; i++) {
 		var templateExample = _.template($('#affichereservation').html());
+		console.log(listF[i].idReservation);
 		var html = templateExample({
+			
 			"idr" : listF[i].idReservation,
 			"first" : listF[i].fistNamePassenger,
 			"last" : listF[i].lastNamePassenger,
@@ -580,13 +583,3 @@ $(function() {
 	});
 });
 
-function confirmyesAfter(data){
-	alert("ca marche");
-	
-};
-
-
-function confirmReser(id){
-	console.log("confirmationnnn");
-    getServerData(urlConfirmYes, confirmyesAfter, 'post', id, header);
-}
