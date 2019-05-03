@@ -5,11 +5,51 @@ var urlLogPassenger = '/blablaplane/passengers/signin';
 var urlPostPilot = '/blablaplane/pilots/signup';
 var urlLogPilot = '/blablaplane/pilots/signin';
 var urlBook = '/blablaplane/flights/book';
+<<<<<<< HEAD
 
+=======
+var urlGetFlights = '/blablaplane/passengers/myflights';
+>>>>>>> master
 
 var type = "";
 var header = null;
 
+<<<<<<< HEAD
+=======
+$( document ).ready(function() {
+	
+	
+	if(window.localStorage.getItem('token')) {
+		
+		if (window.localStorage.getItem('type') == "passenger") {
+			
+			$("#lienRecherche").show();
+			$("#lienReservation").show();
+			
+		} else {
+			$("#lienpost").show();
+		}
+		
+		header = new Headers();
+		header.append('token', window.localStorage.getItem('token'));
+		
+		$("#logOut").show();
+		$("#sup").hide();
+		$("#sin").hide();
+		
+	} else {
+		
+		$(".connected").hide();
+		$("#lienRecherche").hide();
+		$("#lienReservation").hide();
+		$("#logOut").hide();
+		$("#sup").show();
+		$("#sin").show();
+	}
+	
+});
+
+>>>>>>> master
 function afterSearch(listF) {
 	$("#resultsearch").text("");
 	$("#notfound").hide();
@@ -75,8 +115,12 @@ $(function() {
 			arrival : $("#arrivalsearch").val()
 		};
 		getServerData(urlSearchFlight, afterSearch, 'post', data, header);
+<<<<<<< HEAD
 		// alert(data.typeLocal+" "+data.typeTravel+" "+data.date+
 		// " "+data.departure+" "+data.arrival);
+=======
+	
+>>>>>>> master
 	});
 });
 
@@ -196,7 +240,10 @@ function VerifFormSingin() {
 		$("#formsignin .error-form").fadeIn().text(
 				"veuillez remplir tout les champs");
 	} else if (!regex.test($('#mailog').val())) {
+<<<<<<< HEAD
 		console.log("jjjjjj");
+=======
+>>>>>>> master
 		$("#formsignin .error-form").fadeIn().text("Format email incorrect");
 		valid = false;
 	} else {
@@ -209,6 +256,7 @@ function VerifFormSingin() {
 // connection pilote ou passager
 $(function() {
 	$("#connectuser")
+<<<<<<< HEAD
 			.click(
 					function() {
 						if (VerifFormSingin()) {
@@ -233,12 +281,35 @@ $(function() {
 							}
 						}
 					});
+=======
+			.click(function() {
+				if (VerifFormSingin()) {
+					if ($('#formsignin input[name="type"]:checked').val() == "pilot") {
+						$("#formsignin .error-form").text("");
+						type = "pilot";
+						getServerData(urlLogPilot, afterLoginUser,
+								'post', formlogToJSON(), header);
+					} else if ($('#formsignin input[name="type"]:checked')
+								.val() == "passenger") {
+						$("#formsignin .error-form").text("");
+						type = "passenger";
+						getServerData(urlLogPassenger, afterLoginUser,
+							'post', formlogToJSON(), header);
+					} else {
+						$("#formsignin .error-form")
+							.fadeIn()
+							.text("veuillez cocher la case pilote ou passager");
+					}
+				}
+			});
+>>>>>>> master
 });
 
 function afterLoginUser(user) {
 	
 	if (user.error) {
 		$("#formsignin .error-form").fadeIn().text(
+<<<<<<< HEAD
 				"Votre email ou mot de passe sont incorrect");
 	} else {
 		header = new Headers();
@@ -260,6 +331,20 @@ function afterLoginUser(user) {
 		$("#sup").hide();
 		$("#sin").hide();
 		// ///////////////////////////////////////////////////////////////////////
+=======
+				"Votre email ou mot de passe sont incorrect"+user.id);
+	} else {
+		
+		window.localStorage.setItem('type', type);
+		window.localStorage.setItem('token', user.id);
+		
+		$('#signin').modal('hide');
+		$(".signup-sucess").text("");
+		$("#signin").removeData('bs.modal');
+		
+		window.location.href = "http://localhost:8080";
+
+>>>>>>> master
 	}
 }
 
@@ -272,6 +357,7 @@ function formlogToJSON() {
 	return form;
 }
 
+<<<<<<< HEAD
 // se deconnecter
 $(function() {
 	$("#logOut").click(function() {
@@ -283,6 +369,49 @@ $(function() {
 		$("#sin").show();
 		header.delete('token');
 		header = null;
+=======
+function mesReservation() {
+	getServerData(urlGetFlights, reservationResponse, 'post', null, header);
+}
+
+function reservationResponse(listF) {
+	$("#resultsearch").text("");
+	$("#notfound").hide();
+	if (listF.length == 0) {
+		return;
+	}
+	for (i = 0; i < listF.length; i++) {
+		var templateExample = _.template($('#ajoutReservation').html());
+		var html = templateExample({
+			"idf" : listF[i].idFlight,
+			"depart" : listF[i].departureAirport,
+			"arrive" : listF[i].arrivalAirport,
+			"date" : listF[i].date,
+			"time" : listF[i].timep,
+			"mail" : listF[i].pilot.mail,
+			"pilote" : listF[i].pilot.firstName,
+			"modele" : listF[i].modelePlane,
+			"price" : listF[i].price,
+			"place" : listF[i].seatLeft
+		});
+		$("#mesReservation").append(html);
+	
+	}
+}
+
+// se deconnecter
+$(function() {
+	$("#logOut").click(function() {
+		
+		window.localStorage.removeItem('token');
+		window.localStorage.removeItem('type');
+		window.localStorage.clear();
+				
+		header.delete('token');
+		header = null;
+		type = "";		
+		window.location.href = "http://localhost:8080";
+>>>>>>> master
 	});
 });
 
