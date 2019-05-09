@@ -190,14 +190,31 @@
 									<h3>you don't have reservations</h3>
 								</div>
 								<div id="resultReservation"></div>
+                                <!-- pour le client -->
+                                <script id="clientreservation" type="text/template">
+                  				  <div class="row listFlight">
+                        		  <div class="col-sm-4"><%=depart%> The <%=dater%> To <%=arrival%></div>
+                                  <div class="col-sm-3">seat booked : <%=nbplace%> seat</div>
+                                  <div class="col-sm-2" id="statuvol"><%=statu%></div>
+                                </script>
+                                <!--pour le pilote : reservation en attente-->
 								<script id="demandereservation" type="text/template">
                   				  <div class="row listFlight">
                         		  <div class="col-sm-4"><%=depart%> The <%=dater%> To <%=arrival%></div>
                         		  <div class="col-sm-3">Client : <%=first%> <%=last%></div>
                                   <div class="col-sm-2">Need : <%=nbplace%> seat</div>
                                   <div class="col-sm-1" id="statuvol"><%=statu%></div>
-                                  <div class="col-sm-1 confirm" id="statuA"><button class="btn btn-dark" onclick="confirmer('<%=idr%>')">Confirm</button></div>
-                                  <div class="col-sm-1 confirm" id="statuB"><button class="btn btn-light" onclick="refuser('<%=idr%>')">Refuse</button></div>
+                                  <div class="col-sm-1"><button class="btn btn-dark" onclick="confirmer('<%=idr%>')">Confirm</button></div>
+                                  <div class="col-sm-1"><button class="btn btn-light" onclick="refuser('<%=idr%>')">Refuse</button></div>
+                                  </div>
+                                </script>
+                                <!--pour le pilote : reservation en attente-->
+								<script id="listreservation" type="text/template">
+                  				  <div class="row listFlight">
+                        		  <div class="col-sm-4"><%=depart%> The <%=dater%> To <%=arrival%></div>
+                        		  <div class="col-sm-3">Client : <%=first%> <%=last%></div>
+                                  <div class="col-sm-2">Need : <%=nbplace%> seat</div>
+                                  <div class="col-sm-1" id="statuvol"><%=statu%></div>
                                   </div>
                                 </script>
 							</div>
@@ -216,7 +233,7 @@
                             <div class="col-sm-3">the <%=date%> at <%=time%></div>
                             <div class="col-sm-2">in <%=modele%></div>
                             <div class="col-sm-1"><%=price%> €</div>
-                            <div class="col-sm-2" id="lesplaces"><%=place%> places</div>
+                            <div class="col-sm-2" id="lesplaces"><%=place%> seat</div>
                         </div>
                     </script>
 							</div>

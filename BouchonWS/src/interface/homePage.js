@@ -155,13 +155,6 @@ $(function() {
 	});
 });
 
-// lien de recherche de vol
-$(function() {
-	$("#lienRecherche").click(function() {
-		$("#resultsearch").text("");
-	});
-});
-
 // verifier si le formulaire d'incription a bien ete rempli
 function VerifFormSingup() {
 	var regex = /^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
@@ -352,50 +345,66 @@ function reservationResponse(listR) {
 	if(type == "passenger") {
 		
 		for (i = 0; i < listR.length; i++) {
-			var templateExample = _.template($('#demandereservation').html());
+			var templateExample = _.template($('#clientreservation').html());
 			var html = templateExample({
 				"depart" : listR[i].departureAirport,
 				"arrival" : listR[i].arrivalAirport,
 				"dater" : listR[i].date,
 				"nbplace" : listR[i].numberPlace,
-				"idr": listR[i].idReservation,
-				"last" : null,
-				"first" : null,
-				"statu" : listR[i].statut
+				"statu" : trad(listR[i].statut)
 			});
 			$("#resultReservation").append(html);
 		}
 	} else {
         
 		for (i = 0; i < listR.length; i++) {
-            console.log(listR[i].fistNamePassenger);
-            var templateExample = _.template($('#demandereservation').html());
-            console.log(listR[i].idReservation);
-            var html = templateExample({
-
-                "idr" : listR[i].idReservation,
-                "first" : listR[i].fistNamePassenger,
-                "last" : listR[i].lastNamePassenger,
-                "depart" : listR[i].departureAirport,
-                "arrival" : listR[i].arrivalAirport,
-                "dater" : listR[i].date,
-                "nbplace" : listR[i].numberPlace,
-                "statu" : listR[i].statut
-            });
-            $("#resultReservation").append(html);	
-       
+            if(listR[i].statut==true){//en attente
+                var templateExample = _.template($('#demandereservation').html());
+                var html = templateExample({
+                    "idr" : listR[i].idReservation,
+                    "first" : listR[i].fistNamePassenger,
+                    "last" : listR[i].lastNamePassenger,
+                    "depart" : listR[i].departureAirport,
+                    "arrival" : listR[i].arrivalAirport,
+                    "dater" : listR[i].date,
+                    "nbplace" : listR[i].numberPlace,
+                    "statu" : trad(listR[i].statut)
+                });
+                $("#resultReservation").append(html);	
+            }
+            else{//accepter
+                var templateExample = _.template($('#listreservation').html());
+                var html = templateExample({
+                    "idr" : listR[i].idReservation,
+                    "first" : listR[i].fistNamePassenger,
+                    "last" : listR[i].lastNamePassenger,
+                    "depart" : listR[i].departureAirport,
+                    "arrival" : listR[i].arrivalAirport,
+                    "dater" : listR[i].date,
+                    "nbplace" : listR[i].numberPlace,
+                    "statu" : trad(listR[i].statut)
+                });
+                $("#resultReservation").append(html);	
+            }
         }
 	}	
 }
 
-//----------ajout de la liste des reservation----
+//fonction qui traduit le statut en texte
+function trad(b){
+    if(b==true)
+        return "waitting";
+    else
+        return "confirmed";
+}
 
-
+//clic sur "reservations"
 function voirReservation() {
 		
 	if(type=="passenger") {
 		mesReservation();
 	} else {
+        console.log("pilote");
 		getServerData(urlreservationwaiting, reservationResponse, 'post', null, header);	
 	}	
 	
@@ -408,7 +417,7 @@ function confirmer(idReservation) {
 			id: idReservation
 		}
 	getServerData(urlConfirmYes, afterBook, 'post', data, header);
-	return voirReservation();
+	window.location.href = "http://localhost:8080";
 } 
 
 // fonction refuser reservation
@@ -417,10 +426,8 @@ function refuser(idReservation) {
 	var data = {
 			id: idReservation
 		}
-	$("#statuA").hide();
-	$("#statuA").hide();
 	getServerData(urlConfirmNo, afterBook, 'post', data, header);
-	return voirReservation();
+	window.location.href = "http://localhost:8080";
 } 
 
 // se deconnecter
@@ -497,6 +504,8 @@ function showMap(depart,arrive){
 				if(nom2=="")
 					alert(arrive+" pas trouver");
 				else{
+                    if(mymap)
+                        mymap.remove();
                     mymap = L.map('mapid').setView([48.8534, 2.3488], 13);
                     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -515,6 +524,3 @@ function showMap(depart,arrive){
 		}
 	});
 }
-
-
-
