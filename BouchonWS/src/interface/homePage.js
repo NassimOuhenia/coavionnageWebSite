@@ -86,7 +86,7 @@ function afterSearch(listF) {
 
 
 
-//----------ajout de la liste des reservation----
+// ----------ajout de la liste des reservation----
 
 function reservationWaitingResponse(listF) {
 	
@@ -95,7 +95,7 @@ function reservationWaitingResponse(listF) {
 	}
 	
 	$("#noreservation").text("");
-	//$("#notfound").hide();
+	// $("#notfound").hide();
 	if (listF.length == 0) {
 		alert('pas de reservations');
 		return;
@@ -336,7 +336,7 @@ function reservationWaiting() {
 	
 }
 
-//click sur lien pour avoir les vol poster par un pilote
+// click sur lien pour avoir les vol poster par un pilote
 $(function() {
 	$("#myPost").click(function() {
 		myFlightsPilots();
@@ -371,7 +371,7 @@ function ajoutPost(listF) {
 }
 
 
-//get list passenger for a flight
+// get list passenger for a flight
 function getMyPassengers(idFlight) {
 	var data = {
 			idFlight : idflight
@@ -393,10 +393,13 @@ function reservationResponse(listR) {
 			var templateExample = _.template($('#demandereservation').html());
 			var html = templateExample({
 				"depart" : listR[i].departureAirport,
-				"arrive" : listR[i].arrivalAirport,
-				"date" : listR[i].date,
-				"place" : listR[i].numberPlace,
-				"idr": listR[i].idReservation // à envoyer sur les fonction de confiramtion yes / no
+				"arrival" : listR[i].arrivalAirport,
+				"dater" : listR[i].date,
+				"nbplace" : listR[i].numberPlace,
+				"idr": listR[i].idReservation,
+				"last" : null,
+				"first" : null,
+				"statu" : null
 			});
 			$("#resultReservation").append(html);
 		}
@@ -419,6 +422,7 @@ function reservationResponse(listR) {
             });
             $("#resultReservation").append(html);
         }
+		
         if(listF[i].statut="true"){
             $("#statu").hide();
             $("#statufalse").hide();	
@@ -467,6 +471,8 @@ function afterBook(response) {
 		alert(response.error);
 	else 
 		alert(response.message);
+	
+	window.location.href = "http://localhost:8080";
 }
 
 // reserver un vol par un passenger
@@ -483,38 +489,38 @@ function bookFlight(idflight) {
 	}
 }
 
-//fonction d,'affichage de la map
+// fonction d,'affichage de la map
 function showMap(depart,arrive){
     var nom1="",nom2="";
 	var coord1=[],coord2=[];
 	var p1=false,p2=false;
 	
-	//recupere coordonnee addresse 1;
-	//je prend le 1er resultat, limit=1
+	// recupere coordonnee addresse 1;
+	// je prend le 1er resultat, limit=1
 	$.getJSON('http://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + depart, function(data) {
-		//var items = [];
+		// var items = [];
 		
 		$.each(data, function(key, val) {
 			coord1[0]=val.lat;
 			coord1[1]=val.lon;
 			nom1=val.display_name;
-			//alert(coord1[0]+" "+coord1[1]+"\n"+nom1);
+			// alert(coord1[0]+" "+coord1[1]+"\n"+nom1);
 		});
-		//traiter le resultat
+		// traiter le resultat
 		if(nom1=="")
 			alert(depart+" pas trouver");
 		else{
-			//recupere coordonnee addresse 2;
-			//je prend le 1er resultat, limit=1
+			// recupere coordonnee addresse 2;
+			// je prend le 1er resultat, limit=1
 			$.getJSON('http://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + arrive, function(data) {
-				//var items = [];
+				// var items = [];
 				$.each(data, function(key, val) {
 					coord2[0]=val.lat;
 					coord2[1]=val.lon;
 					nom2=val.display_name;
-					//alert(coord2[0]+" "+coord2[1]+"\n"+nom2);
+					// alert(coord2[0]+" "+coord2[1]+"\n"+nom2);
 				});
-				//traiter le resultat
+				// traiter le resultat
 				if(nom2=="")
 					alert(arrive+" pas trouver");
 				else{
@@ -549,61 +555,14 @@ function ess(o){
 
 
 
-//----------ajout de la liste des reservation----
+// ----------ajout de la liste des reservation----
 
 var urlreservationwaiting='/blablaplane/pilots/book/';
-/*
-function reservationWaitingResponse(listF) {
-	
-	if(!listF) {
-		alert("null");
-	}
-	
-	console.log("reponsee"+listF.length);
-	$("#noreservation").text("");
-	//$("#notfound").hide();
-	if (listF.length == 0) {
-		alert('pas de reservations');
-		return;
-	}
-	for (i = 0; i < listF.length; i++) {
-		var templateExample = _.template($('#affichereservation').html());
-		console.log(listF[i].idReservation);
-		var html = templateExample({
-			
-			"idr" : listF[i].idReservation,
-			"first" : listF[i].fistNamePassenger,
-			"last" : listF[i].lastNamePassenger,
-			"depart" : listF[i].departureAirport,
-			"arrival" : listF[i].arrivalAirport,
-			"dater" : listF[i].date,
-			"nbplace" : listF[i].numberPlace,
-			"statu" : listF[i].statut
-		
-			
 
-			
-		});
-		$("#resultReservationWait").append(html);
-	
-	}
-	
-	if(listF[i].statut="true"){
-		$("#statu").hide();
-		$("#statufalse").hide();
-
-		
-	}else{
-		$("#statu").show();
-$("#statufalse").show();
-	}
-	
-}
-*/
 $(function() {
 	$("#myReservation").click(function() {
 		console.log("cliqueeee");
-		/*reservationWaitingResponse*/
+		/* reservationWaitingResponse */
 	getServerData(urlreservationwaiting, reservationResponse, 'post', null, header);	
 	});
 });
