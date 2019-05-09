@@ -65,8 +65,10 @@ function afterSearch(listF) {
 		$("#notfound").show();
 		return;
 	}
-    $("#mapid").css("display","block");
-    showMap($("#departuresearch").val(),$("#arrivalsearch").val());
+	if(listF.length!=0){
+    	$("#mapid").css("display","block");
+    	showMap($("#departuresearch").val(),$("#arrivalsearch").val());
+	}
 	for (i = 0; i < listF.length; i++) {
 		var templateExample = _.template($('#ajoutsearch').html());
 		var html = templateExample({
