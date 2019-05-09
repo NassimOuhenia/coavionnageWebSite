@@ -24,79 +24,78 @@ import com.example.jetty_jersey.model.Passenger;
 @Path("/pilots/")
 public class PilotRessource {
 
-    private PilotDAO daoPilot = DAOFactory.getInstance().getPiloteDAO();
-    private ReservationDAO daoReservation = DAOFactory.getInstance().getReservationDAO();
-    private FlightDAO daoFlight = DAOFactory.getInstance().getFlightDAO();
+	private PilotDAO daoPilot = DAOFactory.getInstance().getPiloteDAO();
+	private ReservationDAO daoReservation = DAOFactory.getInstance().getReservationDAO();
+	private FlightDAO daoFlight = DAOFactory.getInstance().getFlightDAO();
 
-    // Inscription
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/signup")
-    public String signUp(Pilot p) {
-	if (daoPilot.checkEmailExist(p.getMail())) {
-	    return "{" + "\"status\":\"400\"," + "\"error\":\"Email already used\"" + "}";
+	// Inscription
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/signup")
+	public String signUp(Pilot p) {
+		if (daoPilot.checkEmailExist(p.getMail())) {
+			return "{" + "\"status\":\"400\"," + "\"error\":\"Email already used\"" + "}";
+		}
+		return daoPilot.put(p);
 	}
-	return daoPilot.put(p);
-    }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/get")
-    public List<Pilot> getPilot(ID identification) {
-	return daoPilot.get(identification.getId());
-    }
-
-    // Connexion
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/signin")
-    public String signIn(Connection c) {
-	String token = daoPilot.connect(c);
-	System.out.println("reponse" + token);
-	return token;
-    }
-
-    // Retourne les vols creer par le pilot
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/myflights")
-    public List<Flight> getListFlights(@HeaderParam("token") String token) {
-	if (JwTokenHelper.getInstance().isTokenInvalid(token)
-		|| !JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
-	    return null;
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/get")
+	public List<Pilot> getPilot(ID identification) {
+		return daoPilot.get(identification.getId());
 	}
-	String id = JwTokenHelper.getInstance().getIdFromToken(token);
-	return daoFlight.getFlightsForPilots(id);
-    }
 
-    // Retourne les passenger pour un vol idFLight
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/myflights/passenger")
-    public List<Passenger> getListPassenger(@HeaderParam("token") String token, ID idFlight) {
-	if (JwTokenHelper.getInstance().isTokenInvalid(token)
-		|| !JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
-	    return null;
+	// Connexion
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/signin")
+	public String signIn(Connection c) {
+		String token = daoPilot.connect(c);
+		System.out.println("reponse" + token);
+		return token;
 	}
-	return daoReservation.getPassengerForPilots(idFlight.getId());
-    }
-    
 
-    
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/book/")
-    public List<InformationReservation> getBookingForPilot(@HeaderParam("token") String token) {
-	if (JwTokenHelper.getInstance().isTokenInvalid(token) || !JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
-	    return null;
+	// Retourne les vols creer par le pilot
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/myflights")
+	public List<Flight> getListFlights(@HeaderParam("token") String token) {
+		if (JwTokenHelper.getInstance().isTokenInvalid(token)
+				|| !JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+			return null;
+		}
+		String id = JwTokenHelper.getInstance().getIdFromToken(token);
+		return daoFlight.getFlightsForPilots(id);
 	}
-	return daoReservation.getReservationForPilots(JwTokenHelper.getInstance().getIdFromToken(token));
-    }
+
+	// Retourne les passenger pour un vol idFLight
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/myflights/passenger")
+	public List<Passenger> getListPassenger(@HeaderParam("token") String token, ID idFlight) {
+		if (JwTokenHelper.getInstance().isTokenInvalid(token)
+				|| !JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+			return null;
+		}
+		return daoReservation.getPassengerForPilots(idFlight.getId());
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/book/")
+	public List<InformationReservation> getBookingForPilot(@HeaderParam("token") String token) {
+		if (JwTokenHelper.getInstance().isTokenInvalid(token)
+				|| !JwTokenHelper.getInstance().getUserType(token).equals("pilot")) {
+			return null;
+		}
+		return daoReservation.getReservationForPilots(JwTokenHelper.getInstance().getIdFromToken(token));
+	}
 
 }

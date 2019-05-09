@@ -287,7 +287,7 @@ public class ReservationDAO extends DAO<Reservation> {
 				
 				if(status.equals("O")) {
 					ir.setStatut(true);
-				} else {
+				} else if (status.equals("1")) {
 					ir.setStatut(false);
 				}
 				list.add(ir);
