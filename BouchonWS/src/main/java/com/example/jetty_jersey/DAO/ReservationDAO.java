@@ -277,7 +277,7 @@ public class ReservationDAO extends DAO<Reservation> {
 		for (int i = 0; i < result.length; i++) {
 			Map<String, Object> map = result[i].getSourceAsMap();
 			String idFlight = map.get("idFlight").toString();
-			if (map.get("idPassenger").toString().equals(idPassenger)) {
+			if (map.get("idPassenger").toString().equals(idPassenger) && map.get("confirmed").toString().equals(status)) {
 
 				Passenger p = DAOFactory.getInstance().getPassengerDAO().get(map.get("idPassenger").toString()).get(0);
 				
