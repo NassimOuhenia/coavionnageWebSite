@@ -40,50 +40,6 @@
   </head>
   <body>
 
-	<!--
-
-	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-      <div class="container">
-        <a class="navbar-brand" href="index.html"><img class="logo-image" src="images/avion2.png"></img>BLABLAPLANE</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="oi oi-menu"></span> Menu
-        </button>
-
-        <div class="collapse navbar-collapse" id="ftco-nav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-            <li class="nav-item" id="lienRecherche"><a class="nav-link" href="#">Find</a></li>
-            <li class="nav-item" id="lienReservation"><button class="buttonreser" onclick="mesReservation()">Reservations</button></li>
-			<li class="nav-item" id="lienpost"><a class="nav-link" href="#" data-toggle="modal" data-target="#postFlight">Post</a></li>
-			<li class="nav-item" id="sin"><a class="nav-link" href="#" data-toggle="modal" data-target="#signin">Sign in</a></li>
-			<li class="nav-item" id="sup"><a class="nav-link" href="#" data-toggle="modal" data-target="#signup">Sign up</a></li>
-			<li class="nav-item"><a class="nav-link" href="#" id="logOut">Log out</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-	 <header class="header">
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#"><img class="logo-image" src="images/avion2.png"> <span class="logo">B</span>labla<span class="logo">P</span>lane</a>
-          </div>
-          <div class="links">
-            <ul class="navbar-nav ml-auto">
-	            <li class="nav-item" id="lienReservation"><button class="buttonreser" onclick="mesReservation()">Reservations</button></li>
-	            <li class="nav-item" id="lienRecherche"><a class="nav-link" href="#">Find</a></li>
-				<li class="nav-item" id="lienpost"><a class="nav-link" href="#" data-toggle="modal" data-target="#postFlight">Post</a></li>
-				<li class="nav-item" id="sin"><a class="nav-link" href="#" data-toggle="modal" data-target="#signin">Log in</a></li>
-				<li class="nav-item" id="sup"><a class="nav-link" href="#" data-toggle="modal" data-target="#signup">Register</a></li>
-				<li class="nav-item"><a class="nav-link" href="#" id="logOut">Log out</a></li>
-          </ul>
-          </div>
-        </div>
-      </nav>
-    </header>
-
-	 -->
 
 	<header class="header">
       <nav class="navbar navbar-default ">
@@ -203,8 +159,8 @@
                         <div class="col-sm-3">Client : <%=first%> <%=last%></div>
                         <div class="col-sm-2">Need : <%=nbplace%> seat</div>
                         <div class="col-sm-1" id="statuvol"><%=statu%></div>
-                        <div class="col-sm-1"><button class="btn btn-dark" onclick="confirmer('<%=idr%>')" id="statu">Confirm</button></div>
-                        <div class="col-sm-1"><button class="btn btn-light" onclick="refuser('<%=idr%>')" id="statu">Refuse</button></div>
+                        <div class="col-sm-1 confirm" id="statu"><button class="btn btn-dark" onclick="confirmer('<%=idr%>')">Confirm</button></div>
+                        <div class="col-sm-1 confirm" id="statu"><button class="btn btn-light" onclick="refuser('<%=idr%>')">Refuse</button></div>
                     </div>
                     </script> 
                </div>
@@ -232,162 +188,7 @@
     </div>
 
 
-    <!-- Modal -->
-<!--
 
-        <div class="modal fade" id="signin" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3>Sign in</h3>
-              </div>
-              <div class="modal-body">
-                <p class="signup-sucess"></p>
-                <div id="formsignin">
-                  <input class="champs" type="text" id="mailog" name="login" required placeholder="email*">
-                  <br>
-                  <br>
-                  <input class="champs" id="logpass" type="password" name="password" required placeholder="password*">
-                  <br>
-                  <br>
-                  <h4>Account type : </h4>
-                  <div id="component-demo-wrapper" class="limit-width">
-                    <div>
-                      <a href="https://proto.io" target="_blank"></a>
-                    </div>
-                    <div id="component-demo-container">
-                      <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitch1" checked>
-                        <label class="onoffswitch-label" for="onoffswitch1">
-                          <div class="onoffswitch-inner"></div>
-                          <div class="onoffswitch-switch"></div>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="error-form">
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="submit" id="connectuser" class="btn btn-primary">Sign in</button>
-                <br><br>
-                <p>	Don't have an account ? <a href="#" data-dismiss="modal" data-target="#signup" data-toggle="modal"> Sign up </a> </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="modal fade" id="signup" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3>Sign up</h3>
-              </div>
-              <div class="modal-body">
-                <div id="formsignup">
-                  <input class="champs" type="text" id="firstName"
-                  name="fName" required placeholder="First Name*">
-                  <br>
-                  <br>
-                  <input class="champs" type="text" id="lastName" name="lName" required
-                  placeholder="Last Name*">
-                  <br>
-                  <br>
-                  <input class="champs" type="email" id="mail" name="email" required
-                  placeholder="Email*">
-                  <br>
-                  <br>
-                  <input class="champs" type="password" id="password" name="password" required
-                  placeholder="Password*">
-                  <br>
-                  <br>
-                  <input class="champs" type="password" id="#passwordc" name="cPassword" required
-                  placeholder="Confirm Password*">
-                  <br>
-                  <br>
-                  <h4>Account type : </h4>
-                  <div id="component-demo-wrapper" class="limit-width">
-                    <div>
-                      <a href="https://proto.io" target="_blank"></a>
-                    </div>
-                    <div id="component-demo-container">
-                      <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitch2" checked>
-                        <label class="onoffswitch-label" for="onoffswitch2">
-                          <div class="onoffswitch-inner"></div>
-                          <div class="onoffswitch-switch"></div>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="error-form">
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" id="createUser" class="btn btn-primary">Sign Up</button>
-                    <br><br>
-                    <p>Already a member ?<a href="#" data-dismiss="modal" data-target="#signin" data-toggle="modal"> Sign in </a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-    		<div class="modal fade" id="postFlight" role="dialog">
-    			<div class="modal-dialog">
-    				<div class="modal-content">
-    					<div class="modal-header">
-    						<h3>Post a flight</h3>
-    					</div>
-    					<div class="modal-body">
-    						<div id="formpostFlight">
-    							<h4>Type?</h4>
-    							<input type="radio" name="type" id="travelpost" value="travel" checked>
-    								Travel
-    							<input type="radio" name="type" id="localpost" value="local">
-    								Local Flight
-    							<br>
-    							<br>
-    							<input class="champs" type="date" id="datepost" required>
-    							<br>
-    							<br>
-    							<input type="time" id="timepost" value="00:00">
-    							<br>
-    							<br>
-    							<input class="champs" type="text" id="departurepost" required
-    								placeholder="departure">
-    							<br>
-    							<br>
-    							<input class="champs" type="text" id="arrivalpost"
-    								required placeholder="arrival">
-    							<br>
-    							<br>
-    							<input class="champs" type="number" id="traveltimepost"
-    								required placeholder="travel time">
-    							<br>
-    							<br>
-    							<input class="champs" type="number" id="pricepost" required
-    								placeholder="price $$">
-    							<br>
-    							<br>
-    							<input class="champs" type="number" id="placepost" required
-    								placeholder="number of seat">
-    							<br>
-    							<br>
-    							<div class="modal-footer">
-    								<button type="button" class="btn btn-default"
-    									data-dismiss="modal">Close</button>
-    								<button id="postflight" class="btn btn-primary">Post</button>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
--->
 
         <!-- Modal -->
 

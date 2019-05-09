@@ -32,6 +32,7 @@ $(document).ready(function() {
 			$("#myPost").hide();
             $("#myReservation").show();
             $("#lienpost").hide();
+            $("#statu").hide();
 		} else {
 			$("#lienpost").show();
             $("#myPost").show();
@@ -87,29 +88,6 @@ function afterSearch(listF) {
 
 
 // ----------ajout de la liste des reservation----
-
-function reservationWaitingResponse(listF) {
-	
-	if(!listF) {
-		alert("null");
-	}
-	
-	$("#noreservation").text("");
-	// $("#notfound").hide();
-	if (listF.length == 0) {
-		alert('pas de reservations');
-		return;
-	}
-	for (i = 0; i < listF.length; i++) {
-		var templateExample = _.template($('#affichereservation').html());
-		var html = templateExample({
-			
-		});
-		$("#resultReservationWait").append(html);
-	
-	}
-}
-
 
 
 // fonction generique pour recuperer des donnes
@@ -389,6 +367,7 @@ function reservationResponse(listR) {
 	}
 	
 	if(type == "passenger") {
+		
 		for (i = 0; i < listR.length; i++) {
 			var templateExample = _.template($('#demandereservation').html());
 			var html = templateExample({
@@ -399,12 +378,12 @@ function reservationResponse(listR) {
 				"idr": listR[i].idReservation,
 				"last" : null,
 				"first" : null,
-				"statu" : null
+				"statu" : listR[i].statut
 			});
 			$("#resultReservation").append(html);
 		}
 	} else {
-        console.log("pilote");
+        
 		for (i = 0; i < listR.length; i++) {
             console.log(listR[i].fistNamePassenger);
             var templateExample = _.template($('#demandereservation').html());
@@ -420,15 +399,8 @@ function reservationResponse(listR) {
                 "nbplace" : listR[i].numberPlace,
                 "statu" : listR[i].statut
             });
-            $("#resultReservation").append(html);
-        }
-		
-        if(listF[i].statut="true"){
-            $("#statu").hide();
-            $("#statufalse").hide();	
-        }else{
-            $("#statu").show();
-            $("#statufalse").show();
+            $("#resultReservation").append(html);	
+       
         }
 	}	
 }
@@ -560,10 +532,15 @@ function ess(o){
 var urlreservationwaiting='/blablaplane/pilots/book/';
 
 $(function() {
+	
 	$("#myReservation").click(function() {
-		console.log("cliqueeee");
-		/* reservationWaitingResponse */
-	getServerData(urlreservationwaiting, reservationResponse, 'post', null, header);	
+		
+		if(type=="passenger") {
+			mesReservation();
+		} else {
+			getServerData(urlreservationwaiting, reservationResponse, 'post', null, header);	
+		}	
+	
 	});
 });
 

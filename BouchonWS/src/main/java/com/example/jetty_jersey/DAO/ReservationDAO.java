@@ -280,8 +280,12 @@ public class ReservationDAO extends DAO<Reservation> {
 			if (getIdPassenger(result[i].getId()).equals(idPassenger)) {
 
 				Passenger p = DAOFactory.getInstance().getPassengerDAO().get(map.get("idPassenger").toString()).get(0);
-
+				
+				System.out.println("passenger "+p.getFirstName() +" "+ p.getLastName());
+				
 				Flight f = DAOFactory.getInstance().getFlightDAO().get(idFlight).get(0);
+				
+				System.out.println("flight "+f.getDepartureAirport() +" "+ f.getArrivalAirport());
 
 				list.add(new InformationReservation(p.getFirstName(), p.getLastName(), f.getDepartureAirport(),
 						f.getArrivalAirport(), f.getDate(), map.get("numberPlace").toString(), result[i].getId(),
