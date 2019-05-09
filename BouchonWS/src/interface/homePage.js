@@ -417,7 +417,7 @@ function confirmer(idReservation) {
 			id: idReservation
 		}
 	getServerData(urlConfirmYes, afterBook, 'post', data, header);
-	window.location.href = "http://localhost:8080";
+	
 } 
 
 // fonction refuser reservation
@@ -427,7 +427,7 @@ function refuser(idReservation) {
 			id: idReservation
 		}
 	getServerData(urlConfirmNo, afterBook, 'post', data, header);
-	window.location.href = "http://localhost:8080";
+	
 } 
 
 // se deconnecter
@@ -451,8 +451,7 @@ function afterBook(response) {
 		alert(response.error);
 	else 
 		alert(response.message);
-	
-	return mesReservation();
+	window.location.href = "http://localhost:8080";
 }
 
 // reserver un vol par un passenger

@@ -14,7 +14,6 @@ import com.example.jetty_jersey.DAO.DAOFactory;
 import com.example.jetty_jersey.DAO.PassengerDAO;
 import com.example.jetty_jersey.DAO.ReservationDAO;
 import com.example.jetty_jersey.model.Connection;
-import com.example.jetty_jersey.model.Flight;
 import com.example.jetty_jersey.model.ID;
 import com.example.jetty_jersey.model.InformationReservation;
 import com.example.jetty_jersey.model.Passenger;
@@ -63,24 +62,14 @@ public class PassengerRessource {
 			return null;
 		}
 		String id = JwTokenHelper.getInstance().getIdFromToken(token);
-		List<InformationReservation> l = daoReservation.getReservationForPassenger(id, "1");
-		l.addAll(daoReservation.getReservationForPassenger(id, "0"));
-		System.out.println(l.size());
-		return l;
-	}
-
-	// Retourne la liste des vols dont la reservation en attente de confirmation
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/myflight/waiting")
-	public List<InformationReservation> getFlightReservation(@HeaderParam("token") String token) {
-		if (JwTokenHelper.getInstance().isTokenInvalid(token)
-				|| !JwTokenHelper.getInstance().getUserType(token).equals("passenger")) {
-			return null;
+		List<InformationReservation> l = daoReservation.getReservationForPassenger(id, "0");
+		l.addAll(daoReservation.getReservationForPassenger(id, "1"));
+		
+		for (InformationReservation ir : l) {
+			System.out.println(ir.isStatut());
 		}
-		String id = JwTokenHelper.getInstance().getIdFromToken(token);
-		return daoReservation.getReservationForPassenger(id, "0");
+	
+		return l;
 	}
 
 }

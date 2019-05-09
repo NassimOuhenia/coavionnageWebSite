@@ -97,7 +97,7 @@ public class ReservationDAO extends DAO<Reservation> {
 		TransportClient client = DAOFactory.getConnextion();
 		try {
 			obj = this.get(idReservation).get(0);
-			DAOFactory.getInstance().getFlightDAO().incrementeNumberPlace(obj.getIdFlight(), obj.getNumberPlace());
+			DAOFactory.getInstance().getFlightDAO().reductionNumberPlace(obj.getIdFlight(), -obj.getNumberPlace());
 			client.prepareDelete("book", "_doc", idReservation).execute().actionGet();
 			return true;
 		} catch (ElasticsearchException e) {
@@ -117,7 +117,7 @@ public class ReservationDAO extends DAO<Reservation> {
 			UpdateResponse update = client.prepareUpdate("book", "_doc", idReservation)
 					.setDoc(jsonBuilder().startObject().field("confirmed", "1").endObject()).get();
 			if (update.status() == RestStatus.OK) {
-				
+
 				return true;
 			}
 		} catch (IOException e) {
@@ -266,9 +266,7 @@ public class ReservationDAO extends DAO<Reservation> {
 	public List<InformationReservation> getReservationForPassenger(String idPassenger, String status) {
 
 		TransportClient client = DAOFactory.getConnextion();
-
 		ArrayList<InformationReservation> list = new ArrayList<InformationReservation>();
-
 		SearchResponse response = client.prepareSearch("book").setTypes("_doc").setQuery(QueryBuilders.matchAllQuery())
 				.setSize(10000).get();
 
@@ -277,19 +275,23 @@ public class ReservationDAO extends DAO<Reservation> {
 		for (int i = 0; i < result.length; i++) {
 			Map<String, Object> map = result[i].getSourceAsMap();
 			String idFlight = map.get("idFlight").toString();
-			if (map.get("idPassenger").toString().equals(idPassenger) && map.get("confirmed").toString().equals(status)) {
+			if (map.get("idPassenger").toString().equals(idPassenger)
+					&& map.get("confirmed").toString().equals(status)) {
 
 				Passenger p = DAOFactory.getInstance().getPassengerDAO().get(map.get("idPassenger").toString()).get(0);
-				
-				System.out.println("passenger "+p.getFirstName() +" "+ p.getLastName());
-				
 				Flight f = DAOFactory.getInstance().getFlightDAO().get(idFlight).get(0);
 				
-				System.out.println("flight "+f.getDepartureAirport() +" "+ f.getArrivalAirport());
-
-				list.add(new InformationReservation(p.getFirstName(), p.getLastName(), f.getDepartureAirport(),
+				InformationReservation ir = new InformationReservation(p.getFirstName(), p.getLastName(), f.getDepartureAirport(),
 						f.getArrivalAirport(), f.getDate(), map.get("numberPlace").toString(), result[i].getId(),
-						map.get("confirmed").toString().equals(status)));
+						map.get("confirmed").toString().equals(status));
+				
+				if(status.equals("O")) {
+					ir.setStatut(true);
+				} else {
+					ir.setStatut(false);
+				}
+				list.add(ir);
+				
 			}
 		}
 		return list;
