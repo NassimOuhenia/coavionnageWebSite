@@ -11,6 +11,7 @@ var urlFlightsPilots = '/blablaplane/pilots/myflights';
 var urlMyPassengers = '/blablaplane/pilots/myflights/passenger';
 var urlConfirmYes = '/blablaplane/flights/book/confirm/yes';
 var urlConfirmNo = '/blablaplane/flights/book/confirm/no';
+var urlreservationwaiting='/blablaplane/pilots/book/';
 
 var type = "";
 var header = null;
@@ -307,12 +308,8 @@ function formlogToJSON() {
 
 function mesReservation() {
 	getServerData(urlGetFlights, reservationResponse, 'post', null, header);
-	getServerData(urlFlightsWaiting, reservationResponse, 'post', null, header);
 }
 
-function reservationWaiting() {
-	
-}
 
 // click sur lien pour avoir les vol poster par un pilote
 $(function() {
@@ -529,7 +526,7 @@ function ess(o){
 
 // ----------ajout de la liste des reservation----
 
-var urlreservationwaiting='/blablaplane/pilots/book/';
+
 
 $(function() {
 	

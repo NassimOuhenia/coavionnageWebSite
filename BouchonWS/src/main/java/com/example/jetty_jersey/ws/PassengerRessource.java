@@ -64,6 +64,7 @@ public class PassengerRessource {
 		}
 		String id = JwTokenHelper.getInstance().getIdFromToken(token);
 		List<InformationReservation> l = daoReservation.getReservationForPassenger(id, "1");
+		l.addAll(daoReservation.getReservationForPassenger(id, "0"));
 		System.out.println(l.size());
 		return l;
 	}
