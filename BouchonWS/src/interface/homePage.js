@@ -11,7 +11,7 @@ var urlFlightsPilots = '/blablaplane/pilots/myflights';
 var urlMyPassengers = '/blablaplane/pilots/myflights/passenger';
 var urlConfirmYes = '/blablaplane/flights/book/confirm/yes';
 var urlConfirmNo = '/blablaplane/flights/book/confirm/no';
-var urlreservationwaiting='/blablaplane/pilots/book/';
+var urlreservationwaiting='/blablaplane/pilots/book';
 
 var type = "";
 var header = null;
@@ -116,15 +116,8 @@ function getServerData(url, callBack, type, data, header) {
 // click de bouton recherche vol
 $(function() {
 	$("#search").click(function() {
-		var local = "";
-		var travel = "";
-		if ($('#travelsearch').is(':checked'))
-			travel = "travel";
-		if ($('#localsearch').is(':checked'))
-			local = "local";
+	
 		var data = {
-			typeLocal : local,
-			typeTravel : travel,
 			date : $("#datesearch").val(),
 			departure : $("#departuresearch").val(),
 			arrival : $("#arrivalsearch").val()
@@ -189,30 +182,25 @@ function VerifFormSingup() {
 }
 
 // creer un pilote ou un passager
-$(function() {
-	$("#createUser")
-			.click(
-					function() {
-						if (VerifFormSingup()) {
-							if ($('#formsignup input[name="type"]:checked')
-									.val() == "pilot") {
-								$("#formsignup .error-form").text("");
-								getServerData(urlPostPilot, afterPostUser,
-										'post', formsignupToJSON(), header);
-							} else if ($(
-									'#formsignup input[name="type"]:checked')
-									.val() == "passenger") {
-								$("#formsignup .error-form").text("");
-								getServerData(urlPostPassenger, afterPostUser,
-										'post', formsignupToJSON(), header);
-							} else {
-								$("#formsignup .error-form")
-										.fadeIn()
-										.text(
-												"Please check the Pilot or Passenger box.");
-							}
-						}
-					});
+$(function() {$("#createUser").click(function() {
+		if (VerifFormSingup()) {
+			if ($('#formsignup input[name="type"]:checked')
+					.val() == "pilot") {
+				$("#formsignup .error-form").text("");
+				getServerData(urlPostPilot, afterPostUser,
+						'post', formsignupToJSON(), header);
+			} else if ($('#formsignup input[name="type"]:checked')
+					.val() == "passenger") {
+				$("#formsignup .error-form").text("");
+				getServerData(urlPostPassenger, afterPostUser,
+						'post', formsignupToJSON(), header);
+			} else {
+				$("#formsignup .error-form")
+						.fadeIn()
+						.text("Please check the Pilot or Passenger box.");
+			}
+		}
+	});
 });
 
 function afterPostUser(user) {
@@ -254,28 +242,26 @@ function VerifFormSingin() {
 }
 
 // connection pilote ou passager
-$(function() {
-	$("#connectuser")
-			.click(function() {
-				if (VerifFormSingin()) {
-					if ($('#formsignin input[name="type"]:checked').val() == "pilot") {
-						$("#formsignin .error-form").text("");
-						type = "pilot";
-						getServerData(urlLogPilot, afterLoginUser,
-								'post', formlogToJSON(), header);
-					} else if ($('#formsignin input[name="type"]:checked')
-								.val() == "passenger") {
-						$("#formsignin .error-form").text("");
-						type = "passenger";
-						getServerData(urlLogPassenger, afterLoginUser,
-							'post', formlogToJSON(), header);
-					} else {
-						$("#formsignin .error-form")
-							.fadeIn()
-							.text("Please check the Pilot or Passenger box.");
-					}
-				}
-			});
+$(function() {$("#connectuser").click(function() {
+		if (VerifFormSingin()) {
+			if ($('#formsignin input[name="type"]:checked').val() == "pilot") {
+				$("#formsignin .error-form").text("");
+				type = "pilot";
+				getServerData(urlLogPilot, afterLoginUser,
+						'post', formlogToJSON(), header);
+			} else if ($('#formsignin input[name="type"]:checked')
+						.val() == "passenger") {
+				$("#formsignin .error-form").text("");
+				type = "passenger";
+				getServerData(urlLogPassenger, afterLoginUser,
+					'post', formlogToJSON(), header);
+			} else {
+				$("#formsignin .error-form")
+					.fadeIn()
+					.text("Please check the Pilot or Passenger box.");
+			}
+		}
+	});
 });
 
 function afterLoginUser(user) {
@@ -402,21 +388,39 @@ function reservationResponse(listR) {
 	}	
 }
 
+//----------ajout de la liste des reservation----
+
+
+function voirReservation() {
+		
+	if(type=="passenger") {
+		mesReservation();
+	} else {
+		getServerData(urlreservationwaiting, reservationResponse, 'post', null, header);	
+	}	
+	
+}
+
 // fonction accepter reservation
 function confirmer(idReservation) {
-	console.log(idReservation);
+	
 	var data = {
 			id: idReservation
 		}
 	getServerData(urlConfirmYes, afterBook, 'post', data, header);
+	return voirReservation();
 } 
 
 // fonction refuser reservation
 function refuser(idReservation) {
+	
 	var data = {
 			id: idReservation
 		}
+	$("#statuA").hide();
+	$("#statuA").hide();
 	getServerData(urlConfirmNo, afterBook, 'post', data, header);
+	return voirReservation();
 } 
 
 // se deconnecter
@@ -441,7 +445,7 @@ function afterBook(response) {
 	else 
 		alert(response.message);
 	
-	window.location.href = "http://localhost:8080";
+	return mesReservation();
 }
 
 // reserver un vol par un passenger
@@ -512,32 +516,5 @@ function showMap(depart,arrive){
 	});
 }
 
-function essai(){
-    getServerData('/blablaplane/pilots/book', ess, 'post', null, header);
-}
 
-function ess(o){
-    alert(o[0].fistNamePassenger +" "+o[0].lastNamePassenger+" "+o[0].departureAirport+" "+o[0].arrivalAirport
-          +" "+o[0].date +" "+o[0].numberPlace +" "+o[0].idReservation +" "+o[0].statut);
-}
-
-
-
-
-// ----------ajout de la liste des reservation----
-
-
-
-$(function() {
-	
-	$("#myReservation").click(function() {
-		
-		if(type=="passenger") {
-			mesReservation();
-		} else {
-			getServerData(urlreservationwaiting, reservationResponse, 'post', null, header);	
-		}	
-	
-	});
-});
 
