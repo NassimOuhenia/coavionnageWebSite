@@ -78,7 +78,7 @@ public class FlightRessource {
 				+ "A new passenger booked a flight with you the " + f.getDate() + ". \n" + "Departure: "
 				+ f.getDepartureAirport() + "\n" + "Arrival: " + f.getArrivalAirport() + "\n"
 				+ "To confirm the booking, go to blablaplane.com \n"
-				+ "Please sign in to approve or refuse the reservation from 'My Flights' section \n\n"
+				+ "Please sign in to approve or refuse the reservation from the 'Reservations' section \n\n"
 				+ "The Blablaplane team hope to see you soon";
 
 		SendEmailTLS.envoyerMail(to, SendEmailTLS.subjectReservation, text);
@@ -121,7 +121,7 @@ public class FlightRessource {
 		String text = "Hello " + p.getFirstName() + " " + p.getLastName() + "! \n"
 				+ "The pilot confirmed the booking.\n"+"Date:" + f.getDate() + ". \n" + "Departure: "
 				+ f.getDepartureAirport() + "\n" + "Arrival: " + f.getArrivalAirport() + "\n"
-				+ "You can go to the 'My Flights' section to access to all of the information of your flight \n\n"
+				+ "The pilot will meet you at: "+f.getRdv()+" at "+f.getTimep()+" \n\n"
 				+ "The Blablaplane team hope to see you soon";
 
 		SendEmailTLS.envoyerMail(p.getMail(), SendEmailTLS.subjectConfirmation, text);
